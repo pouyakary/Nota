@@ -1,0 +1,31 @@
+name: Intactus
+version: 1.0
+cabal-version: 1.22
+build-type: Simple
+license: MPL
+copyright: Copyright (c) 2018–present by Pouya Kary <kary@gnu.org>
+maintainer: Pouya Kary
+stability: experimental
+homepage: github.com/pmkary/nota
+bug-reports: github.com/pmkary/nota/issues/new
+synopsis: The most beautiful command line calculator
+category: math
+author: Pouya Kary
+x-ghc-framework-version: 8.0.2-9.6-1
+x-last-ide-version: HfM1.6.0
+
+executable intactus
+    main-is: Main.hs
+    build-depends:
+        split -any,
+        base -any
+    default-language: Haskell2010
+    other-modules:
+        Model
+        REPL.Text.Boxes
+        REPL.Text.Tools
+        REPL.Main
+        REPL.Terminal
+        Language.Lexer.Main
+        Language.Lexer.Types
+
