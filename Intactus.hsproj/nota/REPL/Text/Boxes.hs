@@ -78,29 +78,22 @@ box boxType content =
    let
       text =
          spacedBox content
-         
       size =
          lengthOfTheLongestLine text
-         
       charSet =
          boxCharsOfType boxType
-         
       firstLine =
          [boxTopLeft charSet] ++
          (repeatText (boxTop charSet) (size + 2)) ++
          [boxTopRight charSet]
-      
       middleLines =
          [ [boxLeft charSet] ++ " " ++ line ++
            " " ++ [boxRight charSet]
            | line <- lines text ]
-      
       lastLine =
          [boxBottomLeft charSet] ++
          (repeatText (boxBottom charSet) (size + 2)) ++
          [boxBottomRight charSet]
-         
-
    in
       intercalate "\n"
          ([ firstLine ] ++ middleLines ++ [ lastLine ])
