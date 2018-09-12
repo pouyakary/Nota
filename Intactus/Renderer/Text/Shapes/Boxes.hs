@@ -1,21 +1,18 @@
 
 module Renderer.Text.Shapes.Boxes where
-   
+
 import Data.List
 import Renderer.Text.Tools
 import Renderer.Text.Layout
 
-
-
--- Box Types ----------------------------------------------------
+-- ─── BOX TYPES ──────────────────────────────────────────────────────────────────
 
 data BoxType =
    Bracket | Absolute | Floor | Ceiling
-   
 
 data BoxCharSet = BoxCharSet { boxTopLeft     :: Char
                              , boxTop         :: Char
-                             , boxTopRight    :: Char 
+                             , boxTopRight    :: Char
                              , boxRight       :: Char
                              , boxBottomRight :: Char
                              , boxBottom      :: Char
@@ -23,9 +20,7 @@ data BoxCharSet = BoxCharSet { boxTopLeft     :: Char
                              , boxLeft        :: Char
                              }
 
-
-
--- Get Box Characters -------------------------------------------
+-- ─── GET BOX CHARACTERS ─────────────────────────────────────────────────────────
 
 boxCharsOfType :: BoxType -> BoxCharSet
 
@@ -39,7 +34,7 @@ boxCharsOfType Bracket =
               , boxBottomLeft  = '└'
               , boxLeft        = '│'
               }
-                 
+
 boxCharsOfType Absolute =
    BoxCharSet { boxTopLeft     = '⎢'
               , boxTop         = ' '
@@ -50,7 +45,7 @@ boxCharsOfType Absolute =
               , boxBottomLeft  = '⎢'
               , boxLeft        = '⎢'
               }
-                 
+
 boxCharsOfType Floor =
    BoxCharSet { boxTopLeft     = '⎜'
               , boxTop         = ' '
@@ -61,7 +56,7 @@ boxCharsOfType Floor =
               , boxBottomLeft  = '⎣'
               , boxLeft        = '⎜'
               }
-                 
+
 boxCharsOfType Ceiling =
    BoxCharSet { boxTopLeft     = '⎡'
               , boxTop         = ' '
@@ -73,38 +68,33 @@ boxCharsOfType Ceiling =
               , boxLeft        = '⎢'
               }
 
-
-
--- Create Box ---------------------------------------------------
+-- ─── CREATE BOX ─────────────────────────────────────────────────────────────────
 
 shapeBox :: BoxType -> SpacedBox -> SpacedBox
-
 shapeBox boxType content =
    SpacedBox { boxLines = result
              , width    = size + 4
              , height   = length result
              }
-   
-   where 
-      size = width content
-         
-      charSet = boxCharsOfType boxType
-         
-      firstLine = [boxTopLeft charSet] ++
-                  (repeatText (boxTop charSet) (size + 2)) ++
-                  [boxTopRight charSet]
-         
-      middleLines = [ [boxLeft charSet] ++ " " ++ line ++
-                      " " ++ [boxRight charSet]
-                      | line <- boxLines content ]
-           
-      lastLine = [boxBottomLeft charSet] ++
-                 (repeatText (boxBottom charSet) (size + 2)) ++
-                 [boxBottomRight charSet]
-         
-      result = [ firstLine ] ++ middleLines ++ [ lastLine ]
+    where
+        size =
+            width content
+        charSet =
+            boxCharsOfType boxType
+        firstLine =
+            [ boxTopLeft charSet ] ++
+            ( repeatText ( boxTop charSet ) ( size + 2 ) ) ++
+            [ boxTopRight charSet]
+        middleLines =
+            [ [ boxLeft charSet ] ++ " " ++ line ++
+            " " ++ [ boxRight charSet ]
+            | line <- boxLines content ]
+        lastLine =
+            [ boxBottomLeft charSet ] ++
+            ( repeatText ( boxBottom charSet ) ( size + 2 ) ) ++
+            [ boxBottomRight charSet ]
+        result =
+            [ firstLine ] ++ middleLines ++ [ lastLine ]
 
 
-
-
-
+-- ────────────────────────────────────────────────────────────────────────────────

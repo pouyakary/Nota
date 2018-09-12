@@ -1,45 +1,37 @@
- 
+
 module Renderer.Text.Tools where
+
+-- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Data.Char
 import Data.List.Split
 import Data.List
 
-
-
--- Repeat -------------------------------------------------------
+-- ─── REPEAT ─────────────────────────────────────────────────────────────────────
 
 repeatText :: Char -> Int -> String
-
 repeatText char times = [ char | _ <- [ 1..times ] ]
 
 
-
--- Remove From Start --------------------------------------------
+-- ─── REMOVE FROM START ──────────────────────────────────────────────────────────
 
 removeFromStartOf :: String -> String -> Maybe String
-
 removeFromStartOf removable text
-   | removable `isPrefixOf` text =
-      let
-         start = length removable
-         end   = length text - 1
-      in
-         Just [ text !! x | x <- [ start..end ] ]
+    | removable `isPrefixOf` text =
+       let
+          start = length removable
+          end   = length text - 1
+       in
+       kary
+          Just [ text !! x | x <- [ start..end ] ]
+    | otherwise =
+       Nothing
 
-   | otherwise =
-      Nothing
 
-
-
--- Length Of The Longest Line -----------------------------------
+-- ─── LENGTH OF THE LOGEST LINE ──────────────────────────────────────────────────
 
 lengthOfTheLongestLine :: String -> Int
-
-lengthOfTheLongestLine text =
-   maximum [ length x | x <- lines text ]
+lengthOfTheLongestLine text = maximum [ length x | x <- lines text ]
 
 
-
-
-
+-- ────────────────────────────────────────────────────────────────────────────────

@@ -5,12 +5,12 @@ module Model where
 
 data Model = Model { promptNumber :: Int
                    , history      :: [String]
-                   } deriving (Show)
+                   } deriving ( Show )
 
 -- ─── INITIAL MODEL ──────────────────────────────────────────────────────────────
 
 initalModel = Model { promptNumber = 1
-                    , history      = []
+                    , history      = [ ]
                     }
 
 -- ────────────────────────────────────────────────────────────────────────────────
