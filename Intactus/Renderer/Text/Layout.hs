@@ -56,10 +56,6 @@ spacedBoxToString box = intercalate "\n" (boxLines box)
 
 marginedBox :: BoxSize -> SpacedBox -> SpacedBox
 marginedBox marginSettings text = result where
-    baseWidth =
-        width text
-    baseHeight =
-        height text
     top =
         boxSizeOf TopSideOf marginSettings
     right =
@@ -69,7 +65,7 @@ marginedBox marginSettings text = result where
     left =
         boxSizeOf LeftSideOf marginSettings
     paddingLine =
-        repeatText ' ' $ left + baseWidth + right
+        repeatText ' ' $ left + ( width text ) + right
     topPadding =
         [ paddingLine | _ <- [ 1..top ] ]
     rightPadding =
@@ -84,8 +80,8 @@ marginedBox marginSettings text = result where
         topPadding ++ boxLines spacedBase ++ bottomPadding
 
    result = SpacedBox { boxLines = resultLines
-                      , width    = left + baseWidth + right
-                      , height   = top + baseHeight + bottom
+                      , width    = left + ( width text ) + right
+                      , height   = top + ( height text ) + bottom
                       }
 
 
