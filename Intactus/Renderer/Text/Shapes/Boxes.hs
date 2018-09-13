@@ -1,14 +1,15 @@
 
 module Renderer.Text.Shapes.Boxes where
 
+-- ─── IMPORTS ────────────────────────────────────────────────────────────────────
+
 import Data.List
 import Renderer.Text.Tools
 import Renderer.Text.Layout
 
 -- ─── BOX TYPES ──────────────────────────────────────────────────────────────────
 
-data BoxType =
-   Bracket | Absolute | Floor | Ceiling
+data BoxType = Bracket | Absolute | Floor | Ceiling
 
 data BoxCharSet = BoxCharSet { boxTopLeft     :: Char
                              , boxTop         :: Char
@@ -20,10 +21,10 @@ data BoxCharSet = BoxCharSet { boxTopLeft     :: Char
                              , boxLeft        :: Char
                              }
 
+
 -- ─── GET BOX CHARACTERS ─────────────────────────────────────────────────────────
 
 boxCharsOfType :: BoxType -> BoxCharSet
-
 boxCharsOfType Bracket =
    BoxCharSet { boxTopLeft     = '┌'
               , boxTop         = ' '
@@ -67,6 +68,7 @@ boxCharsOfType Ceiling =
               , boxBottomLeft  = '⎢'
               , boxLeft        = '⎢'
               }
+
 
 -- ─── CREATE BOX ─────────────────────────────────────────────────────────────────
 
