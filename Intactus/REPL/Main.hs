@@ -12,7 +12,7 @@ import Renderer.Text.Shapes.Boxes
 -- ─── RUN REPL ───────────────────────────────────────────────────────────────────
 
 runREPL model = do printTitle
-                         repl model
+                   repl model
 
 -- ─── PRINT TITLE ────────────────────────────────────────────────────────────────
 
@@ -23,7 +23,7 @@ printTitle =
 
         where
             karyText =
-                centerText 4 3 $ spacedBox "KARY"
+                centerText 7 3 $ spacedBox "K A R Y"
             versionText =
                 centerText 5 3 $ spacedBox ": I I"
             logoText =
@@ -41,9 +41,7 @@ repl model = do input <- prompt model
 
 updateModel model input =
     model { promptNumber = ( promptNumber model ) + 1
-          , history    = ( history model ) ++ [ input ]
+          , history      = ( history model ) ++ [ input ]
           }
 
-
-
-
+-- ────────────────────────────────────────────────────────────────────────────────

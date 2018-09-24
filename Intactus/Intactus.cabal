@@ -6,8 +6,8 @@ license: MPL
 copyright: Copyright (c) 2018–present by Pouya Kary <kary@gnu.org>
 maintainer: Pouya Kary
 stability: experimental
-homepage: github.com/pmkary/nota
-bug-reports: github.com/pmkary/nota/issues/new
+homepage: github.com/pmkary/intactus
+bug-reports: github.com/pmkary/intactus/issues/new
 synopsis: The most beautiful command line calculator
 category: math
 author: Pouya Kary
@@ -28,5 +28,3 @@ executable intactus
         Renderer.Text.Tools
         Renderer.Text.Shapes.Boxes
         Renderer.Text.Layout
-        Language.Lexer.Main
-        Language.Lexer.Types

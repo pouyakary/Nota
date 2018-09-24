@@ -22,7 +22,6 @@ removeFromStartOf removable text
           start = length removable
           end   = length text - 1
        in
-       kary
           Just [ text !! x | x <- [ start..end ] ]
     | otherwise =
        Nothing

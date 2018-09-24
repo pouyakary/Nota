@@ -13,7 +13,7 @@ data SpacedBox = SpacedBox { boxLines :: [String]
                            , height   :: Int
                            }
 
- --                     Top  Right  Bottom  Left
+ --            -------  Top  Right  Bottom  Left
 data BoxSize = BoxSize  Int  Int    Int     Int
 
 data BoxSide = TopSideOf | RightSideOf | BottomSideOf | LeftSideOf
@@ -79,10 +79,10 @@ marginedBox marginSettings text = result where
     resultLines =
         topPadding ++ boxLines spacedBase ++ bottomPadding
 
-   result = SpacedBox { boxLines = resultLines
-                      , width    = left + ( width text ) + right
-                      , height   = top + ( height text ) + bottom
-                      }
+    result = SpacedBox { boxLines = resultLines
+                       , width    = left + ( width text ) + right
+                       , height   = top + ( height text ) + bottom
+                       }
 
 
 -- ─── MARGINED SPACE BOX ─────────────────────────────────────────────────────────
@@ -91,11 +91,11 @@ centerText :: Int -> Int -> SpacedBox -> SpacedBox
 centerText boxWidth boxHeight spacedText =
     marginedBox ( BoxSize top right bottom left ) spacedText where
         top = if boxHeight - ( height spacedText ) == 0
-                then 0
-                else ( boxHeight - ( height spacedText ) ) `div` 2
+                 then 0
+                 else ( boxHeight - ( height spacedText ) ) `div` 2
         left = if boxWidth - (width spacedText) == 0
-                then 0
-                else ( boxWidth - ( width spacedText ) ) `div` 2
+                  then 0
+                  else ( boxWidth - ( width spacedText ) ) `div` 2
         right =
             boxWidth - ( left + ( width spacedText ) )
         bottom =

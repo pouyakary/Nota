@@ -26,74 +26,70 @@ data BoxCharSet = BoxCharSet { boxTopLeft     :: Char
 
 boxCharsOfType :: BoxType -> BoxCharSet
 boxCharsOfType Bracket =
-   BoxCharSet { boxTopLeft     = '┌'
-              , boxTop         = ' '
-              , boxTopRight    = '┐'
-              , boxRight       = '│'
-              , boxBottomRight = '┘'
-              , boxBottom      = ' '
-              , boxBottomLeft  = '└'
-              , boxLeft        = '│'
-              }
+    BoxCharSet { boxTopLeft     = '┌'
+               , boxTop         = ' '
+               , boxTopRight    = '┐'
+               , boxRight       = '│'
+               , boxBottomRight = '┘'
+               , boxBottom      = ' '
+               , boxBottomLeft  = '└'
+               , boxLeft        = '│'
+               }
 
 boxCharsOfType Absolute =
-   BoxCharSet { boxTopLeft     = '⎢'
-              , boxTop         = ' '
-              , boxTopRight    = '⎥'
-              , boxRight       = '⎥'
-              , boxBottomRight = '⎥'
-              , boxBottom      = ' '
-              , boxBottomLeft  = '⎢'
-              , boxLeft        = '⎢'
-              }
+    BoxCharSet { boxTopLeft     = '⎢'
+               , boxTop         = ' '
+               , boxTopRight    = '⎥'
+               , boxRight       = '⎥'
+               , boxBottomRight = '⎥'
+               , boxBottom      = ' '
+               , boxBottomLeft  = '⎢'
+               , boxLeft        = '⎢'
+               }
 
 boxCharsOfType Floor =
-   BoxCharSet { boxTopLeft     = '⎜'
-              , boxTop         = ' '
-              , boxTopRight    = '⎟'
-              , boxRight       = '⎟'
-              , boxBottomRight = '⎦'
-              , boxBottom      = ' '
-              , boxBottomLeft  = '⎣'
-              , boxLeft        = '⎜'
-              }
+    BoxCharSet { boxTopLeft     = '⎜'
+               , boxTop         = ' '
+               , boxTopRight    = '⎟'
+               , boxRight       = '⎟'
+               , boxBottomRight = '⎦'
+               , boxBottom      = ' '
+               , boxBottomLeft  = '⎣'
+               , boxLeft        = '⎜'
+               }
 
 boxCharsOfType Ceiling =
-   BoxCharSet { boxTopLeft     = '⎡'
-              , boxTop         = ' '
-              , boxTopRight    = '⎤'
-              , boxRight       = '⎟'
-              , boxBottomRight = '⎥'
-              , boxBottom      = ' '
-              , boxBottomLeft  = '⎢'
-              , boxLeft        = '⎢'
-              }
-
+    BoxCharSet { boxTopLeft     = '⎡'
+               , boxTop         = ' '
+               , boxTopRight    = '⎤'
+               , boxRight       = '⎟'
+               , boxBottomRight = '⎥'
+               , boxBottom      = ' '
+               , boxBottomLeft  = '⎢'
+               , boxLeft        = '⎢'
+               }
 
 -- ─── CREATE BOX ─────────────────────────────────────────────────────────────────
 
 shapeBox :: BoxType -> SpacedBox -> SpacedBox
 shapeBox boxType content =
-   SpacedBox { boxLines = result
-             , width    = size + 4
-             , height   = length result
-             }
+    SpacedBox { boxLines = result
+              , width    = ( width content ) + 4
+              , height   = length result
+              }
     where
-        size =
-            width content
         charSet =
             boxCharsOfType boxType
         firstLine =
             [ boxTopLeft charSet ] ++
-            ( repeatText ( boxTop charSet ) ( size + 2 ) ) ++
+            ( repeatText ( boxTop charSet ) ( ( width content ) + 2 ) ) ++
             [ boxTopRight charSet]
         middleLines =
-            [ [ boxLeft charSet ] ++ " " ++ line ++
-            " " ++ [ boxRight charSet ]
-            | line <- boxLines content ]
+            [ [ boxLeft charSet ] ++ " " ++ line ++ " " ++ [ boxRight charSet ]
+                | line <- boxLines content ]
         lastLine =
             [ boxBottomLeft charSet ] ++
-            ( repeatText ( boxBottom charSet ) ( size + 2 ) ) ++
+            ( repeatText ( boxBottom charSet ) ( ( width content ) + 2 ) ) ++
             [ boxBottomRight charSet ]
         result =
             [ firstLine ] ++ middleLines ++ [ lastLine ]
