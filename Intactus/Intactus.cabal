@@ -2,7 +2,7 @@ name: Intactus
 version: 1.0
 cabal-version: 1.22
 build-type: Simple
-license: MPL
+license: MPL-2.0
 copyright: Copyright (c) 2018–present by Pouya Kary <kary@gnu.org>
 maintainer: Pouya Kary
 stability: experimental
@@ -18,8 +18,10 @@ executable intactus
     main-is: Main.hs
     build-depends:
         split -any,
-        base -any
+        base -any,
+        scientific -any
     default-language: Haskell2010
+    build-depends: base >=4.7, bytestring, array
     other-modules:
         Model
         REPL.Main
@@ -28,3 +30,6 @@ executable intactus
         Renderer.Text.Tools
         Renderer.Text.Shapes.Boxes
         Renderer.Text.Layout
+        Language.FrontEnd.Parser
+        Language.FrontEnd.Types
+        Language.Test
