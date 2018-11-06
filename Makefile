@@ -1,5 +1,6 @@
 
 build:
+	stack clean
 	stack build
 
 install: build
