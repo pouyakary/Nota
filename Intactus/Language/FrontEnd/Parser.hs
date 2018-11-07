@@ -8,12 +8,30 @@ import Text.ParserCombinators.Parsec
 import Data.Scientific
 import Data.List.Split ( splitOn )
 
+
 -- ─── PARES IDENTIFIER ───────────────────────────────────────────────────────────
 
-intIdentifier :: GenParser Char st ASTIdentifer
-intIdentifier =
-    do  nameParts  <- ( many1 alphaNum ) `sepBy` spaces
-        return ( ASTIdentifer nameParts )
+intIdentifierTailPart :: GenParser Char st String
+intIdentifierTailPart = do
+    parts <- many1 alphaNum
+    return parts
+
+intIdentifierSpacedPart :: GenParser Char st String
+intIdentifierSpacedPart = do
+    spaceParts <- many1 ( space <|> tab )
+    letterPart <- letter
+    return ( " " ++ [ letterPart ] )
+
+intIdentifierLetterr :: GenParser Char st String
+intIdentifierLetterr = do
+    letterPart <- letter
+    return [ letterPart ]
+
+intIdentifier :: GenParser Char st AST
+intIdentifier = do
+    name <- many1 ( intIdentifierLetterr <|> try intIdentifierSpacedPart )
+    return ( ASTIdentifer ( intercalate "" name ) )
+
 
 -- ─── PARSE NUMBER ───────────────────────────────────────────────────────────────
 
@@ -31,16 +49,18 @@ intExponentialPart = do
 
 intNumber :: GenParser Char st ASTNumber
 intNumber = do
-    integerPart     <- many1 digit
-    decimalPart     <- intNumberDecimalPart <|> return ""
-    exponentialPart <- intExponentialPart <|> return ""
+    integerPart  <- many1 digit <?> "numeric base part"
+    decimalPart  <- intNumberDecimalPart <|> return "" <?> "numeric decimal part"
+    exponentPart <- intExponentialPart <|> return "" <?> "numeric exponent part"
     return ( ASTNumber ( read
-        ( integerPart ++ decimalPart ++ exponentialPart ) :: Scientific ) )
+        ( integerPart ++ decimalPart ++ exponentPart ) :: Scientific ) )
+
 
 -- ─── PARSER ─────────────────────────────────────────────────────────────────────
 
 parseIntactus :: String -> Either ParseError AST
 parseIntactus input =
     parse parseNumber "" input
+
 
 -- ────────────────────────────────────────────────────────────────────────────────
