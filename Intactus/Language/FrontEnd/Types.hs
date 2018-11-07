@@ -8,8 +8,10 @@ import Data.Scientific
 -- ─── AST ELEMENTS ───────────────────────────────────────────────────────────────
 
 data BinaryOperators = Sum | Div | Mul | Mod | Pow
+    deriving (Eq, Show)
 
 data UnaryOperators = Neg
+    deriving (Eq, Show)
 
 data AST = ASTNumber            Scientific
          | ASTIdentifer         String
