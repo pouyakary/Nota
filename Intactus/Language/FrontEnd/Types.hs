@@ -17,7 +17,7 @@ data AST = ASTNumber            Scientific
          | ASTIdentifer         String
          | ASTBinaryOperator    BinaryOperators AST AST
          | ASTUnaryOperator     UnaryOperators AST
-         | ASTFunction          String [ AST ]
+         | ASTFunctionCall      String [ AST ]
          | ASTVersus            [ AST ]
            deriving ( Eq, Show )
 

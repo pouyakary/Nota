@@ -9,6 +9,13 @@ import Data.Scientific
 import Data.List.Split ( splitOn )
 
 
+-- ─── VALUES ─────────────────────────────────────────────────────────────────────
+
+intValues :: GenParser Char st AST
+intValues =
+    try intFunctionCall <|> intNumber <|> intIdentifier
+
+
 -- ─── PARES IDENTIFIER ───────────────────────────────────────────────────────────
 
 intIdentifierTailPart :: GenParser Char st String
@@ -54,6 +61,31 @@ intNumber = do
     exponentPart <- intExponentialPart <|> return "" <?> "numeric exponent part"
     return ( ASTNumber ( read
         ( integerPart ++ decimalPart ++ exponentPart ) :: Scientific ) )
+
+
+-- ─── FUNCTION CALL ──────────────────────────────────────────────────────────────
+
+intFunctionArgsSeparator :: GenParser Char st ( )
+intFunctionArgsSeparator = do
+    spaces
+    char ','
+    spaces
+    return ( )
+
+intFunctionArgs :: GenParser Char st [ AST ]
+intFunctionArgs = do
+    args <- intValues `sepBy` ( try intFunctionArgsSeparator )
+    return args
+
+intFunctionCall :: GenParser Char st AST
+intFunctionCall = do
+    functionName <- intIdentifier
+    char '['
+    spaces
+    args <- ( try intFunctionArgs ) <|> return [ ]
+    spaces
+    char ']'
+    return ( ASTFunctionCall functionName args )
 
 
 -- ─── PARSER ─────────────────────────────────────────────────────────────────────
