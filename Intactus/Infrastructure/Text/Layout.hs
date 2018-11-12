@@ -1,10 +1,10 @@
 
-module Renderer.Text.Layout where
+module Infrastructure.Text.Layout where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Data.List
-import Renderer.Text.Tools
+import Infrastructure.Text.Tools
 
 -- ─── TYPES ──────────────────────────────────────────────────────────────────────
 

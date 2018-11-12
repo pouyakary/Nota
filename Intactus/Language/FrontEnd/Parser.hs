@@ -69,8 +69,7 @@ intIdentifier = do
     spaces
     return $ ASTIdentifer ( intercalate "" ( join firstChar name ) )
     where
-        join start ( x : xs ) =
-            [ start : x ] ++ xs
+        join start ( x : xs ) = [ start : x ] ++ xs
 
 
 -- ─── VALUES ─────────────────────────────────────────────────────────────────────
@@ -127,7 +126,7 @@ intExpresson :: GenParser Char st AST
 intExpresson =
     buildExpressionParser table intFactor <?> "expression" where
 
-        table = [ [ negateParser ] ] ++ binaryTable
+        table = [ negateParser ] : binaryTable
 
         negateParser =
             Prefix ( reservedOp "-" >> return ASTNegation )
@@ -145,7 +144,7 @@ intExpresson =
             Infix operatorParser AssocLeft
             where
                 operatorParser =
-                    reservedOp [name] >> return ( ASTBinaryOperator opType )
+                    reservedOp [ name ] >> return ( ASTBinaryOperator opType )
                 opType =
                     case name of '/' -> Div
                                  '+' -> Sum

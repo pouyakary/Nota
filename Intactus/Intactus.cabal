@@ -28,9 +28,9 @@ executable intactus
         Model
         REPL.Main
         REPL.Terminal
-        Renderer.Test
-        Renderer.Text.Tools
-        Renderer.Text.Shapes.Boxes
-        Renderer.Text.Layout
+        Infrastructure.Test
+        Infrastructure.Text.Tools
+        Infrastructure.Text.Shapes.Boxes
+        Infrastructure.Text.Layout
         Language.FrontEnd.Parser
         Language.FrontEnd.Types

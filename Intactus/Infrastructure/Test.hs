@@ -1,8 +1,10 @@
 
-module Renderer.Test where
+module Infrastructure.Test where
 
-import Renderer.Text.Layout
-import Renderer.Text.Shapes.Boxes
+-- ─── IMPORTS ────────────────────────────────────────────────────────────────────
+
+import Infrastructure.Text.Layout
+import Infrastructure.Text.Shapes.Boxes
 
 -- ─── TESTING BOX ────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 
-module Renderer.Text.Tools where
+module Infrastructure.Text.Tools where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 

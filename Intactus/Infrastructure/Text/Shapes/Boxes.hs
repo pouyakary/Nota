@@ -1,11 +1,11 @@
 
-module Renderer.Text.Shapes.Boxes where
+module Infrastructure.Text.Shapes.Boxes where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Data.List
-import Renderer.Text.Tools
-import Renderer.Text.Layout
+import Infrastructure.Text.Tools
+import Infrastructure.Text.Layout
 
 -- ─── BOX TYPES ──────────────────────────────────────────────────────────────────
 
