@@ -1,4 +1,7 @@
 {
     "haskelly.codeCompletion": true,
     "haskelly.buttons.ghci": true,
+    "cSpell.words": [
+        "Intactus"
+    ],
 }
