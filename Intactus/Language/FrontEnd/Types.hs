@@ -5,20 +5,22 @@ module Language.FrontEnd.Types where
 
 import Data.Scientific
 
+
 -- ─── AST ELEMENTS ───────────────────────────────────────────────────────────────
 
-data BinaryOperators = Sum | Div | Mul | Mod | Pow
-    deriving (Eq, Show)
+data BinaryOperators =
+    Sum | Sub | Div | Mul | Mod | Pow | Equals | NotEquals
+    deriving ( Eq, Show )
 
-data UnaryOperators = Neg
-    deriving (Eq, Show)
-
-data AST = ASTNumber            Scientific
+data AST = ASTRoot              [ AST ]
+         | ASTNumber            Scientific
          | ASTIdentifer         String
          | ASTBinaryOperator    BinaryOperators AST AST
-         | ASTUnaryOperator     UnaryOperators AST
          | ASTFunctionCall      String [ AST ]
          | ASTVersus            [ AST ]
+         | ASTNegation          AST
+         | ASTAssignment        AST AST
            deriving ( Eq, Show )
+
 
 -- ────────────────────────────────────────────────────────────────────────────────

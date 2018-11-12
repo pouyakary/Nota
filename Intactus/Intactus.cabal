@@ -32,4 +32,3 @@ executable intactus
         Renderer.Text.Layout
         Language.FrontEnd.Parser
         Language.FrontEnd.Types
-        Language.Test
