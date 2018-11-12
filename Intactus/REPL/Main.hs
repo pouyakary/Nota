@@ -8,6 +8,8 @@ import Model
 import Renderer.Test
 import Renderer.Text.Layout
 import Renderer.Text.Shapes.Boxes
+import Language.FrontEnd.Parser
+
 
 -- ─── RUN REPL ───────────────────────────────────────────────────────────────────
 
@@ -25,7 +27,7 @@ printTitle =
             karyText =
                 centerText 7 3 $ spacedBox "K A R Y"
             versionText =
-                centerText 5 3 $ spacedBox ": I I"
+                centerText 5 3 $ spacedBox "P R O"
             logoText =
                 shapeBox Bracket $ spacedBox "I N T A C T U S"
             logoBox =

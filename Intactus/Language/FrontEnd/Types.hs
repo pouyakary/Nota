@@ -8,19 +8,18 @@ import Data.Scientific
 
 -- ─── AST ELEMENTS ───────────────────────────────────────────────────────────────
 
-data BinaryOperators =
-    Sum | Sub | Div | Mul | Mod | Pow | Equals | NotEquals
-    deriving ( Eq, Show )
+data BinaryOperators = Sum | Sub | Div | Mul | Mod | Pow | Equ | NEq
+    deriving ( Show, Eq )
 
 data AST = ASTRoot              [ AST ]
          | ASTNumber            Scientific
          | ASTIdentifer         String
          | ASTBinaryOperator    BinaryOperators AST AST
-         | ASTFunctionCall      String [ AST ]
+         | ASTFunctionCall      AST [ AST ]
          | ASTVersus            [ AST ]
          | ASTNegation          AST
          | ASTAssignment        AST AST
-           deriving ( Eq, Show )
+           deriving ( Show, Eq )
 
 
 -- ────────────────────────────────────────────────────────────────────────────────

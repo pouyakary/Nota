@@ -3,6 +3,7 @@ module Language.FrontEnd.Parser ( parseIntactus ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
+import Language.FrontEnd.Types
 import Control.Monad ((>>))
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Expr
@@ -12,33 +13,38 @@ import Data.Scientific
 import Data.List.Split ( splitOn )
 import Data.List
 
-
 -- ─── LEXER ──────────────────────────────────────────────────────────────────────
 
-listOfOperators = [ "+", "-", "*", "/", "=", "<", ">", "^", "%" ]
-
-languageDef = emptyDef { Token.commentStart     = "(*"
-                       , Token.commentEnd       = "*)"
-                       , Token.commentLine      = "--"
-                       , Token.identStart       = letter
-                       , Token.identLetter      = alphaNum
-                       , Token.reservedNames    = [ ]
-                       , Token.reservedOpNames  = listOfOperators
-                       }
+languageDef =
+  emptyDef { Token.commentStart     = "(*"
+           , Token.commentEnd       = "*)"
+           , Token.commentLine      = "--"
+           , Token.identStart       = letter
+           , Token.identLetter      = alphaNum
+           , Token.reservedNames    = [ ]
+           , Token.reservedOpNames  = [ "+", "-", "*", "/", "="
+                                      , "<", ">", "^", "%" ]
+           }
 
 lexer           = Token.makeTokenParser languageDef
 reservedOp      = Token.reservedOp lexer
 haskellNumber   = Token.naturalOrFloat lexer
 
 
--- ─── VALUES ─────────────────────────────────────────────────────────────────────
+-- ─── NUMBER ─────────────────────────────────────────────────────────────────────
 
-intValues :: GenParser Char st AST
-intValues =
-    try intFunctionCall <|> intNumber <|> intIdentifier
+intNumber :: GenParser Char st AST
+intNumber = do
+    value <- haskellNumber
+    spaces
+    return $ ASTNumber ( case value of Right x -> toScientific x
+                                       Left  x -> toScientific x )
+    where
+        toScientific x =
+            read ( show x ) :: Scientific
 
 
--- ─── PARES IDENTIFIER ───────────────────────────────────────────────────────────
+-- ─── IDENTIFIER ─────────────────────────────────────────────────────────────────
 
 intIdentifierTailPart :: GenParser Char st String
 intIdentifierTailPart = do
@@ -63,21 +69,31 @@ intIdentifier = do
     spaces
     return $ ASTIdentifer ( intercalate "" ( join firstChar name ) )
     where
-        join start ( x : xs ) = [ start : x ] ++ xs
+        join start ( x : xs ) =
+            [ start : x ] ++ xs
 
 
--- ─── PARSE NUMBER ───────────────────────────────────────────────────────────────
+-- ─── VALUES ─────────────────────────────────────────────────────────────────────
 
-intNumber :: GenParser Char st AST
-intNumber = do
-    value <- haskellNumber <?> "number"
+intValues :: GenParser Char st AST
+intValues =
+    try intFunctionCall <|> intNumber <|> intIdentifier <?> "value"
+
+
+-- ─── FACTOR ─────────────────────────────────────────────────────────────────────
+
+intFactorWithParenthesis :: GenParser Char st AST
+intFactorWithParenthesis = do
+    char '('
     spaces
-    return $ ASTNumber ( case value of Right x -> toScientific x
-                                       Left  x -> toScientific x )
-    where
-        toScientific x =
-            read ( show x ) :: Scientific
+    value <- intExpresson
+    char ')' <?> "end of parenthesis"
+    spaces
+    return value
 
+intFactor :: GenParser Char st AST
+intFactor =
+    intFactorWithParenthesis <|> intValues <?> "factored expression"
 
 
 -- ─── FUNCTION CALL ──────────────────────────────────────────────────────────────
@@ -90,7 +106,7 @@ intFunctionArgsSeparator = do
 
 intFunctionArgs :: GenParser Char st [ AST ]
 intFunctionArgs = do
-    args <- intValues `sepBy` ( try intFunctionArgsSeparator )
+    args <- intFactor `sepBy` ( try intFunctionArgsSeparator )
     return args
 
 intFunctionCall :: GenParser Char st AST
@@ -98,26 +114,27 @@ intFunctionCall = do
     functionName <- intIdentifier
     char '['
     spaces
-    args <- ( try intFunctionArgs ) <|> return [ ] <?> "function arguments"
+    args <- ( try intFunctionArgs ) <|> return [ ]
+    spaces
     char ']'
     spaces
-    return $ ASTFunctionCall functionName args
+    return ( ASTFunctionCall functionName args )
 
 
--- ─── EXPRESSIONS ────────────────────────────────────────────────────────────────
+-- ─── EXPRESSION ─────────────────────────────────────────────────────────────────
 
-intExpresson :: Parser AST
+intExpresson :: GenParser Char st AST
 intExpresson =
     buildExpressionParser table intFactor <?> "expression" where
 
-        table = [ [ negationParser ] ] ++ binaryTable
+        table = [ [ negateParser ] ] ++ binaryTable
 
-        negationParser =
+        negateParser =
             Prefix ( reservedOp "-" >> return ASTNegation )
 
         binaryTable = tableOf [ [ '?', '!' ]
                               , [ '^' ]
-                              , [ '*', '/' ]
+                              , [ '*', '/', '%' ]
                               , [ '+', '-' ]
                               ]
 
@@ -125,9 +142,10 @@ intExpresson =
             [ [ createOperatorParserFor x | x <- xs ] | xs <- xss ]
 
         createOperatorParserFor name =
-            Infix operatorParser AssocLeft where
+            Infix operatorParser AssocLeft
+            where
                 operatorParser =
-                    reservedOp [ name ] >> return ( ASTBinaryOperator opType )
+                    reservedOp [name] >> return ( ASTBinaryOperator opType )
                 opType =
                     case name of '/' -> Div
                                  '+' -> Sum
@@ -135,22 +153,21 @@ intExpresson =
                                  '*' -> Mul
                                  '%' -> Mod
                                  '^' -> Pow
-                                 '?' -> Equals
-                                 '!' -> NotEquals
-
+                                 '?' -> Equ
+                                 '!' -> NEq
 
 -- ─── VERSUS ─────────────────────────────────────────────────────────────────────
 
 intVersusSymbol :: GenParser Char st String
 intVersusSymbol = do
-    string "vs"
+    char '|'
     spaces
     return ""
 
 intVersus :: GenParser Char st AST
 intVersus = do
     parts <- intExpresson `sepBy` intVersusSymbol
-    return $ ASTRoot parts
+    return ( ASTRoot parts )
 
 
 -- ─── ASSIGNMENT ─────────────────────────────────────────────────────────────────
@@ -174,7 +191,7 @@ intRoot = do
     return root
 
 
--- ─── PARSER ─────────────────────────────────────────────────────────────────────
+-- ─── EXPOSED PARSER API ─────────────────────────────────────────────────────────
 
 parseIntactus :: String -> Either ParseError AST
 parseIntactus input =
