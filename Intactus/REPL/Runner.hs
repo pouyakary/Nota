@@ -34,7 +34,7 @@ showError error =
 run :: String -> String
 run input =
     case parseIntactus input of
-        Right ast   -> render    ast
+        Right ast   -> renderASTtoString ast
         Left  error -> showError error
 
 -- ────────────────────────────────────────────────────────────────────────────────

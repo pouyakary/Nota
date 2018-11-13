@@ -8,7 +8,6 @@ import Model
 import REPL.Terminal
 import REPL.Runner
 
-import Infrastructure.Test
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Boxes
 import Language.FrontEnd.Parser
