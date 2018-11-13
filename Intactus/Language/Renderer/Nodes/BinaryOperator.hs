@@ -49,7 +49,7 @@ renderASTBinaryOperator op left right render =
             case op of Div -> "/"
                        Sum -> "+"
                        Sub -> "-"
-                       Mul -> "*"
+                       Mul -> "×"
                        Mod -> "%"
                        Pow -> "^"
                        Equ -> "?"
