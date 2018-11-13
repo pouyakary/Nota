@@ -11,7 +11,7 @@ import System.IO
 promptText :: Model -> String
 promptText model =
     " In[" ++ number ++ "]: " where
-        number = show $ promptNumber model
+        number = show $ length ( history model )
 
 prompt :: Model -> IO String
 prompt model = do

@@ -11,8 +11,7 @@ import Data.Scientific
 data BinaryOperators = Sum | Sub | Div | Mul | Mod | Pow | Equ | NEq
     deriving ( Show, Eq )
 
-data AST = ASTRoot              [ AST ]
-         | ASTNumber            Scientific
+data AST = ASTNumber            Scientific
          | ASTIdentifer         String
          | ASTBinaryOperator    BinaryOperators AST AST
          | ASTFunctionCall      AST [ AST ]

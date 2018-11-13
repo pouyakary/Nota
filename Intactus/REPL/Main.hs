@@ -4,7 +4,10 @@ module REPL.Main where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Model
+
 import REPL.Terminal
+import REPL.Runner
+
 import Infrastructure.Test
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Boxes
@@ -14,7 +17,6 @@ import Language.FrontEnd.Parser
 
 runREPL model = do printTitle
                    repl model
-
 
 -- ─── PRINT TITLE ────────────────────────────────────────────────────────────────
 
@@ -34,19 +36,16 @@ printTitle =
                 prependToEachLine " "
                     $ verticalConcat [ karyText, logoText, versionText ]
 
-
 -- ─── REPL BODY ──────────────────────────────────────────────────────────────────
 
 repl model = do input <- prompt model
+                putStrLn $ run input
                 repl $ updateModel model input
-
 
 -- ─── UPDATE MODEL ───────────────────────────────────────────────────────────────
 
 updateModel model input =
-    model { promptNumber = ( promptNumber model ) + 1
-          , history      = ( history model ) ++ [ input ]
+    model { history = ( history model ) ++ [ input ]
           }
-
 
 -- ────────────────────────────────────────────────────────────────────────────────

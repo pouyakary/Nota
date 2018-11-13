@@ -1,6 +1,5 @@
 {
-    "haskelly.codeCompletion": true,
-    "haskelly.buttons.ghci": true,
+    "ghcSimple.workspaceType": "cabal",
     "cSpell.words": [
         "Intactus"
     ],

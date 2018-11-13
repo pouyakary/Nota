@@ -166,7 +166,9 @@ intVersusSymbol = do
 intVersus :: GenParser Char st AST
 intVersus = do
     parts <- intExpresson `sepBy` intVersusSymbol
-    return ( ASTRoot parts )
+    return $ if length parts == 1
+        then parts !! 0
+        else ASTVersus parts
 
 
 -- ─── ASSIGNMENT ─────────────────────────────────────────────────────────────────
