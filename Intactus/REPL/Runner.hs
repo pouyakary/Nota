@@ -5,6 +5,7 @@ module REPL.Runner ( run ) where
 
 import Language.FrontEnd.Parser
 import Language.Renderer.Main
+import Infrastructure.Text.Layout
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Error
 import Data.List
@@ -21,9 +22,11 @@ showMessage message =
         wrapp x prefix =
             if x /= "" then prefix ++ x else "!"
 
-showError :: ParseError -> String
+showError :: ParseError -> SpacedBox
 showError error =
-    intercalate ", " nonEmptyMessages where
+    spacedBox messageString where
+        messageString =
+            "ERROR: " ++ ( intercalate ", " nonEmptyMessages )
         nonEmptyMessages =
             [ x | x <- stringedMessages, x /= "!" ]
         stringedMessages =
@@ -31,10 +34,17 @@ showError error =
 
 -- ─── RUNNER ─────────────────────────────────────────────────────────────────────
 
-run :: String -> String
-run input =
-    case parseIntactus input of
-        Right ast   -> renderASTtoString ast
-        Left  error -> showError error
+run :: String -> String -> String
+run input number = output where
+    output =
+        spacedBoxToString outputSpacedBox
+    outputSpacedBox =
+        verticalConcat [ outputSignSpacedbox, renderedOutputSpacedBox ]
+    outputSignSpacedbox =
+        spacedBox $ " In[" ++ number ++ "]:"
+    renderedOutputSpacedBox =
+        case parseIntactus input of
+            Right ast   -> render    ast
+            Left  error -> showError error
 
 -- ────────────────────────────────────────────────────────────────────────────────

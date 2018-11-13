@@ -5,19 +5,17 @@ module REPL.Terminal where
 
 import Model
 import System.IO
+import System.Console.ANSI
 
 -- ─── PROMPT ─────────────────────────────────────────────────────────────────────
 
-promptText :: Model -> String
-promptText model =
-    " In[" ++ number ++ "]: " where
-        number = show $ length ( history model )
-
-prompt :: Model -> IO String
-prompt model = do
-    putStr $ promptText model
+prompt :: String -> IO String
+prompt number = do
+    putStr $ " In[" ++ number ++ "]: "
     hFlush stdout
     input <- getLine
+    cursorUpLine 1
+    clearLine
     return input
 
 -- ────────────────────────────────────────────────────────────────────────────────

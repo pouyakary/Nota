@@ -1,5 +1,5 @@
 
-module Language.Renderer.Main ( render, renderASTtoString ) where
+module Language.Renderer.Main ( render ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
@@ -9,11 +9,6 @@ import Language.Renderer.Nodes.Number
 import Language.Renderer.Nodes.Identifier
 import Language.Renderer.Nodes.BinaryOperator
 
--- ─── MAIN API ───────────────────────────────────────────────────────────────────
-
-renderASTtoString :: AST -> String
-renderASTtoString node =
-    spacedBoxToString $ render node
 
 -- ─── RENDER BASE ────────────────────────────────────────────────────────────────
 
@@ -25,7 +20,7 @@ render node =
         ASTIdentifer x ->
             rendereASTIdentifer x
         ASTBinaryOperator op left right ->
-            rendereASTBinaryOperator op left right render
+            renderASTBinaryOperator op left right render
         _ ->
             spacedBox $ show node
 

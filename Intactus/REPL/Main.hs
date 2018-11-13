@@ -37,9 +37,14 @@ printTitle =
 
 -- ─── REPL BODY ──────────────────────────────────────────────────────────────────
 
-repl model = do input <- prompt model
-                putStrLn $ run input
-                repl $ updateModel model input
+repl model =
+    do  input <- prompt number
+        putStrLn $ run input number
+        putStrLn ""
+        repl $ updateModel model input
+        where
+            number =
+                show $ length ( history model )
 
 -- ─── UPDATE MODEL ───────────────────────────────────────────────────────────────
 

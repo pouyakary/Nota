@@ -93,7 +93,7 @@ centerText boxWidth boxHeight spacedText =
         top = if boxHeight - ( height spacedText ) == 0
                  then 0
                  else ( boxHeight - ( height spacedText ) ) `div` 2
-        left = if boxWidth - (width spacedText) == 0
+        left = if boxWidth - ( width spacedText ) == 0
                   then 0
                   else ( boxWidth - ( width spacedText ) ) `div` 2
         right =
