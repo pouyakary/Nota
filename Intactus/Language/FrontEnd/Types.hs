@@ -18,6 +18,7 @@ data AST = ASTNumber            Scientific
          | ASTVersus            [ AST ]
          | ASTNegation          AST
          | ASTAssignment        AST AST
+         | ASTParenthesis       AST
            deriving ( Show, Eq )
 
 

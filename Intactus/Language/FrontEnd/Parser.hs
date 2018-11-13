@@ -88,7 +88,7 @@ intFactorWithParenthesis = do
     value <- intExpresson
     char ')' <?> "end of parenthesis"
     spaces
-    return value
+    return $ ASTParenthesis value
 
 intFactor :: GenParser Char st AST
 intFactor =
