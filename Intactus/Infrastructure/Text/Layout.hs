@@ -11,9 +11,10 @@ import Infrastructure.Text.Tools
 data SpacedBox = SpacedBox { boxLines :: [String]
                            , width    :: Int
                            , height   :: Int
+                           , baseLine :: Int
                            }
 
- --            -------  Top  Right  Bottom  Left
+               -------  Top  Right  Bottom  Left
 data BoxSize = BoxSize  Int  Int    Int     Int
 
 data BoxSide = TopSideOf | RightSideOf | BottomSideOf | LeftSideOf
@@ -31,7 +32,9 @@ boxSizeOf LeftSideOf   ( BoxSize _ _ _ x ) = x
 -- ─── SPACED LINE ────────────────────────────────────────────────────────────────
 
 spacedLineWithSize :: String -> Int -> String
-spacedLineWithSize text size = text ++ repeatText ' ' (size - length text)
+spacedLineWithSize text size =
+    text ++ tail where
+        tail = repeatText ' ' $ size - length text
 
 
 -- ─── CREAT TEXT BOX ─────────────────────────────────────────────────────────────
@@ -39,17 +42,23 @@ spacedLineWithSize text size = text ++ repeatText ' ' (size - length text)
 spacedBox :: String -> SpacedBox
 spacedBox text = SpacedBox { boxLines = linesOfText
                            , width    = size
-                           , height   = length linesOfText
+                           , height   = boxHeight
+                           , baseLine = boxHeight `div` 2
                            }
     where
-        size = lengthOfTheLongestLine text
-        linesOfText = [ spacedLineWithSize x size | x <- lines text ]
+        boxHeight =
+            length linesOfText
+        size =
+            lengthOfTheLongestLine text
+        linesOfText =
+            [ spacedLineWithSize x size | x <- lines text ]
 
 
 -- ─── LINES TEXT ─────────────────────────────────────────────────────────────────
 
 spacedBoxToString :: SpacedBox -> String
-spacedBoxToString box = intercalate "\n" (boxLines box)
+spacedBoxToString box =
+    intercalate "\n" $ boxLines box
 
 
 -- ─── MARGINED SPACE BOX ─────────────────────────────────────────────────────────
@@ -78,10 +87,15 @@ marginedBox marginSettings text = result where
         prependToEachLine rightPadding $ appendToEachLine leftPadding text
     resultLines =
         topPadding ++ boxLines spacedBase ++ bottomPadding
+    resultWidth =
+        left + right + width text
+    resultHeight =
+        top + bottom + height text
 
     result = SpacedBox { boxLines = resultLines
-                       , width    = left + ( width text ) + right
-                       , height   = top + ( height text ) + bottom
+                       , width    = resultWidth
+                       , height   = resultHeight
+                       , baseLine = resultHeight `div` 2
                        }
 
 
@@ -89,17 +103,21 @@ marginedBox marginSettings text = result where
 
 centerText :: Int -> Int -> SpacedBox -> SpacedBox
 centerText boxWidth boxHeight spacedText =
-    marginedBox ( BoxSize top right bottom left ) spacedText where
-        top = if boxHeight - ( height spacedText ) == 0
-                 then 0
-                 else ( boxHeight - ( height spacedText ) ) `div` 2
-        left = if boxWidth - ( width spacedText ) == 0
-                  then 0
-                  else ( boxWidth - ( width spacedText ) ) `div` 2
+    marginedBox boxSize spacedText where
+        boxSize =
+            BoxSize top right bottom left
+        top =
+            if boxHeight - ( height spacedText ) == 0
+                then 0
+                else ( boxHeight - height spacedText ) `div` 2
+        left =
+            if boxWidth - ( width spacedText ) == 0
+                then 0
+                else ( boxWidth - width spacedText ) `div` 2
         right =
-            boxWidth - ( left + ( width spacedText ) )
+            boxWidth - ( left + width spacedText )
         bottom =
-            boxHeight - ( top + ( height spacedText ) )
+            boxHeight - ( top + height spacedText )
 
 
 -- ─── VERTICAL CONCAT ────────────────────────────────────────────────────────────
@@ -108,6 +126,7 @@ verticalConcat :: [SpacedBox] -> SpacedBox
 verticalConcat boxes = SpacedBox { boxLines = resultLines
                                  , width    = resultWidth
                                  , height   = resultHeight
+                                 , baseLine = resultHeight `div` 2
                                  }
     where
         resultHeight =
@@ -121,6 +140,26 @@ verticalConcat boxes = SpacedBox { boxLines = resultLines
                 | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
 
 
+-- ─── VERTICAL CONCAT WITHOUT INTERMEDIATE SPACE ─────────────────────────────────
+
+verticalConcatWithoutSpace :: [SpacedBox] -> SpacedBox
+verticalConcatWithoutSpace boxes =
+    SpacedBox { boxLines = resultLines
+              , width    = resultWidth
+              , height   = resultHeight
+              , baseLine = resultHeight `div` 2
+              }
+    where
+        resultHeight =
+            maximum [ length ( boxLines x ) | x <- boxes ]
+        centeredBoxlines =
+            [ centerText ( width x ) resultHeight x | x <- boxes ]
+        resultWidth =
+            sum [ width x | x <- boxes ]
+        resultLines =
+            [ intercalate "" [ ( boxLines x ) !! lineNumber | x <- centeredBoxlines ]
+                | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
+
 -- ─── APPEND TO ALL LINES ────────────────────────────────────────────────────────
 
 appendToEachLine :: String -> SpacedBox -> SpacedBox
@@ -128,6 +167,7 @@ appendToEachLine appendable base =
     SpacedBox { boxLines = result
               , width    = length appendable + width base
               , height   = height base
+              , baseLine = baseLine base
               }
     where
         result = [ line ++ appendable | line <- boxLines base ]
@@ -140,6 +180,7 @@ prependToEachLine prependable base =
     SpacedBox { boxLines = result
               , width    = length prependable + width base
               , height   = height base
+              , baseLine = baseLine base
               }
     where
         result = [ prependable ++ line | line <- boxLines base ]

@@ -18,15 +18,16 @@ renderASTBinaryOperator Div left right render = result where
     result = SpacedBox { boxLines = lines
                        , width    = boxWidth
                        , height   = boxHeight
+                       , baseLine = height renderedLeft
                        }
     lines =
         ( boxLines renderedLeft ) ++ [ divisionLine ] ++ ( boxLines renderedRight )
     divisionLine =
         repeatText '─' boxWidth
     upperBox =
-        centerText ( width renderedLeft ) boxHeight renderedLeft
+        centerText boxWidth ( height renderedLeft ) renderedLeft
     lowerBox =
-        centerText ( height renderedRight ) boxHeight renderedRight
+        centerText boxWidth ( height renderedRight ) renderedRight
     boxHeight =
         height renderedRight + height renderedLeft + 1
     boxWidth =
@@ -36,6 +37,31 @@ renderASTBinaryOperator Div left right render = result where
     renderedRight =
         render right
 
+-- ─── POWER OPERATOR ─────────────────────────────────────────────────────────────
+
+renderASTBinaryOperator Pow left right render = result where
+    result =
+        if height renderedLeft < height renderedRight
+            then renderPowWithRightAsMax renderedLeft renderedRight
+            else renderPowWithLeftAsMax  renderedLeft renderedRight
+    renderedRight =
+        render right
+    renderedLeft =
+        render left
+    renderPowWithRightAsMax left right =
+        result where
+            result =
+                verticalConcatWithoutSpace [ marginedLeft, marginedRight ]
+            marginedLeft =
+                marginedBox leftMargin left
+            marginedRight =
+                marginedBox rightMargin right
+            rightMargin =
+                BoxSize 0 0 ( height left - height right + 1 ) 0
+            leftMargin =
+                BoxSize 1 0 0 0
+    renderPowWithLeftAsMax left right =
+        verticalConcatWithoutSpace [ left, right ]
 
 -- ─── GENERAL RULE ───────────────────────────────────────────────────────────────
 
@@ -46,12 +72,10 @@ renderASTBinaryOperator op left right render =
         operatorBox =
             spacedBox opString
         opString =
-            case op of Div -> "/"
-                       Sum -> "+"
+            case op of Sum -> "+"
                        Sub -> "-"
                        Mul -> "×"
                        Mod -> "%"
-                       Pow -> "^"
                        Equ -> "?"
                        NEq -> "!"
 

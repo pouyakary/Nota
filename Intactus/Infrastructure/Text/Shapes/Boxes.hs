@@ -76,6 +76,7 @@ shapeBox boxType content =
     SpacedBox { boxLines = result
               , width    = ( width content ) + 4
               , height   = length result
+              , baseLine = 1 + baseLine content
               }
     where
         charSet =
@@ -85,8 +86,9 @@ shapeBox boxType content =
             ( repeatText ( boxTop charSet ) ( ( width content ) + 2 ) ) ++
             [ boxTopRight charSet]
         middleLines =
-            [ [ boxLeft charSet ] ++ " " ++ line ++ " " ++ [ boxRight charSet ]
-                | line <- boxLines content ]
+            [ createMiddleLine line | line <- boxLines content ]
+        createMiddleLine line =
+            [ boxLeft charSet ] ++ " " ++ line ++ " " ++ [ boxRight charSet ]
         lastLine =
             [ boxBottomLeft charSet ] ++
             ( repeatText ( boxBottom charSet ) ( ( width content ) + 2 ) ) ++
