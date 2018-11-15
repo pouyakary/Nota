@@ -62,14 +62,19 @@ intIdentifierLetterr = do
     letterPart <- letter <|> digit <|> char '\''
     return [ letterPart ]
 
+intIdentifierJoiner :: Char -> [String] -> [String]
+intIdentifierJoiner start [ ] =
+    [ [ start ] ]
+intIdentifierJoiner start ( x : xs ) =
+    [ start : x ] ++ xs
+
 intIdentifier :: GenParser Char st AST
 intIdentifier = do
     firstChar <- letter
     name <- many ( intIdentifierLetterr <|> try intIdentifierSpacedPart )
     spaces
-    return $ ASTIdentifer ( intercalate "" ( join firstChar name ) )
-    where
-        join start ( x : xs ) = [ start : x ] ++ xs
+    return $ ASTIdentifer ( intercalate ""
+        ( intIdentifierJoiner firstChar name ) )
 
 
 -- ─── VALUES ─────────────────────────────────────────────────────────────────────
