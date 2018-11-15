@@ -31,7 +31,7 @@ renderASTBinaryOperator Div left right renderNode = result where
     boxHeight =
         ( height renderedRight ) + ( height renderedLeft ) + 1
     boxWidth =
-        maximum [ width renderedLeft, width renderedRight ]
+        2 + maximum [ width renderedLeft, width renderedRight ]
     renderedLeft =
         renderNode left
     renderedRight =
