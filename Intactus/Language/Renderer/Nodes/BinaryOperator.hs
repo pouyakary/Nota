@@ -14,14 +14,14 @@ renderASTBinaryOperator :: BinaryOperators -> AST -> AST -> ( AST -> SpacedBox )
 
 -- ─── DIVISION ───────────────────────────────────────────────────────────────────
 
-renderASTBinaryOperator Div left right render = result where
+renderASTBinaryOperator Div left right renderNode = result where
     result = SpacedBox { boxLines = lines
                        , width    = boxWidth
                        , height   = boxHeight
                        , baseLine = height renderedLeft
                        }
     lines =
-        ( boxLines renderedLeft ) ++ [ divisionLine ] ++ ( boxLines renderedRight )
+        ( boxLines upperBox ) ++ [ divisionLine ] ++ ( boxLines lowerBox )
     divisionLine =
         repeatText '─' boxWidth
     upperBox =
@@ -29,25 +29,25 @@ renderASTBinaryOperator Div left right render = result where
     lowerBox =
         centerText boxWidth ( height renderedRight ) renderedRight
     boxHeight =
-        height renderedRight + height renderedLeft + 1
+        ( height renderedRight ) + ( height renderedLeft ) + 1
     boxWidth =
         maximum [ width renderedLeft, width renderedRight ]
     renderedLeft =
-        render left
+        renderNode left
     renderedRight =
-        render right
+        renderNode right
 
 -- ─── POWER OPERATOR ─────────────────────────────────────────────────────────────
 
-renderASTBinaryOperator Pow left right render = result where
+renderASTBinaryOperator Pow left right renderNode = result where
     result =
         if height renderedLeft < height renderedRight
             then renderPowWithRightAsMax renderedLeft renderedRight
             else renderPowWithLeftAsMax  renderedLeft renderedRight
     renderedRight =
-        render right
+        renderNode right
     renderedLeft =
-        render left
+        renderNode left
     renderPowWithRightAsMax left right =
         result where
             result =
@@ -65,10 +65,10 @@ renderASTBinaryOperator Pow left right render = result where
 
 -- ─── GENERAL RULE ───────────────────────────────────────────────────────────────
 
-renderASTBinaryOperator op left right render =
+renderASTBinaryOperator op left right renderNode =
     verticalConcat boxes where
         boxes =
-            [ render left, operatorBox, render right ]
+            [ renderNode left, operatorBox, renderNode right ]
         operatorBox =
             spacedBox opString
         opString =
