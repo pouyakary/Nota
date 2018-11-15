@@ -4,10 +4,8 @@ module REPL.Main where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Model
-
 import REPL.Terminal
 import REPL.Runner
-
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Boxes
 import Language.FrontEnd.Parser
@@ -43,8 +41,7 @@ repl model =
         putStrLn ""
         repl $ updateModel model input
         where
-            number =
-                show $ length ( history model )
+            number = show $ length ( history model ) + 1
 
 -- ─── UPDATE MODEL ───────────────────────────────────────────────────────────────
 
