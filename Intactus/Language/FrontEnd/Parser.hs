@@ -110,7 +110,7 @@ intFunctionArgsSeparator = do
 
 intFunctionArgs :: GenParser Char st [ AST ]
 intFunctionArgs = do
-    args <- intFactor `sepBy` ( try intFunctionArgsSeparator )
+    args <- intExpresson `sepBy` ( try intFunctionArgsSeparator )
     return args
 
 intFunctionCall :: GenParser Char st AST
