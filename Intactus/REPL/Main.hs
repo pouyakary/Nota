@@ -9,6 +9,7 @@ import REPL.Runner
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Boxes
 import Language.FrontEnd.Parser
+import System.Console.ANSI
 
 -- ─── RUN REPL ───────────────────────────────────────────────────────────────────
 
@@ -18,9 +19,9 @@ runREPL model = do printTitle
 -- ─── PRINT TITLE ────────────────────────────────────────────────────────────────
 
 printTitle =
-    do  putStrLn ""
-        putStrLn $ spacedBoxToString logoBox
+    do  setTitle "Kary Intactus Pro"
         putStrLn ""
+        putStrLn $ spacedBoxToString logoBox
 
         where
             karyText =
@@ -36,9 +37,9 @@ printTitle =
 -- ─── REPL BODY ──────────────────────────────────────────────────────────────────
 
 repl model =
-    do  input <- prompt number
+    do  putStrLn "\n"
+        input <- prompt number
         putStrLn $ run input number
-        putStrLn "\n"
         repl $ updateModel model input
         where
             number = show $ length ( history model ) + 1
