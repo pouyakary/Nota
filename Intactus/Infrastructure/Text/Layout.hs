@@ -126,7 +126,7 @@ verticalConcat :: [SpacedBox] -> SpacedBox
 verticalConcat boxes = SpacedBox { boxLines = resultLines
                                  , width    = resultWidth
                                  , height   = resultHeight
-                                 , baseLine = resultHeight `div` 2
+                                 , baseLine = resultBaseLine
                                  }
     where
         resultHeight =
@@ -138,6 +138,10 @@ verticalConcat boxes = SpacedBox { boxLines = resultLines
         resultLines =
             [ intercalate " " [ ( boxLines x ) !! lineNumber | x <- centeredBoxlines ]
                 | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
+        resultBaseLine =
+            if odd resultHeight
+                then resultHeight `div` 2
+                else resultHeight `div` 2
 
 
 -- ─── VERTICAL CONCAT WITHOUT INTERMEDIATE SPACE ─────────────────────────────────
@@ -185,5 +189,31 @@ prependToEachLine prependable base =
     where
         result = [ prependable ++ line | line <- boxLines base ]
 
+
+-- ─── BASELINE CENTER ────────────────────────────────────────────────────────────
+
+baselineCentered :: SpacedBox -> SpacedBox
+baselineCentered box = result
+    where
+        boxCenter =
+            if even $ height box
+                then height box `div` 2 - 1
+                else height box `div` 2
+        marginSize =
+            abs $ ( height box ) - ( 2 * baseLine box )  - 1
+        marginSetting =
+            if baseLine box > boxCenter
+                then BoxSize 0 0 marginSize 0
+                else BoxSize marginSize 0 0 0
+        result =
+            if baseLine box == boxCenter
+                then box
+                else marginedBox marginSetting box
+
+-- ─── BASELINE VERTICAL CONTACT ──────────────────────────────────────────────────
+
+baselineVerticalConcat :: [SpacedBox] -> SpacedBox
+baselineVerticalConcat boxes =
+    verticalConcat [ baselineCentered x | x <- boxes ]
 
 -- ────────────────────────────────────────────────────────────────────────────────
