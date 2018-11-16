@@ -6,9 +6,11 @@ module REPL.Runner ( run ) where
 import Language.FrontEnd.Parser
 import Language.Renderer.Main
 import Infrastructure.Text.Layout
+import Infrastructure.Text.Shapes.Boxes
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Error
 import Data.List
+import Data.Set
 
 -- ─── SHEW ERROR MESSAGES ────────────────────────────────────────────────────────
 
@@ -24,9 +26,11 @@ showMessage message =
 
 showError :: ParseError -> SpacedBox
 showError error =
-    spacedBox messageString where
+    shapeBox Corners $ spacedBox messageString where
         messageString =
-            "ERROR: " ++ ( intercalate ", " nonEmptyMessages )
+            "ERROR: " ++ ( intercalate "\n       " uniqueMessages )
+        uniqueMessages =
+            Data.Set.toList $ Data.Set.fromList nonEmptyMessages
         nonEmptyMessages =
             [ x | x <- stringedMessages, x /= "!" ]
         stringedMessages =
@@ -39,7 +43,8 @@ run input number = output where
     output =
         spacedBoxToString outputSpacedBox
     outputSpacedBox =
-        verticalConcat [ outputSignSpacedbox, renderedOutputSpacedBox ]
+        trimWhiteSpaceLines $
+            baselineVerticalConcat [ outputSignSpacedbox, renderedOutputSpacedBox ]
     outputSignSpacedbox =
         spacedBox $ " In[" ++ number ++ "]:"
     renderedOutputSpacedBox =

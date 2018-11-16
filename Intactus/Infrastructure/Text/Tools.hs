@@ -13,7 +13,6 @@ repeatText :: Char -> Int -> String
 repeatText char times =
     [ char | _ <- [ 1..times ] ]
 
-
 -- ─── REMOVE FROM START ──────────────────────────────────────────────────────────
 
 removeFromStartOf :: String -> String -> Maybe String
@@ -33,5 +32,14 @@ lengthOfTheLongestLine :: String -> Int
 lengthOfTheLongestLine text =
     maximum [ length x | x <- lines text ]
 
+-- ─── LINE IS ALL WHITE SPACES ───────────────────────────────────────────────────
+
+lineIsAllSpaceChars :: String -> Bool
+lineIsAllSpaceChars [ ] =
+    True
+lineIsAllSpaceChars ( x : xs ) =
+    if x == ' '
+        then lineIsAllSpaceChars xs
+        else False
 
 -- ────────────────────────────────────────────────────────────────────────────────

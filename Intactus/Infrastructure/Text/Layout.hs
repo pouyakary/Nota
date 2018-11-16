@@ -216,4 +216,26 @@ baselineVerticalConcat :: [SpacedBox] -> SpacedBox
 baselineVerticalConcat boxes =
     verticalConcat [ baselineCentered x | x <- boxes ]
 
+-- ─── TRIM WHITESPACED LINES ─────────────────────────────────────────────────────
+
+trimWhiteSpaceLines :: SpacedBox -> SpacedBox
+trimWhiteSpaceLines input =
+    result where
+        level1 =
+            trimStartingWhiteSpace $ boxLines input
+        level2 =
+            reverse $ trimStartingWhiteSpace $ reverse level1
+        result =
+            SpacedBox { boxLines = level2
+                      , height   = length level2
+                      , width    = width input
+                      , baseLine = length level2 `div` 2
+                      }
+
+trimStartingWhiteSpace :: [String] -> [String]
+trimStartingWhiteSpace textLines =
+    if lineIsAllSpaceChars $ head textLines
+        then trimStartingWhiteSpace $ tail textLines
+        else textLines
+
 -- ────────────────────────────────────────────────────────────────────────────────
