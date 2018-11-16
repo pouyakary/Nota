@@ -9,7 +9,7 @@ import Infrastructure.Text.Layout
 
 -- ─── BOX TYPES ──────────────────────────────────────────────────────────────────
 
-data BoxType = Bracket | Absolute | Floor | Ceiling
+data BoxType = Bracket | Absolute | Floor | Ceiling | Parenthesis | LightBox | Corners
 
 data BoxCharSet = BoxCharSet { boxTopLeft     :: Char
                              , boxTop         :: Char
@@ -67,6 +67,39 @@ boxCharsOfType Ceiling =
                , boxBottom      = ' '
                , boxBottomLeft  = '⎢'
                , boxLeft        = '⎢'
+               }
+
+boxCharsOfType Parenthesis =
+    BoxCharSet { boxTopLeft     = '⎛'
+               , boxTop         = ' '
+               , boxTopRight    = '⎞'
+               , boxRight       = '⎟'
+               , boxBottomRight = '⎠'
+               , boxBottom      = ' '
+               , boxBottomLeft  = '⎝'
+               , boxLeft        = '⎜'
+               }
+
+boxCharsOfType LightBox =
+    BoxCharSet { boxTopLeft     = '┌'
+               , boxTop         = '─'
+               , boxTopRight    = '┐'
+               , boxRight       = '│'
+               , boxBottomRight = '┘'
+               , boxBottom      = '─'
+               , boxBottomLeft  = '└'
+               , boxLeft        = '│'
+               }
+
+boxCharsOfType Corners =
+    BoxCharSet { boxTopLeft     = '┌'
+               , boxTop         = ' '
+               , boxTopRight    = '┐'
+               , boxRight       = ' '
+               , boxBottomRight = '┘'
+               , boxBottom      = ' '
+               , boxBottomLeft  = '└'
+               , boxLeft        = ' '
                }
 
 -- ─── CREATE BOX ─────────────────────────────────────────────────────────────────
