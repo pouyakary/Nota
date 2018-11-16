@@ -1,5 +1,5 @@
 
-module Language.Renderer.Nodes.Identifier ( rendereASTIdentifer ) where
+module Language.Renderer.Nodes.Identifier ( renderASTIdentifer ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
@@ -8,8 +8,8 @@ import Infrastructure.Text.Layout
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-rendereASTIdentifer :: String -> SpacedBox
-rendereASTIdentifer x =
+renderASTIdentifer :: String -> SpacedBox
+renderASTIdentifer x =
     spacedBox x
 
 -- ────────────────────────────────────────────────────────────────────────────────

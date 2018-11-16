@@ -1,5 +1,5 @@
 
-module Language.Renderer.Nodes.Number ( rendereASTNumber ) where
+module Language.Renderer.Nodes.Number ( renderASTNumber ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
@@ -10,8 +10,8 @@ import Text.Regex
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-rendereASTNumber :: Scientific -> SpacedBox
-rendereASTNumber x =
+renderASTNumber :: Scientific -> SpacedBox
+renderASTNumber x =
     spacedBox noZeroDecimalValue where
         noZeroDecimalValue =
             subRegex ( mkRegex ".0$" ) value ""

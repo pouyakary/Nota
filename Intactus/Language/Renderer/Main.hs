@@ -16,9 +16,9 @@ render :: AST -> SpacedBox
 render node =
     case node of
         ASTNumber x ->
-            rendereASTNumber x
+            renderASTNumber x
         ASTIdentifer x ->
-            rendereASTIdentifer x
+            renderASTIdentifer x
         ASTBinaryOperator op left right ->
             renderASTBinaryOperator op left right render
         _ ->
