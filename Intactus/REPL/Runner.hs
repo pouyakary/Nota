@@ -27,7 +27,7 @@ showMessage message =
 
 showError :: ParseError -> SpacedBox
 showError error =
-    shapeBox Corners $ spacedBox messageString where
+    shapeBox LightBox $ spacedBox messageString where
         messageString =
             "ERROR: " ++ ( intercalate "\n       " uniqueMessages )
         uniqueMessages =
