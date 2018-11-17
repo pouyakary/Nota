@@ -4,49 +4,17 @@ module Infrastructure.Text.Shapes.Brackets where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Data.List
+import Infrastructure.Text.Shapes.Types
+import Infrastructure.Text.Shapes.Presets
 import Infrastructure.Text.Tools
 import Infrastructure.Text.Layout
 
--- ─── TYPES ──────────────────────────────────────────────────────────────────────
-
-data BracketStlye = ParenthesisBracket | BracketBracket
-
-data BracketCharset = BracketCharset { bracketTopLeft         :: String
-                                     , bracketLeft            :: String
-                                     , bracketBottomLeft      :: String
-                                     , bracketTopRight        :: String
-                                     , bracketRight           :: String
-                                     , bracketBottomRight     :: String
-                                     }
-
--- ─── STYLES ─────────────────────────────────────────────────────────────────────
-
-parenthesisCharsOfType :: BracketStlye -> BracketCharset
-
-parenthesisCharsOfType BracketBracket =
-    BracketCharset { bracketTopLeft         = "┌"
-                   , bracketLeft            = "│"
-                   , bracketBottomLeft      = "└"
-                   , bracketTopRight        = "┐"
-                   , bracketRight           = "│"
-                   , bracketBottomRight     = "┘"
-                   }
-
-parenthesisCharsOfType ParenthesisBracket =
-    BracketCharset { bracketTopLeft         = "⎛"
-                   , bracketLeft            = "⎜"
-                   , bracketBottomLeft      = "⎝"
-                   , bracketTopRight        = "⎞"
-                   , bracketRight           = "⎟"
-                   , bracketBottomRight     = "⎠"
-                   }
-
 -- ─── CREATE BRACKET ─────────────────────────────────────────────────────────────
 
-createBracketWithStyle :: BracketStlye -> SpacedBox -> SpacedBox
+createBracketWithStyle :: BoxType -> SpacedBox -> SpacedBox
 createBracketWithStyle style box = result where
     charset =
-        parenthesisCharsOfType style
+        boxCharsOfType style
     boxHeight =
         height box
     baseBracketSize
@@ -61,13 +29,13 @@ createBracketWithStyle style box = result where
             then baseBracketSize + 1
             else baseBracketSize
     leftBraceLines =
-        [ bracketTopLeft    charset ] ++
-        [ bracketLeft       charset | _ <- [ 3 .. bracketSize ] ] ++
-        [ bracketBottomLeft charset ]
+        [ [ boxTopLeft     charset ] ] ++
+        [ [ boxLeft        charset ] | _ <- [ 3 .. bracketSize ] ] ++
+        [ [ boxBottomLeft  charset ] ]
     rightBraceLines =
-        [ bracketTopRight    charset ] ++
-        [ bracketRight       charset | _ <- [ 3 .. bracketSize ] ] ++
-        [ bracketBottomRight charset ]
+        [ [ boxTopRight    charset ] ] ++
+        [ [ boxRight       charset ] | _ <- [ 3 .. bracketSize ] ] ++
+        [ [ boxBottomRight charset ] ]
     leftBrace =
         SpacedBox { boxLines = leftBraceLines
                   , height   = bracketSize

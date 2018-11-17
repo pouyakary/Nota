@@ -8,6 +8,7 @@ import REPL.Terminal
 import REPL.Runner
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Boxes
+import Infrastructure.Text.Shapes.Types
 import Language.FrontEnd.Parser
 import System.Console.ANSI
 

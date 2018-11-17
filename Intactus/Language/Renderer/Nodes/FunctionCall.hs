@@ -6,7 +6,9 @@ module Language.Renderer.Nodes.FunctionCall ( renderASTFunctionCall ) where
 
 import Language.FrontEnd.Types
 import Infrastructure.Text.Layout
+import Infrastructure.Text.Shapes.Types
 import Infrastructure.Text.Shapes.Brackets
+import Infrastructure.Text.Shapes.Presets
 import Data.List
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
@@ -25,7 +27,7 @@ renderSimpleFunction name args render = result where
     boxedArgs =
         functionArgsConcat [ render x | x <- args ]
     parenthesisedArgs =
-        createBracketWithStyle BracketBracket boxedArgs
+        createBracketWithStyle Bracket boxedArgs
     result =
         verticalConcat [ boxedName, parenthesisedArgs ]
 

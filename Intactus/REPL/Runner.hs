@@ -7,6 +7,7 @@ import Language.FrontEnd.Parser
 import Language.Renderer.Main
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Boxes
+import Infrastructure.Text.Shapes.Types
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Error
 import Data.List
