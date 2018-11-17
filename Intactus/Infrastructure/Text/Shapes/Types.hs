@@ -3,7 +3,13 @@ module Infrastructure.Text.Shapes.Types where
 
 -- ─── BOX TYPE ───────────────────────────────────────────────────────────────────
 
-data BoxType = Bracket | Absolute | Floor | Ceiling | Parenthesis | LightBox | Corners
+data BoxType = Bracket
+             | Absolute
+             | Floor
+             | Ceiling
+             | Parenthesis
+             | LightBox
+             | Corners
 
 -- ─── BOX CHAR SET ───────────────────────────────────────────────────────────────
 
