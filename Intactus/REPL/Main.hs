@@ -20,7 +20,7 @@ runREPL model = do printTitle
 -- ─── PRINT TITLE ────────────────────────────────────────────────────────────────
 
 printTitle =
-    do  setTitle "Kary Intactus Pro"
+    do  setTitle "✤ Kary Intactus Pro ✤"
         putStrLn ""
         putStrLn $ spacedBoxToString logoBox
 
