@@ -27,13 +27,3 @@ executable intactus
         regex-compat >=0.95.1,
         containers >=0.5.7.1
     default-language: Haskell2010
-    other-modules:
-        Model
-        REPL.Main
-        REPL.Terminal
-        Infrastructure.Test
-        Infrastructure.Text.Tools
-        Infrastructure.Text.Shapes.Boxes
-        Infrastructure.Text.Layout
-        Language.FrontEnd.Parser
-        Language.FrontEnd.Types
