@@ -10,6 +10,7 @@ import Language.Renderer.Nodes.BinaryOperator
 import Language.Renderer.Nodes.FunctionCall
 import Language.Renderer.Nodes.Identifier
 import Language.Renderer.Nodes.Number
+import Language.Renderer.Nodes.Parenthesis
 import Language.Renderer.Nodes.Versus
 
 -- ─── RENDER BASE ────────────────────────────────────────────────────────────────
@@ -29,6 +30,8 @@ render node ambiguous =
             renderASTVersus parts render
         ASTAssignment name value ->
             renderASTAssignment name value render
+        ASTParenthesis child ->
+            renderASTParenthesis child ambiguous render
         _ ->
             spacedBox $ show node
 

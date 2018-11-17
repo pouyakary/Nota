@@ -33,9 +33,9 @@ renderASTBinaryOperator Div left right renderNode = result where
     boxWidth =
         2 + maximum [ width renderedLeft, width renderedRight ]
     renderedLeft =
-        renderNode left True
+        renderNode left False
     renderedRight =
-        renderNode right True
+        renderNode right False
 
 -- ─── POWER OPERATOR ─────────────────────────────────────────────────────────────
 
