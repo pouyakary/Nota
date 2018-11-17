@@ -16,7 +16,7 @@ renderASTAssignment name value render = result where
     renderedName =
         render name False
     assignSign =
-        spacedBox "="
+        spacedBox " = "
     renderedValue =
         render value False
 
