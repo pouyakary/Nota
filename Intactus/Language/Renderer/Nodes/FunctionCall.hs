@@ -7,6 +7,7 @@ module Language.Renderer.Nodes.FunctionCall ( renderASTFunctionCall ) where
 import Data.List
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Brackets
+import Infrastructure.Text.Shapes.Boxes
 import Infrastructure.Text.Shapes.Presets
 import Infrastructure.Text.Shapes.Types
 import Language.FrontEnd.Types
@@ -14,9 +15,17 @@ import Language.FrontEnd.Types
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
 renderASTFunctionCall :: AST -> [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
-renderASTFunctionCall ( ASTIdentifer name ) args render =
-    case name of
-        _ -> renderSimpleFunction name args render
+renderASTFunctionCall ( ASTIdentifer name ) args render = result where
+    result =
+        if length args == 1
+            then specialFunctionsResult
+            else renderSimpleFunction name args render
+    specialFunctionsResult =
+        case name of
+            "abs"     -> renderAbsoluteFunction ( args !! 0 ) render
+            "floor"   -> renderFloorFunction    ( args !! 0 ) render
+            "ceiling" -> renderCeilingFunction  ( args !! 0 ) render
+            _         -> renderSimpleFunction   name args render
 
 -- ─── RENDER SIMPLE FUNCTION ─────────────────────────────────────────────────────
 
@@ -56,5 +65,31 @@ functionArgsConcat boxes = SpacedBox { boxLines = resultLines
             if odd resultHeight
                 then resultHeight `div` 2
                 else resultHeight `div` 2
+
+-- ─── GENERAL BOXED TYPE FUNCTION RENDERER ───────────────────────────────────────
+
+renderGeneralBoxFunction :: String -> String -> BoxType -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderGeneralBoxFunction left right boxType child render = result where
+    result =
+        if height renderedChild == 1
+            then verticalConcat [ spacedBox left, renderedChild, spacedBox right ]
+            else createBracketWithStyle boxType renderedChild
+    renderedChild =
+        render child False
+
+-- ─── ABSOLUTE ───────────────────────────────────────────────────────────────────
+
+renderAbsoluteFunction =
+    renderGeneralBoxFunction "|" "|" Absolute
+
+-- ─── FLOOR ──────────────────────────────────────────────────────────────────────
+
+renderFloorFunction =
+    renderGeneralBoxFunction "⎣" "⎦" Floor
+
+-- ─── CEILING ────────────────────────────────────────────────────────────────────
+
+renderCeilingFunction =
+    renderGeneralBoxFunction "⎡" "⎤" Ceiling
 
 -- ────────────────────────────────────────────────────────────────────────────────
