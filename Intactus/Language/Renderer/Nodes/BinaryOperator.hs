@@ -4,9 +4,9 @@ module Language.Renderer.Nodes.BinaryOperator ( renderASTBinaryOperator ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Language.FrontEnd.Types
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Tools
+import Language.FrontEnd.Types
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 

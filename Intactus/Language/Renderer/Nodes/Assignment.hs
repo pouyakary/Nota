@@ -4,8 +4,8 @@ module Language.Renderer.Nodes.Assignment ( renderASTAssignment ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Language.FrontEnd.Types
 import Infrastructure.Text.Layout
+import Language.FrontEnd.Types
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 

@@ -4,8 +4,8 @@ module REPL.Terminal where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Model
-import System.IO
 import System.Console.ANSI
+import System.IO
 
 -- ─── PROMPT ─────────────────────────────────────────────────────────────────────
 

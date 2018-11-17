@@ -3,9 +3,9 @@ module Language.Renderer.Nodes.Number ( renderASTNumber ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Language.FrontEnd.Types
-import Infrastructure.Text.Layout
 import Data.Scientific
+import Infrastructure.Text.Layout
+import Language.FrontEnd.Types
 import Text.Regex
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────

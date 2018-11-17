@@ -5,7 +5,6 @@ module Language.FrontEnd.Types where
 
 import Data.Scientific
 
-
 -- ─── AST ELEMENTS ───────────────────────────────────────────────────────────────
 
 data BinaryOperators = Sum | Sub | Div | Mul | Mod | Pow | Equ | NEq

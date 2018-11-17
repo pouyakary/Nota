@@ -4,8 +4,8 @@ module Language.Renderer.Nodes.Versus ( renderASTVersus ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Language.FrontEnd.Types
 import Infrastructure.Text.Layout
+import Language.FrontEnd.Types
 
 -- ─── VERSUS SIGN ────────────────────────────────────────────────────────────────
 

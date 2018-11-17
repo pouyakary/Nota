@@ -4,10 +4,10 @@ module Infrastructure.Text.Shapes.Brackets where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Data.List
-import Infrastructure.Text.Shapes.Types
-import Infrastructure.Text.Shapes.Presets
-import Infrastructure.Text.Tools
 import Infrastructure.Text.Layout
+import Infrastructure.Text.Shapes.Presets
+import Infrastructure.Text.Shapes.Types
+import Infrastructure.Text.Tools
 
 -- ─── CREATE BRACKET ─────────────────────────────────────────────────────────────
 

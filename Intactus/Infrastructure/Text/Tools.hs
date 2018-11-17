@@ -4,8 +4,8 @@ module Infrastructure.Text.Tools where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Data.Char
-import Data.List.Split
 import Data.List
+import Data.List.Split
 
 -- ─── REPEAT ─────────────────────────────────────────────────────────────────────
 

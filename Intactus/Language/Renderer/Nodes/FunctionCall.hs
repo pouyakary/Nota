@@ -4,12 +4,12 @@ module Language.Renderer.Nodes.FunctionCall ( renderASTFunctionCall ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Language.FrontEnd.Types
+import Data.List
 import Infrastructure.Text.Layout
-import Infrastructure.Text.Shapes.Types
 import Infrastructure.Text.Shapes.Brackets
 import Infrastructure.Text.Shapes.Presets
-import Data.List
+import Infrastructure.Text.Shapes.Types
+import Language.FrontEnd.Types
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 

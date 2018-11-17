@@ -3,13 +3,13 @@ module REPL.Main where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Model
-import REPL.Terminal
-import REPL.Runner
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Boxes
 import Infrastructure.Text.Shapes.Types
 import Language.FrontEnd.Parser
+import Model
+import REPL.Runner
+import REPL.Terminal
 import System.Console.ANSI
 
 -- ─── RUN REPL ───────────────────────────────────────────────────────────────────

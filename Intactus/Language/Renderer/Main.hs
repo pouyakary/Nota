@@ -5,12 +5,12 @@ module Language.Renderer.Main ( render ) where
 
 import Infrastructure.Text.Layout
 import Language.FrontEnd.Types
-import Language.Renderer.Nodes.Number
-import Language.Renderer.Nodes.Identifier
+import Language.Renderer.Nodes.Assignment
 import Language.Renderer.Nodes.BinaryOperator
 import Language.Renderer.Nodes.FunctionCall
+import Language.Renderer.Nodes.Identifier
+import Language.Renderer.Nodes.Number
 import Language.Renderer.Nodes.Versus
-import Language.Renderer.Nodes.Assignment
 
 -- ─── RENDER BASE ────────────────────────────────────────────────────────────────
 
