@@ -9,6 +9,7 @@ import Language.Renderer.Nodes.Number
 import Language.Renderer.Nodes.Identifier
 import Language.Renderer.Nodes.BinaryOperator
 import Language.Renderer.Nodes.FunctionCall
+import Language.Renderer.Nodes.Versus
 
 -- ─── RENDER BASE ────────────────────────────────────────────────────────────────
 
@@ -23,6 +24,8 @@ render node =
             renderASTBinaryOperator op left right render
         ASTFunctionCall name args ->
             renderASTFunctionCall name args render
+        ASTVersus parts ->
+            renderASTVersus parts render
         _ ->
             spacedBox $ show node
 
