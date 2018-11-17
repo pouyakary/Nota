@@ -38,7 +38,7 @@ printTitle =
 -- ─── REPL BODY ──────────────────────────────────────────────────────────────────
 
 repl model =
-    do  putStrLn "\n"
+    do  putStrLn ""
         input <- prompt number
         putStrLn $ run input number
         repl $ updateModel model input
