@@ -13,19 +13,19 @@ import Data.List
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-renderASTFunctionCall :: AST -> [ AST ] -> ( AST -> SpacedBox ) -> SpacedBox
+renderASTFunctionCall :: AST -> [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 renderASTFunctionCall ( ASTIdentifer name ) args render =
     case name of
         _ -> renderSimpleFunction name args render
 
 -- ─── RENDER SIMPLE FUNCTION ─────────────────────────────────────────────────────
 
-renderSimpleFunction :: String -> [ AST ] -> ( AST -> SpacedBox ) -> SpacedBox
+renderSimpleFunction :: String -> [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 renderSimpleFunction name args render = result where
     boxedName =
         spacedBox name
     boxedArgs =
-        functionArgsConcat [ render x | x <- args ]
+        functionArgsConcat [ render x False | x <- args ]
     parenthesisedArgs =
         createBracketWithStyle Bracket boxedArgs
     result =
@@ -45,8 +45,9 @@ functionArgsConcat boxes = SpacedBox { boxLines = resultLines
         resultWidth =
             sum [ 2 + width x | x <- boxes ] - 2
         resultLines =
-            [ intercalate ( connectorOfLine lineNumber ) [ ( boxLines x ) !! lineNumber | x <- centeredBoxlines ]
-                | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
+            [ intercalate ( connectorOfLine lineNumber ) [ ( boxLines x ) !! lineNumber
+                | x <- centeredBoxlines ]
+                    | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
         resultCenter =
             resultHeight `div` 2
         connectorOfLine x =

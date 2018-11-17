@@ -9,15 +9,15 @@ import Infrastructure.Text.Layout
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-renderASTAssignment :: AST -> AST -> ( AST -> SpacedBox ) -> SpacedBox
+renderASTAssignment :: AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 renderASTAssignment name value render = result where
     result =
         baselineVerticalConcat [ renderedName, assignSign, renderedValue ]
     renderedName =
-        render name
+        render name False
     assignSign =
         spacedBox "="
     renderedValue =
-        render value
+        render value False
 
 -- ────────────────────────────────────────────────────────────────────────────────

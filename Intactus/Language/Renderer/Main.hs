@@ -14,8 +14,8 @@ import Language.Renderer.Nodes.Assignment
 
 -- ─── RENDER BASE ────────────────────────────────────────────────────────────────
 
-render :: AST -> SpacedBox
-render node =
+render :: AST -> Bool -> SpacedBox
+render node ambiguous =
     case node of
         ASTNumber x ->
             renderASTNumber x

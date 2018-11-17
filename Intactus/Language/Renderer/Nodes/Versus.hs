@@ -17,14 +17,15 @@ versusSign = SpacedBox { boxLines = [ " • ", " • ", " • " ]
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-renderASTVersus :: [ AST ] -> ( AST -> SpacedBox ) -> SpacedBox
+renderASTVersus :: [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 renderASTVersus parts render = result where
     result =
         case length parts of
             0 -> spacedBox "empty"
-            1 -> render $ parts !! 0
+            1 -> render ( parts !! 0 ) False
             _ -> baselineVerticalConcat $ computeSignedParts parts
     computeSignedParts xs =
-        ( render $ head xs ) : concat [ [ versusSign, render x ] | x <- tail xs ]
+        ( render ( head xs ) False ) : concat [ [ versusSign, render x False ]
+                                                | x <- tail xs ]
 
 -- ────────────────────────────────────────────────────────────────────────────────

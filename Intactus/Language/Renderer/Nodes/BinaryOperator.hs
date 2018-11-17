@@ -10,7 +10,7 @@ import Infrastructure.Text.Tools
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-renderASTBinaryOperator :: BinaryOperators -> AST -> AST -> ( AST -> SpacedBox ) -> SpacedBox
+renderASTBinaryOperator :: BinaryOperators -> AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 
 -- ─── DIVISION ───────────────────────────────────────────────────────────────────
 
@@ -33,9 +33,9 @@ renderASTBinaryOperator Div left right renderNode = result where
     boxWidth =
         2 + maximum [ width renderedLeft, width renderedRight ]
     renderedLeft =
-        renderNode left
+        renderNode left True
     renderedRight =
-        renderNode right
+        renderNode right True
 
 -- ─── POWER OPERATOR ─────────────────────────────────────────────────────────────
 
@@ -45,9 +45,9 @@ renderASTBinaryOperator Pow left right renderNode = result where
             then renderPowWithRightAsMax renderedLeft renderedRight
             else renderPowWithLeftAsMax  renderedLeft renderedRight
     renderedRight =
-        renderNode right
+        renderNode right True
     renderedLeft =
-        renderNode left
+        renderNode left True
     renderPowWithRightAsMax left right =
         result where
             result =
@@ -68,7 +68,7 @@ renderASTBinaryOperator Pow left right renderNode = result where
 renderASTBinaryOperator op left right renderNode =
     baselineVerticalConcat boxes where
         boxes =
-            [ renderNode left, operatorBox, renderNode right ]
+            [ renderNode left True, operatorBox, renderNode right True ]
         operatorBox =
             spacedBox opString
         opString =

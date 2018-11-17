@@ -50,7 +50,7 @@ run input number = output where
         spacedBox $ " In[" ++ number ++ "]:"
     renderedOutputSpacedBox =
         case parseIntactus input of
-            Right ast   -> render    ast
+            Right ast   -> render    ast    False
             Left  error -> showError error
 
 -- ────────────────────────────────────────────────────────────────────────────────
