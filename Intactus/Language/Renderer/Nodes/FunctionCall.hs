@@ -42,6 +42,12 @@ renderSimpleFunction name args render = result where
 
 functionArgsConcat :: [ SpacedBox ] -> SpacedBox
 functionArgsConcat inputBoxes = result where
+    centerLineConnector =
+        " , "
+    normalConnector =
+        "   "
+    connectorSize =
+        3
     boxes =
         [ baselineCentered x | x <- inputBoxes ]
     resultHeight =
@@ -49,7 +55,7 @@ functionArgsConcat inputBoxes = result where
     centeredBoxlines =
         [ centerText ( width x ) resultHeight x | x <- boxes ]
     resultWidth =
-        sum [ 2 + width x | x <- boxes ] - 2
+        sum [ connectorSize + width x | x <- boxes ] - connectorSize
     resultLines =
         [ intercalate ( connectorOfLine lineNumber ) [ ( boxLines x ) !! lineNumber
             | x <- centeredBoxlines ]
@@ -57,7 +63,7 @@ functionArgsConcat inputBoxes = result where
     resultCenter =
         resultHeight `div` 2
     connectorOfLine x =
-        if x == resultCenter then ", " else "  "
+        if x == resultCenter then centerLineConnector else normalConnector
     resultBaseLine =
         if odd resultHeight
             then resultHeight `div` 2
