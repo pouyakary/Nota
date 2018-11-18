@@ -214,28 +214,39 @@ baselineCentered box = result
 
 baselineVerticalConcat :: [SpacedBox] -> SpacedBox
 baselineVerticalConcat boxes =
-    verticalConcat [ baselineCentered x | x <- boxes ]
+    trimWhiteSpaceLines $ verticalConcat [ baselineCentered x | x <- boxes ]
 
 -- ─── TRIM WHITESPACED LINES ─────────────────────────────────────────────────────
 
 trimWhiteSpaceLines :: SpacedBox -> SpacedBox
 trimWhiteSpaceLines input =
     result where
-        level1 =
-            trimStartingWhiteSpace $ boxLines input
-        level2 =
-            reverse $ trimStartingWhiteSpace $ reverse level1
+        cleanedUpperWhitespace =
+            trimUpperWhiteSpace input
         result =
-            SpacedBox { boxLines = level2
-                      , height   = length level2
-                      , width    = width input
-                      , baseLine = length level2 `div` 2
-                      }
+            trimLowerWhiteSpace cleanedUpperWhitespace
 
-trimStartingWhiteSpace :: [String] -> [String]
-trimStartingWhiteSpace textLines =
-    if lineIsAllSpaceChars $ head textLines
-        then trimStartingWhiteSpace $ tail textLines
-        else textLines
+        trimUpperWhiteSpace box =
+            if lineIsAllSpaceChars $ head ( boxLines box )
+                then trimUpperWhiteSpace SpacedBox { boxLines = tail $ boxLines box
+                                                   , height   = height box - 1
+                                                   , width    = width box
+                                                   , baseLine = baseLine box - 1
+                                                   }
+                else box
+
+        trimLowerWhiteSpace box =
+            SpacedBox { boxLines = trimmedLines
+                      , height   = length trimmedLines
+                      , width    = width box
+                      , baseLine = baseLine box
+                      }
+            where
+                trimmedLines =
+                    reverse $ trimStartingWhiteSpace $ reverse ( boxLines box )
+                trimStartingWhiteSpace textLines =
+                    if lineIsAllSpaceChars $ head textLines
+                        then trimStartingWhiteSpace $ tail textLines
+                        else textLines
 
 -- ────────────────────────────────────────────────────────────────────────────────
