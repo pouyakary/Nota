@@ -197,7 +197,7 @@ baselineCentered box = result
     where
         boxCenter =
             if even $ height box
-                then height box `div` 2 - 1
+                then height box `div` 2
                 else height box `div` 2
         marginSize =
             abs $ ( height box ) - ( 2 * baseLine box )  - 1
