@@ -38,7 +38,7 @@ renderSimpleFunction name args render = result where
     parenthesisedArgs =
         createBracketWithStyle Bracket boxedArgs
     result =
-        verticalConcat [ boxedName, parenthesisedArgs ]
+        baselineVerticalConcat [ boxedName, parenthesisedArgs ]
 
 functionArgsConcat :: [ SpacedBox ] -> SpacedBox
 functionArgsConcat inputBoxes = result where
