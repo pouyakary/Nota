@@ -6,10 +6,11 @@ module Language.Renderer.Nodes.FunctionCall ( renderASTFunctionCall ) where
 
 import Data.List
 import Infrastructure.Text.Layout
-import Infrastructure.Text.Shapes.Brackets
 import Infrastructure.Text.Shapes.Boxes
+import Infrastructure.Text.Shapes.Brackets
 import Infrastructure.Text.Shapes.Presets
 import Infrastructure.Text.Shapes.Types
+import Infrastructure.Text.Tools
 import Language.FrontEnd.Types
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
@@ -17,15 +18,18 @@ import Language.FrontEnd.Types
 renderASTFunctionCall :: AST -> [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 renderASTFunctionCall ( ASTIdentifer name ) args render = result where
     result =
-        if length args == 1
-            then specialFunctionsResult
-            else renderSimpleFunction name args render
+        if length args == 1 then specialFunctionsResult
+                            else renderSimpleFunction name args render
     specialFunctionsResult =
         case name of
-            "abs"     -> renderAbsoluteFunction ( args !! 0 ) render
-            "floor"   -> renderFloorFunction    ( args !! 0 ) render
-            "ceiling" -> renderCeilingFunction  ( args !! 0 ) render
-            _         -> renderSimpleFunction   name args render
+            "abs"          ->  renderAbsoluteFunction    arg         render
+            "floor"        ->  renderFloorFunction       arg         render
+            "ceiling"      ->  renderCeilingFunction     arg         render
+            "square root"  ->  renderSquareRootFunction  arg         render
+            "sqrt"         ->  renderSquareRootFunction  arg         render
+            _              ->  renderSimpleFunction      name  args  render
+            where
+                arg = args !! 0
 
 -- ─── RENDER SIMPLE FUNCTION ─────────────────────────────────────────────────────
 
@@ -40,9 +44,8 @@ renderSimpleFunction name args render = result where
     renderedArgs =
         [ render x False | x <- args ]
     parenthesisedArgs =
-        if length renderedArgs == 0
-            then emptyFunctionBracket
-            else createBracketWithStyle Bracket boxedArgs
+        if length renderedArgs == 0 then emptyFunctionBracket
+                                    else createBracketWithStyle Bracket boxedArgs
         where
             comma =
                 spacedBox ","
@@ -80,5 +83,38 @@ renderFloorFunction =
 
 renderCeilingFunction =
     renderGeneralBoxFunction "⎡" "⎤" Ceiling
+
+-- ─── RENDER SQUARE ROOT ─────────────────────────────────────────────────────────
+
+renderSquareRootFunction :: AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderSquareRootFunction child render = result where
+    renderedChild =
+        marginedBox ( BoxSize 0 1 0 1 ) $ render child False
+    leftPart =
+        boxLines $ marginedBox topMargin $ spacedBox "╲" where
+            topMargin =
+                BoxSize ( height renderedChild ) 0 0 0
+    middlePartLineForPosition x =
+        leftSpacing ++ "╱" ++ rightSpacing where
+            size =
+                height renderedChild
+            leftSpacing =
+                [ ' ' | _ <- [ x .. size - 2 ] ]
+            rightSpacing =
+                [ ' ' | _ <- [ 1 .. x ] ]
+    middlePart =
+        [ repeatText ' ' $ height renderedChild ] ++
+        [ middlePartLineForPosition x | x <- [ 0 .. height renderedChild - 1 ] ]
+    rightPart =
+        [ repeatText '_' $ width renderedChild ] ++ boxLines renderedChild
+    resultLines =
+        [ ( leftPart !! x ) ++ ( middlePart !! x ) ++ ( rightPart !! x )
+            | x <- [ 0 .. height renderedChild ] ]
+    result =
+        SpacedBox { boxLines = resultLines
+                  , width    = 1 + height   renderedChild + width renderedChild
+                  , height   = 1 + height   renderedChild
+                  , baseLine = 1 + baseLine renderedChild
+                  }
 
 -- ────────────────────────────────────────────────────────────────────────────────
