@@ -91,9 +91,7 @@ renderSquareRootFunction child render = result where
     renderedChild =
         marginedBox ( BoxSize 0 1 0 1 ) $ render child False
     leftPart =
-        boxLines $ marginedBox topMargin $ spacedBox "╲" where
-            topMargin =
-                BoxSize ( height renderedChild ) 0 0 0
+        [ " " | _ <- [ 1 .. height renderedChild ] ] ++ [ "╲" ]
     middlePartLineForPosition x =
         leftSpacing ++ "╱" ++ rightSpacing where
             size =
