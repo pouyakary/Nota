@@ -189,64 +189,35 @@ prependToEachLine prependable base =
     where
         result = [ prependable ++ line | line <- boxLines base ]
 
-
--- ─── BASELINE CENTER ────────────────────────────────────────────────────────────
-
-baselineCentered :: SpacedBox -> SpacedBox
-baselineCentered box = result
-    where
-        boxCenter =
-            if even $ height box
-                then height box `div` 2
-                else height box `div` 2
-        marginSize =
-            abs $ ( height box ) - ( 2 * baseLine box )  - 1
-        marginSetting =
-            if baseLine box > boxCenter
-                then BoxSize 0 0 marginSize 0
-                else BoxSize marginSize 0 0 0
-        result =
-            if baseLine box == boxCenter
-                then box
-                else marginedBox marginSetting box
-
 -- ─── BASELINE VERTICAL CONTACT ──────────────────────────────────────────────────
 
 baselineVerticalConcat :: [SpacedBox] -> SpacedBox
-baselineVerticalConcat boxes =
-    trimWhiteSpaceLines $ verticalConcat [ baselineCentered x | x <- boxes ]
-
--- ─── TRIM WHITESPACED LINES ─────────────────────────────────────────────────────
-
-trimWhiteSpaceLines :: SpacedBox -> SpacedBox
-trimWhiteSpaceLines input =
-    result where
-        cleanedUpperWhitespace =
-            trimUpperWhiteSpace input
-        result =
-            trimLowerWhiteSpace cleanedUpperWhitespace
-
-        trimUpperWhiteSpace box =
-            if lineIsAllSpaceChars $ head ( boxLines box )
-                then trimUpperWhiteSpace SpacedBox { boxLines = tail $ boxLines box
-                                                   , height   = height box - 1
-                                                   , width    = width box
-                                                   , baseLine = baseLine box - 1
-                                                   }
-                else box
-
-        trimLowerWhiteSpace box =
-            SpacedBox { boxLines = trimmedLines
-                      , height   = length trimmedLines
-                      , width    = width box
-                      , baseLine = baseLine box
-                      }
-            where
-                trimmedLines =
-                    reverse $ trimStartingWhiteSpace $ reverse ( boxLines box )
-                trimStartingWhiteSpace textLines =
-                    if lineIsAllSpaceChars $ head textLines
-                        then trimStartingWhiteSpace $ tail textLines
-                        else textLines
+baselineVerticalConcat boxes = result where
+    maxBaseline =
+        maximum [ baseLine x | x <- boxes ]
+    maxBaselineToHeightDifference =
+        ( -1 ) + maximum [ height x - baseLine x | x <- boxes ]
+    resultHeight =
+        maxBaseline + 1 + maxBaselineToHeightDifference
+    resultWidth =
+        sum [ 1 + width x | x <- boxes ] - 1
+    spacedBoxes =
+        [ spaceSingeBox x | x <- boxes ]
+    spaceSingeBox box =
+        marginedBox marginSettings box where
+            differenceToTop =
+                maxBaseline - baseLine box
+            differenceToBottom =
+                resultHeight - differenceToTop - height box
+            marginSettings =
+                BoxSize differenceToTop 0 differenceToBottom 0
+    resultLines =
+        [ intercalate " " [ ( boxLines x ) !! lineNumber | x <- spacedBoxes ]
+            | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
+    result = SpacedBox { boxLines = resultLines
+                       , width    = resultWidth
+                       , height   = resultHeight
+                       , baseLine = maxBaseline
+                       }
 
 -- ────────────────────────────────────────────────────────────────────────────────
