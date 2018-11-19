@@ -120,30 +120,6 @@ centerText boxWidth boxHeight spacedText =
             boxHeight - ( top + height spacedText )
 
 
--- ─── VERTICAL CONCAT ────────────────────────────────────────────────────────────
-
-verticalConcat :: [SpacedBox] -> SpacedBox
-verticalConcat boxes = SpacedBox { boxLines = resultLines
-                                 , width    = resultWidth
-                                 , height   = resultHeight
-                                 , baseLine = resultBaseLine
-                                 }
-    where
-        resultHeight =
-            maximum [ length ( boxLines x ) | x <- boxes ]
-        centeredBoxlines =
-            [ centerText ( width x ) resultHeight x | x <- boxes ]
-        resultWidth =
-            sum [ 1 + width x | x <- boxes ] - 1
-        resultLines =
-            [ intercalate " " [ ( boxLines x ) !! lineNumber | x <- centeredBoxlines ]
-                | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
-        resultBaseLine =
-            if odd resultHeight
-                then resultHeight `div` 2
-                else resultHeight `div` 2
-
-
 -- ─── VERTICAL CONCAT WITHOUT INTERMEDIATE SPACE ─────────────────────────────────
 
 verticalConcatWithoutSpace :: [SpacedBox] -> SpacedBox
@@ -191,8 +167,8 @@ prependToEachLine prependable base =
 
 -- ─── BASELINE VERTICAL CONTACT ──────────────────────────────────────────────────
 
-baselineVerticalConcat :: [SpacedBox] -> SpacedBox
-baselineVerticalConcat boxes = result where
+verticalConcat :: [SpacedBox] -> SpacedBox
+verticalConcat boxes = result where
     maxBaseline =
         maximum [ baseLine x | x <- boxes ]
     maxBaselineToHeightDifference =

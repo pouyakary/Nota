@@ -50,13 +50,13 @@ renderSimpleFunction name args render = result where
             comma =
                 spacedBox ","
             boxedArgs =
-                baselineVerticalConcat $ argsHead ++ argsTail
+                verticalConcat $ argsHead ++ argsTail
             argsHead =
                 [ head renderedArgs ]
             argsTail =
                 concat [ [ comma, x ] | x <- tail renderedArgs ]
     result =
-        baselineVerticalConcat [ boxedName, parenthesisedArgs ]
+        verticalConcat [ boxedName, parenthesisedArgs ]
 
 -- ─── GENERAL BOXED TYPE FUNCTION RENDERER ───────────────────────────────────────
 

@@ -12,7 +12,7 @@ import Language.FrontEnd.Types
 renderASTAssignment :: AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 renderASTAssignment name value render = result where
     result =
-        baselineVerticalConcat [ renderedName, assignSign, renderedValue ]
+        verticalConcat [ renderedName, assignSign, renderedValue ]
     renderedName =
         render name False
     assignSign =

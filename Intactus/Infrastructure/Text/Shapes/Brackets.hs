@@ -49,6 +49,6 @@ createBracketWithStyle style box = result where
                   , baseLine = bracketSize `div` 2
                   }
     result =
-        baselineVerticalConcat [ leftBrace, box, rightBrace ]
+        verticalConcat [ leftBrace, box, rightBrace ]
 
 -- ────────────────────────────────────────────────────────────────────────────────

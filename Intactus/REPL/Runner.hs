@@ -44,7 +44,7 @@ run input number = output where
     output =
         spacedBoxToString outputSpacedBox
     outputSpacedBox =
-        baselineVerticalConcat [ outputSignSpacedbox, renderedOutputSpacedBox ]
+        verticalConcat [ outputSignSpacedbox, renderedOutputSpacedBox ]
     outputSignSpacedbox =
         spacedBox $ " In[" ++ number ++ "]:"
     renderedOutputSpacedBox =

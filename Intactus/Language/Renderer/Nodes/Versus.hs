@@ -23,7 +23,7 @@ renderASTVersus parts render = result where
         case length parts of
             0 -> spacedBox "empty"
             1 -> render ( parts !! 0 ) False
-            _ -> baselineVerticalConcat $ computeSignedParts parts
+            _ -> verticalConcat $ computeSignedParts parts
     computeSignedParts xs =
         ( render ( head xs ) False ) : concat [ [ versusSign, render x False ]
                                                 | x <- tail xs ]

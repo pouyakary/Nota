@@ -66,7 +66,7 @@ renderASTBinaryOperator Pow left right renderNode = result where
 -- ─── GENERAL RULE ───────────────────────────────────────────────────────────────
 
 renderASTBinaryOperator op left right renderNode =
-    baselineVerticalConcat boxes where
+    verticalConcat boxes where
         boxes =
             [ renderNode left True, operatorBox, renderNode right True ]
         operatorBox =
