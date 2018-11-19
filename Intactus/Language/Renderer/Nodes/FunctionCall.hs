@@ -29,53 +29,31 @@ renderASTFunctionCall ( ASTIdentifer name ) args render = result where
 
 -- ─── RENDER SIMPLE FUNCTION ─────────────────────────────────────────────────────
 
+-- for less computation
+emptyFunctionBracket =
+    spacedBox "┌  ┐\n│  │\n└  ┘"
+
 renderSimpleFunction :: String -> [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 renderSimpleFunction name args render = result where
     boxedName =
         spacedBox name
-    boxedArgs =
-        functionArgsConcat [ render x False | x <- args ]
+    renderedArgs =
+        [ render x False | x <- args ]
     parenthesisedArgs =
-        createBracketWithStyle Bracket boxedArgs
+        if length renderedArgs == 0
+            then emptyFunctionBracket
+            else createBracketWithStyle Bracket boxedArgs
+        where
+            comma =
+                spacedBox ","
+            boxedArgs =
+                baselineVerticalConcat $ argsHead ++ argsTail
+            argsHead =
+                [ head renderedArgs ]
+            argsTail =
+                concat [ [ comma, x ] | x <- tail renderedArgs ]
     result =
         baselineVerticalConcat [ boxedName, parenthesisedArgs ]
-
-functionArgsConcat :: [ SpacedBox ] -> SpacedBox
-functionArgsConcat inputBoxes = result where
-    centerLineConnector =
-        " , "
-    normalConnector =
-        "   "
-    connectorSize =
-        3
-    boxes =
-        [ baselineCentered x | x <- inputBoxes ]
-    resultHeight =
-        maximum [ length ( boxLines x ) | x <- boxes ]
-    centeredBoxlines =
-        [ centerText ( width x ) resultHeight x | x <- boxes ]
-    resultWidth =
-        sum [ connectorSize + width x | x <- boxes ] - connectorSize
-    resultLines =
-        [ intercalate ( connectorOfLine lineNumber ) [ ( boxLines x ) !! lineNumber
-            | x <- centeredBoxlines ]
-                | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
-    resultCenter =
-        resultHeight `div` 2
-    connectorOfLine x =
-        if x == resultCenter then centerLineConnector else normalConnector
-    resultBaseLine =
-        if odd resultHeight
-            then resultHeight `div` 2
-            else resultHeight `div` 2
-    resultWithoutTrim =
-        SpacedBox { boxLines = resultLines
-                  , width    = resultWidth
-                  , height   = resultHeight
-                  , baseLine = resultBaseLine
-                  }
-    result =
-        trimWhiteSpaceLines resultWithoutTrim
 
 -- ─── GENERAL BOXED TYPE FUNCTION RENDERER ───────────────────────────────────────
 
