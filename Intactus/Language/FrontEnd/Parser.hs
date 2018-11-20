@@ -125,21 +125,18 @@ intFunctionCall = do
 intExpresson :: GenParser Char st AST
 intExpresson =
     buildExpressionParser table intFactor <?> "expression" where
-
-        table = [ negateParser ] : binaryTable
-
+        table =
+            [ negateParser ] : binaryTable
         negateParser =
             Prefix ( reservedOp "-" >> return ASTNegation )
-
-        binaryTable = tableOf [ [ '^' ]
-                              , [ '*', '/', '%' ]
-                              , [ '+', '-' ]
-                              , [ '?', '!' ]
-                              ]
-
+        binaryTable =
+            tableOf [ [ '^' ]
+                    , [ '*', '/', '%' ]
+                    , [ '+', '-' ]
+                    , [ '?', '!' ]
+                    ]
         tableOf xss =
             [ [ createOperatorParserFor x | x <- xs ] | xs <- xss ]
-
         createOperatorParserFor name =
             Infix operatorParser AssocLeft
             where
