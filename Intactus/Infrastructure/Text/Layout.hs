@@ -119,27 +119,6 @@ centerText boxWidth boxHeight spacedText =
         bottom =
             boxHeight - ( top + height spacedText )
 
-
--- ─── VERTICAL CONCAT WITHOUT INTERMEDIATE SPACE ─────────────────────────────────
-
-verticalConcatWithoutSpace :: [SpacedBox] -> SpacedBox
-verticalConcatWithoutSpace boxes =
-    SpacedBox { boxLines = resultLines
-              , width    = resultWidth
-              , height   = resultHeight
-              , baseLine = resultHeight `div` 2
-              }
-    where
-        resultHeight =
-            maximum [ length ( boxLines x ) | x <- boxes ]
-        centeredBoxlines =
-            [ centerText ( width x ) resultHeight x | x <- boxes ]
-        resultWidth =
-            sum [ width x | x <- boxes ]
-        resultLines =
-            [ intercalate "" [ ( boxLines x ) !! lineNumber | x <- centeredBoxlines ]
-                | lineNumber <- [ 0 .. resultHeight - 1 ] ]
-
 -- ─── APPEND TO ALL LINES ────────────────────────────────────────────────────────
 
 appendToEachLine :: String -> SpacedBox -> SpacedBox
@@ -151,7 +130,6 @@ appendToEachLine appendable base =
               }
     where
         result = [ line ++ appendable | line <- boxLines base ]
-
 
 -- ─── PREPEND TO ALL LINES ───────────────────────────────────────────────────────
 
@@ -165,10 +143,24 @@ prependToEachLine prependable base =
     where
         result = [ prependable ++ line | line <- boxLines base ]
 
--- ─── BASELINE VERTICAL CONTACT ──────────────────────────────────────────────────
+-- ─── VERTICAL CONCAT WITHOUT INTERMEDIATE SPACE ─────────────────────────────────
 
-verticalConcat :: [SpacedBox] -> SpacedBox
-verticalConcat boxes = result where
+verticalConcatWithoutSpace :: [ SpacedBox ] -> SpacedBox
+verticalConcatWithoutSpace =
+    verticalConcatCore ""
+
+-- ─── VERTICAL CONCAT ────────────────────────────────────────────────────────────
+
+verticalConcat :: [ SpacedBox ] -> SpacedBox
+verticalConcat =
+    verticalConcatCore " "
+
+-- ─── VERTICAL CONCAT CORE ───────────────────────────────────────────────────────
+
+verticalConcatCore :: String -> [ SpacedBox ] -> SpacedBox
+verticalConcatCore spacing boxes = result where
+    spacingWidth =
+        length spacing
     maxBaseline =
         maximum [ baseLine x | x <- boxes ]
     maxBaselineToHeightDifference =
@@ -176,7 +168,7 @@ verticalConcat boxes = result where
     resultHeight =
         maxBaseline + 1 + maxBaselineToHeightDifference
     resultWidth =
-        sum [ 1 + width x | x <- boxes ] - 1
+        sum [ spacingWidth + width x | x <- boxes ] - spacingWidth
     spacedBoxes =
         [ spaceSingeBox x | x <- boxes ]
     spaceSingeBox box =
@@ -188,7 +180,7 @@ verticalConcat boxes = result where
             marginSettings =
                 BoxSize differenceToTop 0 differenceToBottom 0
     resultLines =
-        [ intercalate " " [ ( boxLines x ) !! lineNumber | x <- spacedBoxes ]
+        [ intercalate spacing [ ( boxLines x ) !! lineNumber | x <- spacedBoxes ]
             | lineNumber <- [ 0 .. resultHeight - 1 ] ]
     result = SpacedBox { boxLines = resultLines
                        , width    = resultWidth
