@@ -76,7 +76,7 @@ renderASTBinaryOperator op left right renderNode =
                        Sub -> "-"
                        Mul -> "×"
                        Mod -> "%"
-                       Equ -> "?"
-                       NEq -> "!"
+                       Equ -> "="
+                       NEq -> "≠"
 
 -- ────────────────────────────────────────────────────────────────────────────────
