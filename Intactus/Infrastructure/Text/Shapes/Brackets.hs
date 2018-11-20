@@ -21,7 +21,7 @@ createBracketWithStyle style box = result where
         | boxHeight <= 3 =
             3
         | boxHeight > 3 && boxHeight <= 5 =
-            boxHeight
+            5
         | otherwise =
             floor $ 0.6 * fromIntegral boxHeight
     bracketSize =
