@@ -30,19 +30,17 @@ lexer           = Token.makeTokenParser languageDef
 reservedOp      = Token.reservedOp lexer
 haskellNumber   = Token.naturalOrFloat lexer
 
-
 -- ─── NUMBER ─────────────────────────────────────────────────────────────────────
 
 intNumber :: GenParser Char st AST
 intNumber = do
-    value <- haskellNumber
+    value <- haskellNumber <?> "number"
     spaces
     return $ ASTNumber ( case value of Right x -> toScientific x
                                        Left  x -> toScientific x )
     where
         toScientific x =
             read ( show x ) :: Scientific
-
 
 -- ─── IDENTIFIER ─────────────────────────────────────────────────────────────────
 
@@ -76,29 +74,26 @@ intIdentifier = do
     return $ ASTIdentifier ( intercalate ""
         ( intIdentifierJoiner firstChar name ) )
 
-
 -- ─── VALUES ─────────────────────────────────────────────────────────────────────
 
 intValues :: GenParser Char st AST
 intValues =
     try intFunctionCall <|> intNumber <|> intIdentifier <?> "value"
 
-
 -- ─── FACTOR ─────────────────────────────────────────────────────────────────────
 
 intFactorWithParenthesis :: GenParser Char st AST
 intFactorWithParenthesis = do
-    char '('
+    char '(' <?> "left parenthesis"
     spaces
     value <- intExpresson
-    char ')' <?> "end of parenthesis"
+    char ')' <?> "right parenthesis"
     spaces
     return $ ASTParenthesis value
 
 intFactor :: GenParser Char st AST
 intFactor =
     intFactorWithParenthesis <|> intValues <?> "factored expression"
-
 
 -- ─── FUNCTION CALL ──────────────────────────────────────────────────────────────
 
@@ -116,11 +111,11 @@ intFunctionArgs = do
 intFunctionCall :: GenParser Char st AST
 intFunctionCall = do
     functionName <- intIdentifier
-    char '['
+    char '[' <?> "function argument left bracket"
     spaces
-    args <- ( try intFunctionArgs ) <|> return [ ]
+    args <- ( try intFunctionArgs ) <|> return [ ] <?> "function arguments"
     spaces
-    char ']'
+    char ']' <?> "function argument right bracket"
     spaces
     return ( ASTFunctionCall functionName args )
 
@@ -136,10 +131,10 @@ intExpresson =
         negateParser =
             Prefix ( reservedOp "-" >> return ASTNegation )
 
-        binaryTable = tableOf [ [ '?', '!' ]
-                              , [ '^' ]
+        binaryTable = tableOf [ [ '^' ]
                               , [ '*', '/', '%' ]
                               , [ '+', '-' ]
+                              , [ '?', '!' ]
                               ]
 
         tableOf xss =
@@ -164,44 +159,40 @@ intExpresson =
 
 intVersusSymbol :: GenParser Char st String
 intVersusSymbol = do
-    char '|'
+    char '|' <?> "versus operator"
     spaces
     return ""
 
 intVersus :: GenParser Char st AST
 intVersus = do
-    parts <- intExpresson `sepBy` intVersusSymbol
+    parts <- intExpresson `sepBy` intVersusSymbol <?> "versus expressions"
     return $ if length parts == 1
         then parts !! 0
         else ASTVersus parts
-
 
 -- ─── ASSIGNMENT ─────────────────────────────────────────────────────────────────
 
 intAssignment :: GenParser Char st AST
 intAssignment = do
-    name <- intIdentifier
-    char '='
+    name <- intIdentifier <?> "assignment name"
+    char '=' <?> "assignment operator (=)"
     spaces
-    value <- intExpresson
+    value <- intExpresson <?> "assignment value"
     return $ ASTAssignment name value
-
 
 -- ─── ROOT ───────────────────────────────────────────────────────────────────────
 
 intRoot :: GenParser Char st AST
 intRoot = do
     spaces
-    root <- try intAssignment <|> intVersus
+    root <- try intAssignment <|> intVersus <?> "root value"
     eof
     return root
-
 
 -- ─── EXPOSED PARSER API ─────────────────────────────────────────────────────────
 
 parseIntactus :: String -> Either ParseError AST
 parseIntactus input =
     parse intRoot "" input
-
 
 -- ────────────────────────────────────────────────────────────────────────────────
