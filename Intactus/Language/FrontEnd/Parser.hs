@@ -128,7 +128,7 @@ intExpresson =
         table =
             [ negateParser ] : binaryTable
         negateParser =
-            Prefix ( reservedOp "-" >> return ASTNegation )
+            Prefix $ reservedOp "-" >> return ASTNegation
         binaryTable =
             tableOf [ [ '^' ]
                     , [ '*', '/', '%' ]
