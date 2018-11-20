@@ -95,7 +95,7 @@ marginedBox marginSettings text = result where
     result = SpacedBox { boxLines = resultLines
                        , width    = resultWidth
                        , height   = resultHeight
-                       , baseLine = resultHeight `div` 2
+                       , baseLine = top + baseLine text
                        }
 
 
@@ -138,7 +138,7 @@ verticalConcatWithoutSpace boxes =
             sum [ width x | x <- boxes ]
         resultLines =
             [ intercalate "" [ ( boxLines x ) !! lineNumber | x <- centeredBoxlines ]
-                | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
+                | lineNumber <- [ 0 .. resultHeight - 1 ] ]
 
 -- ─── APPEND TO ALL LINES ────────────────────────────────────────────────────────
 
@@ -189,7 +189,7 @@ verticalConcat boxes = result where
                 BoxSize differenceToTop 0 differenceToBottom 0
     resultLines =
         [ intercalate " " [ ( boxLines x ) !! lineNumber | x <- spacedBoxes ]
-            | lineNumber <- [ 0.. ( resultHeight - 1 ) ] ]
+            | lineNumber <- [ 0 .. resultHeight - 1 ] ]
     result = SpacedBox { boxLines = resultLines
                        , width    = resultWidth
                        , height   = resultHeight
