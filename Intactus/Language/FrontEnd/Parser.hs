@@ -73,7 +73,7 @@ intIdentifier = do
     firstChar <- letter
     name <- many ( intIdentifierLetterr <|> try intIdentifierSpacedPart )
     spaces
-    return $ ASTIdentifer ( intercalate ""
+    return $ ASTIdentifier ( intercalate ""
         ( intIdentifierJoiner firstChar name ) )
 
 

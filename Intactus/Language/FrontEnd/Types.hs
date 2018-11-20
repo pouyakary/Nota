@@ -11,7 +11,7 @@ data BinaryOperators = Sum | Sub | Div | Mul | Mod | Pow | Equ | NEq
     deriving ( Show, Eq )
 
 data AST = ASTNumber            Scientific
-         | ASTIdentifer         String
+         | ASTIdentifier        String
          | ASTBinaryOperator    BinaryOperators AST AST
          | ASTFunctionCall      AST [ AST ]
          | ASTVersus            [ AST ]

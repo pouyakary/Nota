@@ -20,7 +20,7 @@ render node ambiguous =
     case node of
         ASTNumber x ->
             renderASTNumber x
-        ASTIdentifer x ->
+        ASTIdentifier x ->
             renderASTIdentifer x
         ASTBinaryOperator op left right ->
             renderASTBinaryOperator op left right render

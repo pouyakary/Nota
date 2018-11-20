@@ -16,7 +16,7 @@ import Language.FrontEnd.Types
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
 renderASTFunctionCall :: AST -> [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
-renderASTFunctionCall ( ASTIdentifer name ) args render = result where
+renderASTFunctionCall ( ASTIdentifier name ) args render = result where
     result =
         if length args == 1 then specialFunctionsResult
                             else renderSimpleFunction name args render

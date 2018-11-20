@@ -10,7 +10,7 @@ import Language.FrontEnd.Types
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
 renderASTAssignment :: AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
-renderASTAssignment ( ASTIdentifer name ) value render = result where
+renderASTAssignment ( ASTIdentifier name ) value render = result where
     result =
         verticalConcat [ renderedName, renderedValue ]
     renderedName =
