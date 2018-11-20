@@ -110,12 +110,12 @@ centerText boxWidth boxHeight spacedText =
             if boxHeight - ( height spacedText ) == 0
                 then 0
                 else ( boxHeight - height spacedText ) `div` 2
-        left =
+        right =
             if boxWidth - ( width spacedText ) == 0
                 then 0
                 else ( boxWidth - width spacedText ) `div` 2
-        right =
-            boxWidth - ( left + width spacedText )
+        left =
+            boxWidth - ( right + width spacedText )
         bottom =
             boxHeight - ( top + height spacedText )
 
