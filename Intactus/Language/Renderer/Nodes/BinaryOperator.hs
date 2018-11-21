@@ -63,7 +63,7 @@ renderPowerOperator left right renderNode = result where
     resultHeight =
         height renderedLeft + height renderedRight - heightReduction
     resultWidth =
-        width renderedLeft + width renderedRight - heightReduction
+        width renderedLeft + width renderedRight
     resultLines =
         [ ( leftPartLines !! x ) ++ ( rightPartLines !! x )
             | x <- [ 0 .. resultHeight - 1 ] ]
