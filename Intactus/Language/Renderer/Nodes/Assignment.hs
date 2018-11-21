@@ -14,7 +14,7 @@ renderASTAssignment ( ASTIdentifier name ) value render = result where
     result =
         verticalConcat [ renderedName, renderedValue ]
     renderedName =
-        spacedBox $ name ++ " ≡"
+        spacedBox $ "⟨" ++ name ++ "⟩ ≡ "
     renderedValue =
         render value False
 
