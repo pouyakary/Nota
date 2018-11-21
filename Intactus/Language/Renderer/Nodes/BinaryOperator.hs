@@ -54,19 +54,21 @@ renderPowerOperator left right renderNode = result where
         renderNode left False
     renderedRight =
         renderNode right False
+    heightReduction =
+        if height renderedLeft > 2 then 1 else 0
     leftPartLines =
-        boxLines $ marginedBox ( BoxSize ( height renderedRight ) 0 0 0 ) renderedLeft
+        boxLines $ marginedBox ( BoxSize ( height renderedRight - heightReduction ) 0 0 0 ) renderedLeft
     rightPartLines =
-        boxLines $ marginedBox ( BoxSize 0 0 ( height renderedLeft ) 0 ) renderedRight
+        boxLines $ marginedBox ( BoxSize 0 0 ( height renderedLeft - heightReduction ) 0 ) renderedRight
     resultHeight =
-        height renderedLeft + height renderedRight
+        height renderedLeft + height renderedRight - heightReduction
     resultWidth =
-        width renderedLeft + width renderedRight
+        width renderedLeft + width renderedRight - heightReduction
     resultLines =
         [ ( leftPartLines !! x ) ++ ( rightPartLines !! x )
             | x <- [ 0 .. resultHeight - 1 ] ]
     resultBaseline =
-        baseLine renderedLeft + height renderedRight
+        baseLine renderedLeft + height renderedRight - heightReduction
     result =
         SpacedBox { boxLines = resultLines
                   , width    = resultWidth
