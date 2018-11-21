@@ -25,7 +25,6 @@ renderASTFunctionCall ( ASTIdentifier name ) args render = result where
             "abs"          ->  renderAbsoluteFunction    arg         render
             "floor"        ->  renderFloorFunction       arg         render
             "ceiling"      ->  renderCeilingFunction     arg         render
-            "square root"  ->  renderSquareRootFunction  arg         render
             "sqrt"         ->  renderSquareRootFunction  arg         render
             _              ->  renderSimpleFunction      name  args  render
             where
