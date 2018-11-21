@@ -8,9 +8,13 @@ import Infrastructure.Text.Layout
 import Infrastructure.Text.Tools
 import Language.FrontEnd.Types
 
+-- ─── TYPES ──────────────────────────────────────────────────────────────────────
+
+type Renderer = AST -> Bool -> SpacedBox
+
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-renderASTBinaryOperator :: BinaryOperators -> AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderASTBinaryOperator :: BinaryOperators -> AST -> AST -> Renderer -> SpacedBox
 renderASTBinaryOperator op left right renderNode =
     case op of Div -> renderDivisionOperator    left right renderNode
                Pow -> renderPowerOperator       left right renderNode
@@ -18,7 +22,7 @@ renderASTBinaryOperator op left right renderNode =
 
 -- ─── DIVISION ───────────────────────────────────────────────────────────────────
 
-renderDivisionOperator :: AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderDivisionOperator :: AST -> AST -> Renderer -> SpacedBox
 renderDivisionOperator left right renderNode = result where
     result = SpacedBox { boxLines = lines
                        , width    = boxWidth
@@ -44,7 +48,7 @@ renderDivisionOperator left right renderNode = result where
 
 -- ─── POWER OPERATOR ─────────────────────────────────────────────────────────────
 
-renderPowerOperator :: AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderPowerOperator :: AST -> AST -> Renderer -> SpacedBox
 renderPowerOperator left right renderNode = result where
     renderedLeft =
         renderNode left False
@@ -72,7 +76,7 @@ renderPowerOperator left right renderNode = result where
 
 -- ─── GENERAL RULE ───────────────────────────────────────────────────────────────
 
-renderNormalOperators :: BinaryOperators -> AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderNormalOperators :: BinaryOperators -> AST -> AST -> Renderer -> SpacedBox
 renderNormalOperators op left right renderNode =
     verticalConcat boxes where
         boxes =

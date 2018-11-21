@@ -13,9 +13,13 @@ import Infrastructure.Text.Shapes.Types
 import Infrastructure.Text.Tools
 import Language.FrontEnd.Types
 
+-- ─── TYPES ──────────────────────────────────────────────────────────────────────
+
+type Renderer = AST -> Bool -> SpacedBox
+
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-renderASTFunctionCall :: AST -> [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderASTFunctionCall :: AST -> [ AST ] -> Renderer -> SpacedBox
 renderASTFunctionCall ( ASTIdentifier name ) args render = result where
     result =
         if length args == 1 then specialFunctionsResult
@@ -36,7 +40,7 @@ renderASTFunctionCall ( ASTIdentifier name ) args render = result where
 emptyFunctionBracket =
     spacedBox "┌  ┐\n│  │\n└  ┘"
 
-renderSimpleFunction :: String -> [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderSimpleFunction :: String -> [ AST ] -> Renderer -> SpacedBox
 renderSimpleFunction name args render = result where
     boxedName =
         spacedBox name
@@ -59,7 +63,7 @@ renderSimpleFunction name args render = result where
 
 -- ─── GENERAL BOXED TYPE FUNCTION RENDERER ───────────────────────────────────────
 
-renderGeneralBoxFunction :: String -> String -> BoxType -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderGeneralBoxFunction :: String -> String -> BoxType -> AST -> Renderer -> SpacedBox
 renderGeneralBoxFunction left right boxType child render = result where
     result =
         if height renderedChild == 1
@@ -85,7 +89,7 @@ renderCeilingFunction =
 
 -- ─── RENDER SQUARE ROOT ─────────────────────────────────────────────────────────
 
-renderSquareRootFunction :: AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderSquareRootFunction :: AST -> Renderer -> SpacedBox
 renderSquareRootFunction child render = result where
     renderedChild =
         marginedBox ( BoxSize 0 1 0 1 ) $ render child False
