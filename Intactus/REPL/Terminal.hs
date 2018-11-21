@@ -5,6 +5,7 @@ module REPL.Terminal where
 
 import Model
 import System.Console.ANSI
+import System.Console.Terminal.Size
 import System.IO
 
 -- ─── PROMPT ─────────────────────────────────────────────────────────────────────
@@ -17,5 +18,13 @@ prompt number = do
     cursorUpLine 1
     clearLine
     return input
+
+-- ─── TERMINAL WIDTH ─────────────────────────────────────────────────────────────
+
+terminalWidth :: IO Int
+terminalWidth = do
+    s <- size
+    return ( case s of Just win  ->  width win
+                       Nothing   ->  -1 )
 
 -- ────────────────────────────────────────────────────────────────────────────────

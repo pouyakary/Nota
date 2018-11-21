@@ -4,6 +4,7 @@ module REPL.Main where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Infrastructure.Text.Layout
+import Infrastructure.Text.Tools
 import Infrastructure.Text.Shapes.Boxes
 import Infrastructure.Text.Shapes.Types
 import Language.FrontEnd.Parser
@@ -20,20 +21,32 @@ runREPL model = do printTitle
 -- ─── PRINT TITLE ────────────────────────────────────────────────────────────────
 
 printTitle =
-    do  setTitle "✤ Kary Intactus Pro ✤"
-        putStrLn ""
-        putStrLn $ spacedBoxToString logoBox
+    do  windowWidth <- terminalWidth
+        setTitle "✤ Kary Intactus Pro ✤"
+        putStrLn $ spacedBoxToString $ createLogoForWidth windowWidth
 
         where
+            createLogoForWidth w =
+                if w == -1 then justLogoBox else fullBox w
             karyText =
-                centerText 7 3 $ spacedBox "K A R Y"
-            versionText =
-                centerText 5 3 $ spacedBox "P R O"
+                spacedBox "Kary"
             logoText =
-                shapeBox Bracket $ spacedBox "I N T A C T U S"
+                shapeBox Bracket $ spacedBox "Intactus Pro"
             logoBox =
-                prependToEachLine " "
-                    $ verticalConcat [ karyText, logoText, versionText ]
+                verticalConcat [ karyText, logoText ]
+            justLogoBox =
+                marginedBox ( BoxSize 1 0 0 1 ) logoBox
+            fullBox w =
+                result where
+                    result =
+                        verticalConcat [ leftLine, logoBox, rightLine ]
+                    rightLineWidth =
+                        5
+                    leftLine =
+                        spacedBox $ repeatText '─' ( w - ( width logoBox + 2 + rightLineWidth ) )
+                    rightLine =
+                        spacedBox $ repeatText '─' rightLineWidth
+
 
 -- ─── REPL BODY ──────────────────────────────────────────────────────────────────
 
