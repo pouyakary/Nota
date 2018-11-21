@@ -40,28 +40,29 @@ renderASTBinaryOperator Div left right renderNode = result where
 -- ─── POWER OPERATOR ─────────────────────────────────────────────────────────────
 
 renderASTBinaryOperator Pow left right renderNode = result where
-    result =
-        if height renderedLeft < height renderedRight
-            then renderPowWithRightAsMax renderedLeft renderedRight
-            else renderPowWithLeftAsMax  renderedLeft renderedRight
-    renderedRight =
-        renderNode right True
     renderedLeft =
-        renderNode left True
-    renderPowWithRightAsMax left right =
-        result where
-            result =
-                verticalConcatWithoutSpace [ marginedLeft, marginedRight ]
-            marginedLeft =
-                marginedBox leftMargin left
-            marginedRight =
-                marginedBox rightMargin right
-            rightMargin =
-                BoxSize 0 0 ( height left - height right + 1 ) 0
-            leftMargin =
-                BoxSize 1 0 0 0
-    renderPowWithLeftAsMax left right =
-        verticalConcatWithoutSpace [ left, right ]
+        renderNode left False
+    renderedRight =
+        renderNode right False
+    leftPartLines =
+        boxLines $ marginedBox ( BoxSize ( height renderedRight ) 0 0 0 ) renderedLeft
+    rightPartLines =
+        boxLines $ marginedBox ( BoxSize 0 0 ( height renderedLeft ) 0 ) renderedRight
+    resultHeight =
+        height renderedLeft + height renderedRight
+    resultWidth =
+        width renderedLeft + width renderedRight
+    resultLines =
+        [ ( leftPartLines !! x ) ++ ( rightPartLines !! x )
+            | x <- [ 0 .. resultHeight - 1 ] ]
+    resultBaseline =
+        baseLine renderedLeft + height renderedRight
+    result =
+        SpacedBox { boxLines = resultLines
+                  , width    = resultWidth
+                  , height   = resultHeight
+                  , baseLine = resultBaseline
+                  }
 
 -- ─── GENERAL RULE ───────────────────────────────────────────────────────────────
 
