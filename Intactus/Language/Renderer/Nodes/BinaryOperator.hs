@@ -11,10 +11,15 @@ import Language.FrontEnd.Types
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
 renderASTBinaryOperator :: BinaryOperators -> AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderASTBinaryOperator op left right renderNode =
+    case op of Div -> renderDivisionOperator    left right renderNode
+               Pow -> renderPowerOperator       left right renderNode
+               _   -> renderNormalOperators  op left right renderNode
 
 -- ─── DIVISION ───────────────────────────────────────────────────────────────────
 
-renderASTBinaryOperator Div left right renderNode = result where
+renderDivisionOperator :: AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderDivisionOperator left right renderNode = result where
     result = SpacedBox { boxLines = lines
                        , width    = boxWidth
                        , height   = boxHeight
@@ -39,7 +44,8 @@ renderASTBinaryOperator Div left right renderNode = result where
 
 -- ─── POWER OPERATOR ─────────────────────────────────────────────────────────────
 
-renderASTBinaryOperator Pow left right renderNode = result where
+renderPowerOperator :: AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderPowerOperator left right renderNode = result where
     renderedLeft =
         renderNode left False
     renderedRight =
@@ -66,7 +72,8 @@ renderASTBinaryOperator Pow left right renderNode = result where
 
 -- ─── GENERAL RULE ───────────────────────────────────────────────────────────────
 
-renderASTBinaryOperator op left right renderNode =
+renderNormalOperators :: BinaryOperators -> AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
+renderNormalOperators op left right renderNode =
     verticalConcat boxes where
         boxes =
             [ renderNode left True, operatorBox, renderNode right True ]
