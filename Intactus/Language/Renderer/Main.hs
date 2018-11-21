@@ -23,7 +23,7 @@ render node ambiguous =
         ASTIdentifier x ->
             renderASTIdentifer x
         ASTBinaryOperator op left right ->
-            renderASTBinaryOperator op left right ambiguous render
+            renderASTBinaryOperator op left right render
         ASTFunctionCall name args ->
             renderASTFunctionCall name args render
         ASTVersus parts ->

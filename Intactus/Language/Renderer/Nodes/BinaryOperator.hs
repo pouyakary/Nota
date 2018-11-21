@@ -14,10 +14,10 @@ type Renderer = AST -> Bool -> SpacedBox
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-renderASTBinaryOperator :: BinaryOperators -> AST -> AST -> Bool -> Renderer -> SpacedBox
-renderASTBinaryOperator op left right ambiguous renderNode =
+renderASTBinaryOperator :: BinaryOperators -> AST -> AST -> Renderer -> SpacedBox
+renderASTBinaryOperator op left right renderNode =
     case op of Div -> renderDivisionOperator    left right renderNode
-               Pow -> renderPowerOperator       left right renderNode ambiguous
+               Pow -> renderPowerOperator       left right renderNode
                _   -> renderNormalOperators  op left right renderNode
 
 -- ─── DIVISION ───────────────────────────────────────────────────────────────────
@@ -48,17 +48,17 @@ renderDivisionOperator left right renderNode = result where
 
 -- ─── POWER OPERATOR ─────────────────────────────────────────────────────────────
 
-renderPowerOperator :: AST -> AST -> Renderer -> Bool -> SpacedBox
-renderPowerOperator left right renderNode ambiguous = result where
+renderPowerOperator :: AST -> AST -> Renderer -> SpacedBox
+renderPowerOperator left right renderNode = result where
     renderedLeft =
-        renderNode left True
+        renderNode left False
     renderedRight =
-        renderNode right True
+        renderNode right False
     isLeftPow =
         case left of ASTBinaryOperator Pow _ _ -> True
                      _                         -> False
     heightReduction =
-        if not isLeftPow && not ambiguous && height renderedLeft > 2 then 1 else 0
+        if not isLeftPow && height renderedLeft > 2 then 1 else 0
     leftPartLines =
         boxLines $ marginedBox ( BoxSize ( height renderedRight - heightReduction ) 0 0 0 ) renderedLeft
     rightPartLines =
