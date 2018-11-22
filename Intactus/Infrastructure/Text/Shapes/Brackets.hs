@@ -25,8 +25,8 @@ createBracketWithStyle style box = result where
         | otherwise =
             floor $ 0.6 * fromIntegral boxHeight
     bracketSize =
-        if odd $ boxHeight - baseBracketSize
-            then baseBracketSize + 1
+        if even baseBracketSize
+            then baseBracketSize - 1
             else baseBracketSize
     leftBraceLines =
         [ [ boxTopLeft     charset ] ] ++
