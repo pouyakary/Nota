@@ -67,14 +67,22 @@ intIdentifierJoiner start [ ] =
 intIdentifierJoiner start ( x : xs ) =
     [ start : x ] ++ xs
 
-intIdentifierAllCaps :: String -> String
-intIdentifierAllCaps words =
-    intercalate " "
-        [ ( toUpper $ head word ) : [ toLower x | x <- tail word ]
-            | word <- splitOn " " words ]
+intIdentifierPrettifyNames :: String -> String
+intIdentifierPrettifyNames input =
+    output where
+        output =
+            intercalate " " prettifiedNames
+        names =
+            splitOn " " input
+        prettifiedNames =
+            [ getSpecialNames $ intWordAllCaps name | name <- names ]
 
-identifierPrettyName :: String -> String
-identifierPrettyName name =
+intWordAllCaps :: String -> String
+intWordAllCaps word =
+    ( toUpper $ head word ) : [ toLower x | x <- tail word ]
+
+getSpecialNames :: String -> String
+getSpecialNames name =
     case name of
         "Alpha"     -> "α"
         "Beta"      -> "β"
@@ -100,7 +108,6 @@ identifierPrettyName name =
         "Chi"       -> "χ"
         "Psi"       -> "ψ"
         "Omega"     -> "ω"
-
         "Alpha'"    -> "Α"
         "Beta'"     -> "Β"
         "Gamma'"    -> "Γ"
@@ -125,7 +132,6 @@ identifierPrettyName name =
         "Chi'"      -> "Χ"
         "Psi'"      -> "Ψ"
         "Omega'"    -> "Ω"
-
         _           -> name
 
 intIdentifier :: GenParser Char st AST
@@ -133,8 +139,8 @@ intIdentifier = do
     firstChar <- letter
     name <- many ( intIdentifierLetterr <|> try intIdentifierSpacedPart )
     spaces
-    return $ ASTIdentifier $ identifierPrettyName $ intIdentifierAllCaps $ intercalate ""
-        $ intIdentifierJoiner firstChar name
+    return $ ASTIdentifier ( intIdentifierPrettifyNames ( intercalate ""
+        ( intIdentifierJoiner firstChar name ) ) )
 
 -- ─── VALUES ─────────────────────────────────────────────────────────────────────
 
