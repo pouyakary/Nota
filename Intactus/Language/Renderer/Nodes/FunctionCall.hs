@@ -26,10 +26,10 @@ renderASTFunctionCall ( ASTIdentifier name ) args render = result where
                             else renderSimpleFunction name args render
     specialFunctionsResult =
         case name of
-            "abs"          ->  renderAbsoluteFunction    arg         render
-            "floor"        ->  renderFloorFunction       arg         render
-            "ceiling"      ->  renderCeilingFunction     arg         render
-            "sqrt"         ->  renderSquareRootFunction  arg         render
+            "Abs"          ->  renderAbsoluteFunction    arg         render
+            "Floor"        ->  renderFloorFunction       arg         render
+            "Ceiling"      ->  renderCeilingFunction     arg         render
+            "Sqrt"         ->  renderSquareRootFunction  arg         render
             _              ->  renderSimpleFunction      name  args  render
             where
                 arg = args !! 0
