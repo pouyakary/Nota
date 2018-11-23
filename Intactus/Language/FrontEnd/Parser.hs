@@ -68,11 +68,10 @@ intIdentifierJoiner start ( x : xs ) =
     [ start : x ] ++ xs
 
 intIdentifierAllCaps :: String -> String
-intIdentifierAllCaps words = output where
-    output =
-        intercalate " "
-            [ ( toUpper $ head word ) : [ toLower x | x <- tail word ]
-                | word <- splitOn " " words ]
+intIdentifierAllCaps words =
+    intercalate " "
+        [ ( toUpper $ head word ) : [ toLower x | x <- tail word ]
+            | word <- splitOn " " words ]
 
 intIdentifier :: GenParser Char st AST
 intIdentifier = do
