@@ -4,6 +4,7 @@ module Language.FrontEnd.Parser ( parseIntactus ) where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import            Control.Monad ((>>))
+import            Data.Char
 import            Data.List
 import            Data.List.Split ( splitOn )
 import            Data.Scientific
@@ -66,13 +67,20 @@ intIdentifierJoiner start [ ] =
 intIdentifierJoiner start ( x : xs ) =
     [ start : x ] ++ xs
 
+intIdentifierAllCaps :: String -> String
+intIdentifierAllCaps words = output where
+    output =
+        intercalate " "
+            [ ( toUpper $ head word ) : [ toLower x | x <- tail word ]
+                | word <- splitOn " " words ]
+
 intIdentifier :: GenParser Char st AST
 intIdentifier = do
     firstChar <- letter
     name <- many ( intIdentifierLetterr <|> try intIdentifierSpacedPart )
     spaces
-    return $ ASTIdentifier ( intercalate ""
-        ( intIdentifierJoiner firstChar name ) )
+    return $ ASTIdentifier ( intIdentifierAllCaps ( intercalate ""
+        ( intIdentifierJoiner firstChar name ) ) )
 
 -- ─── VALUES ─────────────────────────────────────────────────────────────────────
 
