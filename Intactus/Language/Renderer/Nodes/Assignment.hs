@@ -6,6 +6,7 @@ module Language.Renderer.Nodes.Assignment ( renderASTAssignment ) where
 
 import Infrastructure.Text.Layout
 import Language.FrontEnd.Types
+import Language.Renderer.Nodes.Identifier
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
@@ -14,7 +15,7 @@ renderASTAssignment ( ASTIdentifier name ) value render = result where
     result =
         verticalConcat [ renderedName, renderedValue ]
     renderedName =
-        spacedBox $ "⟨" ++ name ++ "⟩ ≡ "
+        spacedBox $ "⟨" ++ identifierPrettyName name ++ "⟩ ≡ "
     renderedValue =
         render value False
 
