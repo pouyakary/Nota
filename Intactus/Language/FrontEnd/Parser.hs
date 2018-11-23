@@ -3,16 +3,16 @@ module Language.FrontEnd.Parser ( parseIntactus ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import            Control.Monad ((>>))
-import            Data.Char
-import            Data.List
-import            Data.List.Split ( splitOn )
-import            Data.Scientific
-import            Language.FrontEnd.Types
-import qualified  Text.ParserCombinators.Parsec.Token as Token
-import            Text.ParserCombinators.Parsec
-import            Text.ParserCombinators.Parsec.Expr
-import            Text.ParserCombinators.Parsec.Language
+import             Control.Monad ((>>))
+import             Data.Char
+import             Data.List
+import             Data.List.Split ( splitOn )
+import             Data.Scientific
+import             Language.FrontEnd.Types
+import  qualified  Text.ParserCombinators.Parsec.Token as Token
+import             Text.ParserCombinators.Parsec
+import             Text.ParserCombinators.Parsec.Expr
+import             Text.ParserCombinators.Parsec.Language
 
 -- ─── LEXER ──────────────────────────────────────────────────────────────────────
 
