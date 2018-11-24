@@ -57,6 +57,9 @@ renderPowerOperator left right renderNode = result where
     isLeftPow =
         case left of ASTBinaryOperator Pow _ _ -> True
                      _                         -> False
+    glueSpacing =
+        case left of ASTFunctionCall _ _ -> " "
+                     _                   -> ""
     heightReduction =
         if not isLeftPow && height renderedLeft > 2 then 1 else 0
     leftPartLines =
@@ -66,9 +69,9 @@ renderPowerOperator left right renderNode = result where
     resultHeight =
         height renderedLeft + height renderedRight - heightReduction
     resultWidth =
-        width renderedLeft + width renderedRight
+        width renderedLeft + width renderedRight + length glueSpacing
     resultLines =
-        [ ( leftPartLines !! x ) ++ ( rightPartLines !! x )
+        [ ( leftPartLines !! x ) ++ glueSpacing ++ ( rightPartLines !! x )
             | x <- [ 0 .. resultHeight - 1 ] ]
     resultBaseline =
         baseLine renderedLeft + height renderedRight - heightReduction
