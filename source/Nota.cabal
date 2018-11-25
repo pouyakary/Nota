@@ -1,4 +1,4 @@
-name: Intactus
+name: Nota
 version: 1.0
 cabal-version: 1.22
 build-type: Simple
@@ -6,15 +6,15 @@ license: MPL-2.0
 copyright: Copyright (c) 2018–present by Pouya Kary <kary@gnu.org>
 maintainer: Pouya Kary
 stability: experimental
-homepage: github.com/pmkary/intactus
-bug-reports: github.com/pmkary/intactus/issues/new
+homepage: github.com/pmkary/nota
+bug-reports: github.com/pmkary/nota/issues/new
 synopsis: The most beautiful command line calculator
 category: scientific
 author: Pouya Kary
 x-ghc-framework-version: 8.0.2-9.6-1
 x-last-ide-version: HfM1.6.0
 
-executable intactus
+executable nota
     main-is: Main.hs
     build-depends:
         base >=4.7,

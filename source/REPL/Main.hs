@@ -22,30 +22,24 @@ runREPL model = do printTitle
 
 printTitle =
     do  windowWidth <- terminalWidth
-        setTitle "✤ Kary Intactus Pro ✤"
-        putStrLn $ spacedBoxToString $ createLogoForWidth windowWidth
+        setTitle "✤ Kary Nota ✤"
+        putStrLn $ createLogoForWidth windowWidth
 
         where
             createLogoForWidth w =
-                if w == -1 then justLogoBox else fullBox w
-            karyText =
-                spacedBox "Kary"
-            logoText =
-                shapeBox Bracket $ spacedBox "Intactus Pro"
-            logoBox =
-                verticalConcat [ karyText, logoText ]
-            justLogoBox =
-                marginedBox ( BoxSize 1 0 0 1 ) logoBox
+                if w == -1 then name else fullBox w
+            name =
+                "Kary Nota"
             fullBox w =
                 result where
                     result =
-                        verticalConcat [ leftLine, logoBox, rightLine ]
+                        leftLine ++ " " ++ name ++ " " ++ rightLine
                     rightLineWidth =
                         5
                     leftLine =
-                        spacedBox $ repeatText '─' ( w - ( width logoBox + 2 + rightLineWidth ) )
+                        repeatText '─' ( w - ( length name + 2 + rightLineWidth ) )
                     rightLine =
-                        spacedBox $ repeatText '─' rightLineWidth
+                        repeatText '─' rightLineWidth
 
 
 -- ─── REPL BODY ──────────────────────────────────────────────────────────────────

@@ -8,4 +8,4 @@ install: build
 
 run: build
 	clear
-	stack exec -- intactus
+	stack exec -- nota
