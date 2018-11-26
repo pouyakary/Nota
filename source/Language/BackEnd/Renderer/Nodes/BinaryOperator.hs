@@ -86,7 +86,7 @@ renderPowerOperator left right renderNode = result where
 
 renderNormalOperators :: BinaryOperators -> AST -> AST -> Renderer -> SpacedBox
 renderNormalOperators op left right renderNode =
-    verticalConcat boxes where
+    horizontalConcat boxes where
         boxes =
             [ renderNode left True, operatorBox, renderNode right True ]
         operatorBox =

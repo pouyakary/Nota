@@ -12,7 +12,7 @@ import Language.FrontEnd.AST
 renderASTAssignment :: AST -> AST -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 renderASTAssignment ( ASTIdentifier name ) value render = result where
     result =
-        verticalConcat [ renderedName, renderedValue ]
+        horizontalConcat [ renderedName, renderedValue ]
     renderedName =
         spacedBox $ "⟨" ++ name ++ "⟩ ≡ "
     renderedValue =

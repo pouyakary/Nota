@@ -53,13 +53,13 @@ renderSimpleFunction name args render = result where
             comma =
                 spacedBox ","
             boxedArgs =
-                verticalConcat $ argsHead ++ argsTail
+                horizontalConcat $ argsHead ++ argsTail
             argsHead =
                 [ head renderedArgs ]
             argsTail =
                 concat [ [ comma, x ] | x <- tail renderedArgs ]
     result =
-        verticalConcat [ boxedName, parenthesisedArgs ]
+        horizontalConcat [ boxedName, parenthesisedArgs ]
 
 -- ─── GENERAL BOXED TYPE FUNCTION RENDERER ───────────────────────────────────────
 
@@ -67,7 +67,7 @@ renderGeneralBoxFunction :: String -> String -> BoxType -> AST -> Renderer -> Sp
 renderGeneralBoxFunction left right boxType child render = result where
     result =
         if height renderedChild == 1
-            then verticalConcat [ spacedBox left, renderedChild, spacedBox right ]
+            then horizontalConcat [ spacedBox left, renderedChild, spacedBox right ]
             else createBracketWithStyle boxType renderedChild
     renderedChild =
         render child False

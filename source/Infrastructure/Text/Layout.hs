@@ -143,22 +143,22 @@ prependToEachLine prependable base =
     where
         result = [ prependable ++ line | line <- boxLines base ]
 
--- ─── VERTICAL CONCAT WITHOUT INTERMEDIATE SPACE ─────────────────────────────────
+-- ─── HORIZONTAL CONCAT WITHOUT INTERMEDIATE SPACE ───────────────────────────────
 
-verticalConcatWithoutSpace :: [ SpacedBox ] -> SpacedBox
-verticalConcatWithoutSpace =
-    verticalConcatCore ""
+horizontalConcatWithoutSpace :: [ SpacedBox ] -> SpacedBox
+horizontalConcatWithoutSpace =
+    horizontalConcatCore ""
 
--- ─── VERTICAL CONCAT ────────────────────────────────────────────────────────────
+-- ─── HORIZONTAL CONCAT ───────────────────────────────────────────────────────────
 
-verticalConcat :: [ SpacedBox ] -> SpacedBox
-verticalConcat =
-    verticalConcatCore " "
+horizontalConcat :: [ SpacedBox ] -> SpacedBox
+horizontalConcat =
+    horizontalConcatCore " "
 
--- ─── VERTICAL CONCAT CORE ───────────────────────────────────────────────────────
+-- ─── HORIZONTAL CONCAT CORE ──────────────────────────────────────────────────────
 
-verticalConcatCore :: String -> [ SpacedBox ] -> SpacedBox
-verticalConcatCore spacing boxes = result where
+horizontalConcatCore :: String -> [ SpacedBox ] -> SpacedBox
+horizontalConcatCore spacing boxes = result where
     spacingWidth =
         length spacing
     maxBaseline =
