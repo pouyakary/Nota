@@ -5,14 +5,22 @@ module Language.Evaluator.Main where
 
 import Model
 import Language.FrontEnd.AST
-import Language.Evaluator.Types
+import Language.BackEnd.Evaluator.Types
+import Language.BackEnd.Evaluator.Nodes.Identifier
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
 eval :: EvalSignature
-eval astNode scopePrototype functionsParams =
+eval astNode scopePrototype =
     case astNode of
-        ASTNumber x -> Right x
-        _ -> Left "Undefined AST Node " ++ $ show astNode
+        ASTIdentifier _ ->
+            evalIdentifier astNode
+        ASTNumber x ->
+            Right x
+        _ ->
+            reportOnUndefinedNode
+        where
+            reportOnUndefinedNode =
+                Left "Undefined AST Node " ++ $ show astNode
 
 -- ────────────────────────────────────────────────────────────────────────────────

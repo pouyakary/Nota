@@ -10,6 +10,6 @@ import Model
 
 type EvalResult = Either String Scientific
 
-type EvalSignature = AST -> ScopePrototype -> [ Scientific ] -> EvalResult
+type EvalSignature = AST -> ScopePrototype -> EvalResult
 
 -- ────────────────────────────────────────────────────────────────────────────────
