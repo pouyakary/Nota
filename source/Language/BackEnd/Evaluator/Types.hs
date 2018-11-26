@@ -1,13 +1,15 @@
 
-module Language.Executioner.Types where
+module Language.Evaluator.Types where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import           Data.Map ( Map )
-import qualified Data.Map as Map
+import Data.Scientific
+import Model
 
--- ─── PROTOTYPE ──────────────────────────────────────────────────────────────────
+-- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
-type ScopePrototype = Map String Scientific
+type EvalResult = Either String Scientific
+
+type EvalSignature = AST -> ScopePrototype -> [ Scientific ] -> EvalResult
 
 -- ────────────────────────────────────────────────────────────────────────────────

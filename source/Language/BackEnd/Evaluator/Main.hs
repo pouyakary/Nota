@@ -1,16 +1,18 @@
 
-module Language.Executioner.Main where
+module Language.Evaluator.Main where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Language.FrontEnd.Types
-import Language.Executioner.Types
-import Data.Scientific
+import Model
+import Language.FrontEnd.AST
+import Language.Evaluator.Types
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
-compute :: AST -> ScopePrototype -> [ Scientific ] -> Scientific
-compute astNode scopePrototype functionsParams =
-    0
+eval :: EvalSignature
+eval astNode scopePrototype functionsParams =
+    case astNode of
+        ASTNumber x -> Right x
+        _ -> Left "Undefined AST Node " ++ $ show astNode
 
 -- ────────────────────────────────────────────────────────────────────────────────
