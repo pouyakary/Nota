@@ -1,17 +1,17 @@
 
-module Language.Renderer.Main ( render ) where
+module Language.BackEnd.Renderer.Main ( render ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Infrastructure.Text.Layout
 import Language.FrontEnd.AST
-import Language.Renderer.Nodes.Assignment
-import Language.Renderer.Nodes.BinaryOperator
-import Language.Renderer.Nodes.FunctionCall
-import Language.Renderer.Nodes.Identifier
-import Language.Renderer.Nodes.Number
-import Language.Renderer.Nodes.Parenthesis
-import Language.Renderer.Nodes.Versus
+import Language.BackEnd.Renderer.Nodes.Assignment
+import Language.BackEnd.Renderer.Nodes.BinaryOperator
+import Language.BackEnd.Renderer.Nodes.FunctionCall
+import Language.BackEnd.Renderer.Nodes.Identifier
+import Language.BackEnd.Renderer.Nodes.Number
+import Language.BackEnd.Renderer.Nodes.Parenthesis
+import Language.BackEnd.Renderer.Nodes.Versus
 
 -- ─── RENDER BASE ────────────────────────────────────────────────────────────────
 

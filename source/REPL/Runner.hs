@@ -9,7 +9,7 @@ import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Boxes
 import Infrastructure.Text.Shapes.Types
 import Language.FrontEnd.Parser
-import Language.Renderer.Main
+import Language.BackEnd.Renderer.Main
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Error
 

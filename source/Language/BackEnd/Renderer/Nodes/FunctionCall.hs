@@ -1,6 +1,6 @@
 
 
-module Language.Renderer.Nodes.FunctionCall ( renderASTFunctionCall ) where
+module Language.BackEnd.Renderer.Nodes.FunctionCall ( renderASTFunctionCall ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 

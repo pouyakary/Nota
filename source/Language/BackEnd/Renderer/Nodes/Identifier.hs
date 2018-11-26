@@ -1,5 +1,5 @@
 
-module Language.Renderer.Nodes.Identifier ( renderASTIdentifer ) where
+module Language.BackEnd.Renderer.Nodes.Identifier ( renderASTIdentifer ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 

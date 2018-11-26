@@ -1,6 +1,6 @@
 
 
-module Language.Renderer.Nodes.Versus ( renderASTVersus ) where
+module Language.BackEnd.Renderer.Nodes.Versus ( renderASTVersus ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 

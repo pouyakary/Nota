@@ -1,5 +1,5 @@
 
-module Language.Renderer.Nodes.Number ( renderASTNumber ) where
+module Language.BackEnd.Renderer.Nodes.Number ( renderASTNumber ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 

@@ -1,6 +1,6 @@
 
 
-module Language.Renderer.Nodes.BinaryOperator ( renderASTBinaryOperator ) where
+module Language.BackEnd.Renderer.Nodes.BinaryOperator ( renderASTBinaryOperator ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
