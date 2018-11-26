@@ -32,7 +32,5 @@ render node ambiguous =
             renderASTAssignment name value render
         ASTParenthesis child ->
             renderASTParenthesis child ambiguous render
-        _ ->
-            spacedBox $ show node
 
 -- ────────────────────────────────────────────────────────────────────────────────
