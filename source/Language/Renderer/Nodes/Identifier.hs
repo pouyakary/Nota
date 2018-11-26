@@ -4,7 +4,7 @@ module Language.Renderer.Nodes.Identifier ( renderASTIdentifer ) where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Infrastructure.Text.Layout
-import Language.FrontEnd.Types
+import Language.FrontEnd.AST
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 

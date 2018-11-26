@@ -11,7 +11,7 @@ import Infrastructure.Text.Shapes.Brackets
 import Infrastructure.Text.Shapes.Presets
 import Infrastructure.Text.Shapes.Types
 import Infrastructure.Text.Tools
-import Language.FrontEnd.Types
+import Language.FrontEnd.AST
 
 -- ─── TYPES ──────────────────────────────────────────────────────────────────────
 

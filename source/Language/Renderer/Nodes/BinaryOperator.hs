@@ -6,7 +6,7 @@ module Language.Renderer.Nodes.BinaryOperator ( renderASTBinaryOperator ) where
 
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Tools
-import Language.FrontEnd.Types
+import Language.FrontEnd.AST
 
 -- ─── TYPES ──────────────────────────────────────────────────────────────────────
 

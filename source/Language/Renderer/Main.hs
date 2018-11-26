@@ -4,7 +4,7 @@ module Language.Renderer.Main ( render ) where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Infrastructure.Text.Layout
-import Language.FrontEnd.Types
+import Language.FrontEnd.AST
 import Language.Renderer.Nodes.Assignment
 import Language.Renderer.Nodes.BinaryOperator
 import Language.Renderer.Nodes.FunctionCall

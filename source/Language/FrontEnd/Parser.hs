@@ -8,7 +8,7 @@ import             Data.Char
 import             Data.List
 import             Data.List.Split ( splitOn )
 import             Data.Scientific
-import             Language.FrontEnd.Types
+import             Language.FrontEnd.AST
 import  qualified  Text.ParserCombinators.Parsec.Token as Token
 import             Text.ParserCombinators.Parsec
 import             Text.ParserCombinators.Parsec.Expr

@@ -6,7 +6,7 @@ module Language.Renderer.Nodes.Parenthesis ( renderASTParenthesis ) where
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Brackets
 import Infrastructure.Text.Shapes.Types
-import Language.FrontEnd.Types
+import Language.FrontEnd.AST
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 

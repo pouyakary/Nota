@@ -5,7 +5,7 @@ module Language.Renderer.Nodes.Number ( renderASTNumber ) where
 
 import Data.Scientific
 import Infrastructure.Text.Layout
-import Language.FrontEnd.Types
+import Language.FrontEnd.AST
 import Text.Regex
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────

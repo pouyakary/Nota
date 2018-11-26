@@ -36,7 +36,7 @@ executable nota
         Infrastructure.Text.Shapes.Types
         Infrastructure.Text.Tools
         Language.FrontEnd.Parser
-        Language.FrontEnd.Types
+        Language.FrontEnd.AST
         Language.Renderer.Main
         Language.Renderer.Nodes.Assignment
         Language.Renderer.Nodes.BinaryOperator

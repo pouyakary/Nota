@@ -1,5 +1,5 @@
 
-module Language.FrontEnd.Types where
+module Language.FrontEnd.AST where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
