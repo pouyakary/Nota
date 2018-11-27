@@ -1,8 +1,9 @@
 
-module Language.Evaluator.Types where
+module Language.BackEnd.Evaluator.Types where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
+import Language.FrontEnd.AST
 import Data.Scientific
 import Model
 

@@ -188,4 +188,24 @@ horizontalConcatCore spacing boxes = result where
                        , baseLine = maxBaseline
                        }
 
+-- ─── VERTICAL CONCAT ────────────────────────────────────────────────────────────
+
+verticalConcat :: [SpacedBox] -> SpacedBox
+verticalConcat inputBoxes = result where
+    result =
+        SpacedBox { boxLines   = resultLines
+                  , width      = maxWidth
+                  , height     = resultHeight
+                  , baseLine   = 0
+                  }
+    maxWidth =
+        maximum [ width x | x <- inputBoxes ]
+    resultHeight =
+        sum [ height x | x <- inputBoxes ]
+    marginedBoxes =
+        [ marginedBox ( BoxSize 0 ( maxWidth - width x ) 0 0 ) x
+            | x <- inputBoxes ]
+    resultLines =
+        concat [ boxLines x | x <- marginedBoxes ]
+
 -- ────────────────────────────────────────────────────────────────────────────────

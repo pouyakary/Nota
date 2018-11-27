@@ -15,8 +15,16 @@ import System.Console.ANSI
 
 -- ─── RUN REPL ───────────────────────────────────────────────────────────────────
 
-runREPL model = do printTitle
-                   repl model
+runREPL model =
+    do  printTitle
+        repl model
+        where
+            repl model =
+                do  putStrLn ""
+                    input <- prompt $ show $ length ( history model ) + 1
+                    results <- pure $ run input model
+                    putStrLn $ getRunnerResultPrintable results
+                    repl $ getRunnerResultModel results
 
 -- ─── PRINT TITLE ────────────────────────────────────────────────────────────────
 
@@ -40,22 +48,5 @@ printTitle =
                         repeatText '─' ( w - ( length name + 2 + rightLineWidth ) )
                     rightLine =
                         repeatText '─' rightLineWidth
-
-
--- ─── REPL BODY ──────────────────────────────────────────────────────────────────
-
-repl model =
-    do  putStrLn ""
-        input <- prompt number
-        putStrLn $ run input number
-        repl $ updateModel model input
-        where
-            number = show $ length ( history model ) + 1
-
--- ─── UPDATE MODEL ───────────────────────────────────────────────────────────────
-
-updateModel model input =
-    model { history = ( history model ) ++ [ input ]
-          }
 
 -- ────────────────────────────────────────────────────────────────────────────────
