@@ -9,7 +9,7 @@ stability: experimental
 homepage: github.com/pmkary/nota
 bug-reports: github.com/pmkary/nota/issues/new
 synopsis: The most beautiful command line calculator
-category: scientific
+category: Scientific
 author: Pouya Kary
 x-ghc-framework-version: 8.0.2-9.6-1
 x-last-ide-version: HfM1.6.0
@@ -35,8 +35,9 @@ executable nota
         Infrastructure.Text.Shapes.Presets
         Infrastructure.Text.Shapes.Types
         Infrastructure.Text.Tools
-        Language.FrontEnd.Parser
-        Language.FrontEnd.AST
+        Language.BackEnd.Evaluator.Main
+        Language.BackEnd.Evaluator.Nodes.Identifier
+        Language.BackEnd.Evaluator.Types
         Language.BackEnd.Renderer.Main
         Language.BackEnd.Renderer.Nodes.Assignment
         Language.BackEnd.Renderer.Nodes.BinaryOperator
@@ -45,6 +46,8 @@ executable nota
         Language.BackEnd.Renderer.Nodes.Number
         Language.BackEnd.Renderer.Nodes.Parenthesis
         Language.BackEnd.Renderer.Nodes.Versus
+        Language.FrontEnd.AST
+        Language.FrontEnd.Parser
         Model
         REPL.Main
         REPL.Runner
