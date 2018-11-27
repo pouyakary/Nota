@@ -16,6 +16,8 @@ x-last-ide-version: HfM1.6.0
 
 executable nota
     main-is: Main.hs
+    ghc-options:
+        -static
     build-depends:
         base >=4.7,
         bytestring,
