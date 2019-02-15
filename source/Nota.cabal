@@ -52,5 +52,4 @@ executable nota
         Language.FrontEnd.Parser
         Model
         REPL.Main
-        REPL.Runner
         REPL.Terminal
