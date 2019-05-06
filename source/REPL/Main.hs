@@ -3,6 +3,7 @@ module REPL.Main where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
+import Control.Exception
 import Data.List
 import Data.Scientific
 import Data.Set
@@ -16,7 +17,7 @@ import Language.BackEnd.Renderer.Main
 import Language.FrontEnd.AST
 import Language.FrontEnd.Parser
 import Model
-import Prelude hiding (catch)
+import Prelude
 import REPL.Terminal
 import System.Console.ANSI
 import Text.ParserCombinators.Parsec
@@ -43,24 +44,26 @@ getRunnerResultPrintable ( RunnerResult _ x ) = x
 
 -- ─── RUN REPL ───────────────────────────────────────────────────────────────────
 
+runREPL :: Model -> IO ( )
 runREPL model =
     do  printTitle
-        repl model
-
-repl model =
-    do  putStrLn ""
-        input    <- prompt $ show $ length ( history model ) + 1
-        newModel <- pure $ run input model
-        repl newModel
+        repl  model
+        where
+            repl :: Model -> IO ( )
+            repl model =
+                do  input    <- prompt $ show $ length ( history model ) + 1
+                    newModel <- run input model
+                    putStrLn ""
+                    repl newModel
 
 
 -- ─── PRINT TITLE ────────────────────────────────────────────────────────────────
 
-printTitle :: String
 printTitle =
     do  windowWidth <- terminalWidth
-        setTitle "✤ Kary Nota ✤"
+        setTitle "Kary Nota"
         putStrLn $ createLogoForWidth windowWidth
+        putStrLn ""
 
         where
             name = "Kary Nota"
@@ -143,54 +146,18 @@ renderEvalResult results =
 
 -- ─── RUNNER ─────────────────────────────────────────────────────────────────────
 
-run :: String -> Model -> Model
-run input model = catch result handler where
-    handler ex =
-        do  putStrLn $ printParseError ( show ex ) promptNumber
-            return model
-    result =
-        do  ast                    <-  parseIntactus input
-            ( results, newModel )  <-  pure $ masterEval ast model
-            notation               <-  pure $ renderMath ast promptNumber
-            evalResult             <-  pure $ rendereAndAppendNotation notation evalOutput
-            renederedEvalResult    <-  pure $ renderEvalResult results
-            putStrLn renderEvalResult
-            return newModel
-
-    promptNumber =
-        show $ length ( history model ) + 1
-    rendereAndAppendNotation notation ( RunnerMiddleData outModel outPrint ) =
-        RunnerResult outModel printable where
-            printable =
-                spacedBoxToString $ verticalConcat boxes
-            boxes =
-                [ notation, spacedBox "", outputBox ]
-            outputBox =
-                horizontalConcat [ outputSign, outPrint ]
-            outputSign =
-                spacedBox $ "Out[" ++ promptNumber ++ "]:"
-
--- run :: String -> Model -> RunnerResult
--- run input model = result where
---     promptNumber =
---         show $ length ( history model ) + 1
---     result =
---         -- Parsing
---         case parseIntactus input of
---             Left error ->
---                 RunnerResult model $ printParseError error promptNumber
---             Right ast ->
---                 evalResult where
---                     -- Evaluating
---                     evalOutput =
---                         case masterEval ast model of
---                             Left error ->
---                                 RunnerMiddleData model $ renderEvalError error promptNumber
---                             Right ( results, newModel ) ->
---                                 RunnerMiddleData newModel $ renderEvalResult results
---                     evalResult =
---                         rendereAndAppendNotation evalOutput
---                     -- Rendering
-
+run :: String -> Model -> IO Model
+run input model =
+    case parseIntactus input of
+        Left  err ->
+            do  putStrLn $ printParseError err promptNumber
+                return model
+        Right ast ->
+            do  notation  <-  pure $ renderMath ast promptNumber
+                putStrLn $ spacedBoxToString notation
+                return model
+    where
+        promptNumber =
+            show $ length ( history model ) + 1
 
 -- ────────────────────────────────────────────────────────────────────────────────
