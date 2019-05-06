@@ -132,9 +132,9 @@ renderMath ast number =
 
 -- ─── RENDER EVAL ERROR MESSAGE ──────────────────────────────────────────────────
 
-renderEvalError :: String -> String -> SpacedBox
-renderEvalError error promptNumber =
-    shapeBox LightBox $ spacedBox error
+renderEvalError :: String -> SpacedBox
+renderEvalError error =
+    shapeBox LightBox $ spacedBox ( "ERROR: " ++ error )
 
 
 -- ─── RENDER RESULT ──────────────────────────────────────────────────────────────
@@ -155,9 +155,31 @@ run input model =
         Right ast ->
             do  notation  <-  pure $ renderMath ast promptNumber
                 putStrLn $ spacedBoxToString notation
-                return model
+                putStrLn ""
+                newModel  <-  runEval ast model promptNumber
+                putStrLn ""
+                return newModel
     where
         promptNumber =
             show $ length ( history model ) + 1
+
+renderOutput :: SpacedBox -> String -> IO ( )
+renderOutput message promptNumber =
+    do  putStrLn output
+    where
+        output =
+            spacedBoxToString $ horizontalConcat [ outputSign, message ]
+        outputSign =
+            spacedBox $ "Out[" ++ promptNumber ++ "]:"
+
+runEval :: AST -> Model -> String -> IO Model
+runEval ast model promptNumber =
+    case masterEval ast model of
+        Left err ->
+            do  renderOutput ( renderEvalError err ) promptNumber
+                return model
+        Right ( results, newModel ) ->
+            do  renderOutput ( renderEvalResult results ) promptNumber
+                return newModel
 
 -- ────────────────────────────────────────────────────────────────────────────────
