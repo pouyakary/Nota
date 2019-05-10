@@ -7,11 +7,11 @@ import Model
 import Language.FrontEnd.AST
 import Language.BackEnd.Evaluator.Types
 import Language.BackEnd.Evaluator.Nodes.Identifier
-import Data.Scientific
+import Language.BackEnd.Evaluator.Nodes.BinaryOperator
 
 -- ─── TYPES ──────────────────────────────────────────────────────────────────────
 
-type MasterEvalResult = Either String ( [Scientific], Model )
+type MasterEvalResult = Either String ( [ P50 ], Model )
 
 -- ─── MASTER EVAL ────────────────────────────────────────────────────────────────
 
@@ -23,11 +23,15 @@ masterEval ast model =
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
-eval :: EvalSignature
+eval :: LeafEvalSignature
 eval astNode scopePrototype =
     case astNode of
+        ASTBinaryOperator op left right ->
+            evalBinaryOperator eval ( ASTBinaryOperator op left right ) scopePrototype
         ASTIdentifier _ ->
             evalIdentifier astNode scopePrototype
+        ASTParenthesis x ->
+            eval x scopePrototype
         ASTNumber x ->
             Right x
         _ ->

@@ -5,7 +5,6 @@ module REPL.Main where
 
 import Control.Exception
 import Data.List
-import Data.Scientific
 import Data.Set
 import Debug.Trace
 import Infrastructure.Text.Layout
@@ -14,6 +13,7 @@ import Infrastructure.Text.Shapes.Types
 import Infrastructure.Text.Tools
 import Language.BackEnd.Evaluator.Main
 import Language.BackEnd.Renderer.Main
+import Language.BackEnd.Renderer.Nodes.Number
 import Language.FrontEnd.AST
 import Language.FrontEnd.Parser
 import Model
@@ -22,7 +22,6 @@ import REPL.Terminal
 import System.Console.ANSI
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Error
-
 
 -- ─── TYPES ──────────────────────────────────────────────────────────────────────
 
@@ -139,9 +138,9 @@ renderEvalError error =
 
 -- ─── RENDER RESULT ──────────────────────────────────────────────────────────────
 
-renderEvalResult :: [ Scientific ] -> SpacedBox
+renderEvalResult :: [ P50 ] -> SpacedBox
 renderEvalResult results =
-    spacedBox $ show $ results !! 0
+    renderASTNumber $ results !! 0
 
 
 -- ─── RUNNER ─────────────────────────────────────────────────────────────────────

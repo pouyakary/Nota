@@ -4,13 +4,14 @@ module Language.BackEnd.Evaluator.Types where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Language.FrontEnd.AST
-import Data.Scientific
 import Model
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
-type EvalResult = Either String Scientific
+type EvalResult = Either String P50
 
-type EvalSignature = AST -> ScopePrototype -> EvalResult
+type LeafEvalSignature = AST -> ScopePrototype -> EvalResult
+
+type StemEvalSignature = ( LeafEvalSignature ) -> LeafEvalSignature
 
 -- ────────────────────────────────────────────────────────────────────────────────

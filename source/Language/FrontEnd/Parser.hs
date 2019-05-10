@@ -7,12 +7,12 @@ import             Control.Monad ((>>))
 import             Data.Char
 import             Data.List
 import             Data.List.Split ( splitOn )
-import             Data.Scientific
 import             Language.FrontEnd.AST
 import  qualified  Text.ParserCombinators.Parsec.Token as Token
 import             Text.ParserCombinators.Parsec
 import             Text.ParserCombinators.Parsec.Expr
 import             Text.ParserCombinators.Parsec.Language
+import             Model
 
 -- ─── LEXER ──────────────────────────────────────────────────────────────────────
 
@@ -37,11 +37,11 @@ intNumber :: GenParser Char st AST
 intNumber = do
     value <- haskellNumber <?> "number"
     spaces
-    return $ ASTNumber ( case value of Right x -> toScientific x
-                                       Left  x -> toScientific x )
+    return $ ASTNumber ( case value of Right x -> toFixedPrec50 x
+                                       Left  x -> toFixedPrec50 x )
     where
-        toScientific x =
-            read ( show x ) :: Scientific
+        toFixedPrec50 x =
+            read ( show x ) :: P50
 
 -- ─── IDENTIFIER ─────────────────────────────────────────────────────────────────
 

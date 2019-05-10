@@ -3,23 +3,26 @@ module Language.BackEnd.Renderer.Nodes.Number ( renderASTNumber ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Data.Scientific
 import Infrastructure.Text.Layout
 import Language.FrontEnd.AST
 import Text.Regex
+import Text.Printf
+import Model
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-renderASTNumber :: Scientific -> SpacedBox
+renderASTNumber :: P50 -> SpacedBox
 renderASTNumber x =
     spacedBox noZeroDecimalValue where
         noZeroDecimalValue =
-            subRegex ( mkRegex ".0$" ) value ""
-        value =
-            if length stringedNumber > 10
-                then formatScientific Generic ( Just 10 ) x
-                else stringedNumber
-        stringedNumber =
+            case matchRegex isNumberEndingWithDecimalsAndZeros numberString of
+                Just x  -> subRegex decimalZeroRemover numberString ""
+                Nothing -> numberString
+        isNumberEndingWithDecimalsAndZeros =
+            mkRegex "^([0-9]*)(\\.)([0-9]+)$"
+        decimalZeroRemover =
+            mkRegex "(\\.?)(0+)$"
+        numberString =
             show x
 
 -- ────────────────────────────────────────────────────────────────────────────────

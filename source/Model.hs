@@ -6,10 +6,12 @@ module Model where
 import           Data.Map ( Map )
 import qualified Data.Map as Map
 import           Data.Scientific
+import           Data.Number.Fixed
 
 -- ─── PROTOTYPE ──────────────────────────────────────────────────────────────────
 
-type ScopePrototype = Map String Scientific
+type P50 = Fixed Prec50
+type ScopePrototype = Map String P50
 
 -- ─── MODEL ──────────────────────────────────────────────────────────────────────
 
