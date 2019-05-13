@@ -15,11 +15,14 @@ type MasterEvalResult = Either String ( [ P50 ], Model )
 
 -- ─── MASTER EVAL ────────────────────────────────────────────────────────────────
 
-masterEval :: AST -> Model -> MasterEvalResult
-masterEval ast model =
+masterEval :: AST -> Model -> String -> MasterEvalResult
+masterEval ast model inputString =
     case eval ast $ prototype model of
         Left error -> Left error
-        Right x -> Right ( [ x ], model )
+        Right x -> Right ( [ x ], newModel )
+    where
+        newModel =
+            model { history = ( history model ) ++ [ inputString ] }
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 

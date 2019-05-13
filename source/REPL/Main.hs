@@ -115,7 +115,7 @@ printParseError :: ParseError -> String -> String
 printParseError error number =
     spacedBoxToString $ horizontalConcat [ promptSign, errorBox ] where
         promptSign =
-            spacedBox $ " In[" ++ number ++ "]:"
+            spacedBox $ "  In[!]:"
         errorBox =
             showError error
 
@@ -126,7 +126,7 @@ renderMath :: AST -> String -> SpacedBox
 renderMath ast number =
     horizontalConcat [ outputSignSpacedbox, render ast False ] where
         outputSignSpacedbox =
-            spacedBox $ " In[" ++ number ++ "]:"
+            spacedBox $ "  In[" ++ number ++ "]:"
 
 
 -- ─── RENDER EVAL ERROR MESSAGE ──────────────────────────────────────────────────
@@ -155,7 +155,7 @@ run input model =
             do  notation  <-  pure $ renderMath ast promptNumber
                 putStrLn $ spacedBoxToString notation
                 putStrLn ""
-                newModel  <-  runEval ast model promptNumber
+                newModel  <-  runEval ast model input promptNumber
                 putStrLn ""
                 return newModel
     where
@@ -169,11 +169,11 @@ renderOutput message promptNumber =
         output =
             spacedBoxToString $ horizontalConcat [ outputSign, message ]
         outputSign =
-            spacedBox $ "Out[" ++ promptNumber ++ "]:"
+            spacedBox $ " Out[" ++ promptNumber ++ "]:"
 
-runEval :: AST -> Model -> String -> IO Model
-runEval ast model promptNumber =
-    case masterEval ast model of
+runEval :: AST -> Model -> String -> String -> IO Model
+runEval ast model inputString promptNumber =
+    case masterEval ast model inputString of
         Left err ->
             do  renderOutput ( renderEvalError err ) promptNumber
                 return model
