@@ -32,9 +32,9 @@ lookupInScopePrototype name scopePrototype =
 lookupInConstants :: String -> Maybe P50
 lookupInConstants name =
     case name of
-        "π" -> Just pi :: Maybe P50
-        "K" -> Just $ unsafePerformIO computeTheKarionTime
-        _   -> Nothing
+        "π"      -> Just pi :: Maybe P50
+        "Karion" -> Just $ unsafePerformIO computeTheKarionTime
+        _        -> Nothing
 
 -- Nota's Easter Egg :D
 computeTheKarionTime :: IO P50
