@@ -29,7 +29,8 @@ executable nota
         regex-compat >=0.95.1,
         containers >=0.5.7.1,
         terminal-size >=0.3.2.1,
-        numbers >=3000.2.0.1
+        numbers >=3000.2.0.1,
+        time >=1.6.0.1
     default-language: Haskell2010
     other-modules:
         Infrastructure.Text.Layout
