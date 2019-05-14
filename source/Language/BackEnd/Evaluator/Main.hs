@@ -8,6 +8,7 @@ import Language.FrontEnd.AST
 import Language.BackEnd.Evaluator.Types
 import Language.BackEnd.Evaluator.Nodes.Identifier
 import Language.BackEnd.Evaluator.Nodes.BinaryOperator
+import Language.BackEnd.Evaluator.Nodes.Negation
 
 -- ─── TYPES ──────────────────────────────────────────────────────────────────────
 
@@ -35,6 +36,8 @@ eval astNode scopePrototype =
             evalIdentifier astNode scopePrototype
         ASTParenthesis x ->
             eval x scopePrototype
+        ASTNegation _ ->
+            evalNegation eval astNode scopePrototype
         ASTNumber x ->
             Right x
         _ ->
