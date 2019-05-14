@@ -33,6 +33,7 @@ lookupInConstants :: String -> Maybe P50
 lookupInConstants name =
     case name of
         "π"      -> Just pi :: Maybe P50
+        "E"      -> Just ( exp 1 ) :: Maybe P50
         "Karion" -> Just $ unsafePerformIO computeTheKarionTime
         _        -> Nothing
 
