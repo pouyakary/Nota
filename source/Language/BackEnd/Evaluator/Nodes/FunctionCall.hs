@@ -72,6 +72,9 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
         "Sum" ->
             runArrayArgFunc "Sum" sum
 
+        "Exp" ->
+            runSingleArgFunc "Exponent" exp
+
         _ ->
             Left $ "Function \"" ++ name ++ "\" Does not exist."
 
