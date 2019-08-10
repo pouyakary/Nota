@@ -26,7 +26,7 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
 
         "Floor" ->
             runSingleArgFunc "Floor" (\x -> (read (show (floor x)) :: Double))
-        "Ceiling" ->
+        "Ceil" ->
             runSingleArgFunc "Ceiling" (\x -> (read (show (ceiling x)) :: Double))
 
         "Sin" ->
