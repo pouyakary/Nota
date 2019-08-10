@@ -42,6 +42,13 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
         "Csc" ->
             runSingleArgFunc "Cosecant" (\x -> (1 / (sin x)))
 
+        "Asin" ->
+            runSingleArgFunc "Arc Sine" asin
+        "Acos" ->
+            runSingleArgFunc "Arc Cosine" acos
+        "Atan" ->
+            runSingleArgFunc "Arc Tangent" atan
+
         _ ->
             Left $ "Function \"" ++ name ++ "\" Does not exist."
 
