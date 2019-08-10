@@ -11,7 +11,7 @@ import Model
 
 -- ─── RENDER ─────────────────────────────────────────────────────────────────────
 
-renderASTNumber :: P50 -> SpacedBox
+renderASTNumber :: Double -> SpacedBox
 renderASTNumber x =
     spacedBox noZeroDecimalValue where
         noZeroDecimalValue =

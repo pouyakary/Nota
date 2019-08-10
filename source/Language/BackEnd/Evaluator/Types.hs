@@ -8,7 +8,7 @@ import Model
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
-type EvalResult = Either String P50
+type EvalResult = Either String Double
 
 type LeafEvalSignature = AST -> ScopePrototype -> EvalResult
 

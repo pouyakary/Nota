@@ -9,10 +9,11 @@ import Language.BackEnd.Evaluator.Types
 import Language.BackEnd.Evaluator.Nodes.Identifier
 import Language.BackEnd.Evaluator.Nodes.BinaryOperator
 import Language.BackEnd.Evaluator.Nodes.Negation
+import Language.BackEnd.Evaluator.Nodes.FunctionCall
 
 -- ─── TYPES ──────────────────────────────────────────────────────────────────────
 
-type MasterEvalResult = Either String ( [ P50 ], Model )
+type MasterEvalResult = Either String ( [ Double ], Model )
 
 -- ─── MASTER EVAL ────────────────────────────────────────────────────────────────
 
@@ -40,6 +41,8 @@ eval astNode scopePrototype =
             evalNegation eval astNode scopePrototype
         ASTNumber x ->
             Right x
+        ASTFunctionCall name args ->
+            evalFunctionCall eval (ASTFunctionCall name args) scopePrototype
         _ ->
             Left $ "Undefined AST Node " ++ show astNode
 

@@ -41,7 +41,7 @@ intNumber = do
                                        Left  x -> toFixedPrec50 x )
     where
         toFixedPrec50 x =
-            read ( show x ) :: P50
+            read ( show x ) :: Double
 
 -- ─── IDENTIFIER ─────────────────────────────────────────────────────────────────
 

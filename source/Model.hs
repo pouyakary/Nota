@@ -10,8 +10,7 @@ import           Data.Number.Fixed
 
 -- ─── PROTOTYPE ──────────────────────────────────────────────────────────────────
 
-type P50 = Fixed Prec50
-type ScopePrototype = Map String P50
+type ScopePrototype = Map String Double
 
 -- ─── MODEL ──────────────────────────────────────────────────────────────────────
 

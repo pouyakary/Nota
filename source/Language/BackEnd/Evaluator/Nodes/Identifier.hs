@@ -29,29 +29,27 @@ lookupInScopePrototype name scopePrototype =
 
 -- ─── CONSTANTS ──────────────────────────────────────────────────────────────────
 
-lookupInConstants :: String -> Maybe P50
+lookupInConstants :: String -> Maybe Double
 lookupInConstants name =
     case name of
-        "π"      -> Just pi :: Maybe P50
-        "e"      -> Just ( exp 1 ) :: Maybe P50
-        "Karion" -> Just $ unsafePerformIO computeTheKarionTime
+        "π"      -> Just pi :: Maybe Double
+        "e"      -> Just ( exp 1 ) :: Maybe Double
+        -- "Karion" -> Just $ unsafePerformIO computeTheKarionTime
         _        -> Nothing
 
--- Nota's Easter Egg :D
-computeTheKarionTime :: IO P50
-computeTheKarionTime = do
-    birthday <- pure $ pouyaKaryBirthday
-    now      <- today
-    days     <- pure $ toP50 $ diffDays now birthday
-    return days
-    where
-        pouyaKaryBirthday =
-            case fromGregorianValid 1996 1 8 of
-                Just day -> day
-        today = do
-            t <- getCurrentTime
-            return $ utctDay t
-        toP50 x =
-            read ( show x ) :: P50
+-- -- Nota's Easter Egg :D
+-- computeTheKarionTime :: IO Double
+-- computeTheKarionTime = do
+--     birthday <- pure $ pouyaKaryBirthday
+--     now      <- today
+--     days     <- pure $ diffDays now birthday
+--     return (read (show days) :: Double)
+--     where
+--         pouyaKaryBirthday =
+--             case fromGregorianValid 1996 1 8 of
+--                 Just day -> day
+--         today = do
+--             t <- getCurrentTime
+--             return $ utctDay t
 
 -- ────────────────────────────────────────────────────────────────────────────────

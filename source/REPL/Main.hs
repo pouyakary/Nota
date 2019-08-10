@@ -138,7 +138,7 @@ renderEvalError error =
 
 -- ─── RENDER RESULT ──────────────────────────────────────────────────────────────
 
-renderEvalResult :: [ P50 ] -> SpacedBox
+renderEvalResult :: [ Double ] -> SpacedBox
 renderEvalResult results =
     renderASTNumber $ results !! 0
 

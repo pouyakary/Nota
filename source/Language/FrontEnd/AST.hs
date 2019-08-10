@@ -11,7 +11,7 @@ import Model
 data BinaryOperators = Sum | Sub | Div | Mul | Mod | Pow | Equ | NEq
     deriving ( Show, Eq )
 
-data AST = ASTNumber            P50
+data AST = ASTNumber            Double
          | ASTIdentifier        String
          | ASTBinaryOperator    BinaryOperators AST AST
          | ASTFunctionCall      AST [ AST ]
