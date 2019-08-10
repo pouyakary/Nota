@@ -41,13 +41,29 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
             runSingleArgFunc "Secant" (\x -> (1 / (cos x)))
         "Csc" ->
             runSingleArgFunc "Cosecant" (\x -> (1 / (sin x)))
-
         "Asin" ->
             runSingleArgFunc "Arc Sine" asin
         "Acos" ->
             runSingleArgFunc "Arc Cosine" acos
         "Atan" ->
             runSingleArgFunc "Arc Tangent" atan
+
+        "Sinh" ->
+            runSingleArgFunc "Hyperbolic Sine" sinh
+        "Cosh" ->
+            runSingleArgFunc "Hyperbolic Cosine" cosh
+        "Sech" ->
+            runSingleArgFunc "Hyperbolic Secant" (\x -> (1 / (sinh x)))
+        "Csch" ->
+            runSingleArgFunc "Hyperbolic Cosecant" (\x -> (1 / (cosh x)))
+        "Tanh" ->
+            runSingleArgFunc "Hyperbolic Tangent" tanh
+        "Asinh" ->
+            runSingleArgFunc "Hyperbolic Arc Sine" asinh
+        "Acosh" ->
+            runSingleArgFunc "Hyperbolic Arc Cosine" acosh
+        "Atanh" ->
+            runSingleArgFunc "Hyperbolic Arc Tangent" atanh
 
         _ ->
             Left $ "Function \"" ++ name ++ "\" Does not exist."
