@@ -65,12 +65,21 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
         "Atanh" ->
             runSingleArgFunc "Hyperbolic Area Tangent" atanh
 
+        "Max" ->
+            runArrayArgFunc "Maximum" maximum
+        "Min" ->
+            runArrayArgFunc "Minimum" minimum
+        "Sum" ->
+            runArrayArgFunc "Sum" sum
+
         _ ->
             Left $ "Function \"" ++ name ++ "\" Does not exist."
 
     where
         runSingleArgFunc =
             runSingleArgumentedFunction scopePrototype evalFunc args
+        runArrayArgFunc =
+            runFunctionOnArray evalFunc args scopePrototype
 
 -- ─── LOGARITHM ──────────────────────────────────────────────────────────────────
 
@@ -95,6 +104,28 @@ computeLogarithm (evalFunc) arguments scopePrototype =
         _ ->
             Left $ functionGetsThisMuchArguments "Logarithm" "one or two"
 
+-- ─── RUN FUNCTION ON ARRAY ──────────────────────────────────────────────────────
+
+runFunctionOnArray (evalFunc) arguments scopePrototype name (computeFunc) =
+    case length arguments of
+        0 ->
+            Left $ functionGetsThisMuchArguments name "at least one"
+        1 ->
+            case evalFunc (arguments !! 0) scopePrototype of
+                Left error ->
+                    Left error
+                Right result ->
+                    Right result
+        _ ->
+            case evalFunc (arguments !! 0) scopePrototype of
+                Left error ->
+                    Left error
+                Right result ->
+                    case runFunctionOnArray evalFunc (tail arguments) scopePrototype name computeFunc of
+                        Left restError ->
+                            Left restError
+                        Right restResult ->
+                            Right $ computeFunc [ result, restResult ]
 
 -- ─── RUN SINGLE ARGUMENT FUNCTION ───────────────────────────────────────────────
 
