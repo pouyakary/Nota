@@ -18,16 +18,33 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
     case name of
         "Sqrt" ->
             runSingleArgFunc "Square Bracket" sqrt
+        "Log" ->
+            computeLogarithm evalFunc args scopePrototype
+
         "Abs" ->
             runSingleArgFunc "Absolute" abs
+
         "Floor" ->
             runSingleArgFunc "Floor" (\x -> (read (show (floor x)) :: Double))
         "Ceiling" ->
             runSingleArgFunc "Ceiling" (\x -> (read (show (ceiling x)) :: Double))
-        "Log" ->
-            computeLogarithm evalFunc args scopePrototype
+
+        "Sin" ->
+            runSingleArgFunc "Sine" sin
+        "Cos" ->
+            runSingleArgFunc "Cosine" cos
+        "Tan" ->
+            runSingleArgFunc "Tangent" tan
+        "Cot" ->
+            runSingleArgFunc "Cotangent" (\x -> ((cos x) / (sin x)))
+        "Sec" ->
+            runSingleArgFunc "Secant" (\x -> (1 / (cos x)))
+        "Csc" ->
+            runSingleArgFunc "Cosecant" (\x -> (1 / (sin x)))
+
         _ ->
             Left $ "Function \"" ++ name ++ "\" Does not exist."
+
     where
         runSingleArgFunc =
             runSingleArgumentedFunction scopePrototype evalFunc args
