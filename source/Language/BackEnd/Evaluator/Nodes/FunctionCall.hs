@@ -1,5 +1,5 @@
 
-module Language.BackEnd.Evaluator.Nodes.FunctionCall where
+module Language.BackEnd.Evaluator.Nodes.FunctionCall ( evalFunctionCall ) where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 

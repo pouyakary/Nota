@@ -12,6 +12,7 @@ import Infrastructure.Text.Shapes.Boxes
 import Infrastructure.Text.Shapes.Types
 import Infrastructure.Text.Tools
 import Language.BackEnd.Evaluator.Main
+import Language.BackEnd.Evaluator.Types
 import Language.BackEnd.Renderer.Main
 import Language.BackEnd.Renderer.Nodes.Number
 import Language.FrontEnd.AST
@@ -177,7 +178,7 @@ runEval ast model inputString promptNumber =
         Left err ->
             do  renderOutput ( renderEvalError err ) promptNumber
                 return model
-        Right ( results, newModel ) ->
+        Right ( MasterEvalResultRight results newModel ) ->
             do  renderOutput ( renderEvalResult results ) promptNumber
                 return newModel
 

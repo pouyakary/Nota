@@ -14,4 +14,9 @@ type LeafEvalSignature = AST -> ScopePrototype -> EvalResult
 
 type StemEvalSignature = ( LeafEvalSignature ) -> LeafEvalSignature
 
+type MasterEvalResult = Either String MasterEvalResultRight
+
+data MasterEvalResultRight =
+    MasterEvalResultRight [ Double ] Model
+
 -- ────────────────────────────────────────────────────────────────────────────────

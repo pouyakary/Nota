@@ -3,27 +3,39 @@ module Language.BackEnd.Evaluator.Main where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Model
-import Language.FrontEnd.AST
-import Language.BackEnd.Evaluator.Types
-import Language.BackEnd.Evaluator.Nodes.Identifier
+import Language.BackEnd.Evaluator.Nodes.Assignment
 import Language.BackEnd.Evaluator.Nodes.BinaryOperator
-import Language.BackEnd.Evaluator.Nodes.Negation
 import Language.BackEnd.Evaluator.Nodes.FunctionCall
-
--- ─── TYPES ──────────────────────────────────────────────────────────────────────
-
-type MasterEvalResult = Either String ( [ Double ], Model )
+import Language.BackEnd.Evaluator.Nodes.Identifier
+import Language.BackEnd.Evaluator.Nodes.Negation
+import Language.BackEnd.Evaluator.Types
+import Language.FrontEnd.AST
+import Model
 
 -- ─── MASTER EVAL ────────────────────────────────────────────────────────────────
 
 masterEval :: AST -> Model -> String -> MasterEvalResult
 masterEval ast model inputString =
-    case eval ast $ prototype model of
-        Left error -> Left error
-        Right x -> Right ( [ x ], newModel )
+    case ast of
+        ASTAssignment name value ->
+            case evalAssignment eval ast model of
+                Left error ->
+                    Left error
+                Right ( MasterEvalResultRight resultValue resultModel ) ->
+                    Right $ MasterEvalResultRight resultValue modelWithHistory where
+                        modelWithHistory =
+                            appendHistoryToModel resultModel inputString
+        _ ->
+            case eval ast ( prototype model ) of
+                Left error ->
+                    Left error
+                Right result ->
+                    Right $ MasterEvalResultRight [ result ] newModel
+            where
+                newModel =
+                    appendHistoryToModel model inputString
     where
-        newModel =
+        appendHistoryToModel model inputString =
             model { history = ( history model ) ++ [ inputString ] }
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────

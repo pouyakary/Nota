@@ -40,13 +40,18 @@ executable nota
         Infrastructure.Text.Shapes.Types
         Infrastructure.Text.Tools
         Language.BackEnd.Evaluator.Main
+        Language.BackEnd.Evaluator.Nodes.Assignment
+        Language.BackEnd.Evaluator.Nodes.BinaryOperator
+        Language.BackEnd.Evaluator.Nodes.FunctionCall
         Language.BackEnd.Evaluator.Nodes.Identifier
+        Language.BackEnd.Evaluator.Nodes.Negation
         Language.BackEnd.Evaluator.Types
         Language.BackEnd.Renderer.Main
         Language.BackEnd.Renderer.Nodes.Assignment
         Language.BackEnd.Renderer.Nodes.BinaryOperator
         Language.BackEnd.Renderer.Nodes.FunctionCall
         Language.BackEnd.Renderer.Nodes.Identifier
+        Language.BackEnd.Renderer.Nodes.Negation
         Language.BackEnd.Renderer.Nodes.Number
         Language.BackEnd.Renderer.Nodes.Parenthesis
         Language.BackEnd.Renderer.Nodes.Versus
