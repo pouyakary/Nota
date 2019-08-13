@@ -17,17 +17,24 @@ cd nota
 make install
 ```
 
-## The Language
+## Language Grammar
+
+Numbers on
+
+## Language Reference
 
 ### Arithmetical Operators
 
 | Input      | Representation      | Description    |
 |:-----------|:--------------------|:---------------|
-| `1 + 2` | <img width="124" src="https://user-images.githubusercontent.com/2157285/62937961-45ee9400-bde3-11e9-938b-b9a77b049a54.png"> | Summation |
-| `1 - 2` | <img width="122" src="https://user-images.githubusercontent.com/2157285/62938130-a54ca400-bde3-11e9-9cbe-8f0f63590c16.png"> | Subtraction |
-| `1 * 2` | <img width="125" src="https://user-images.githubusercontent.com/2157285/62938132-a54ca400-bde3-11e9-8cf3-8437c388dd8a.png"> | Multiplication |
-| `1 / 2` | <img width="108" src="https://user-images.githubusercontent.com/2157285/62937962-45ee9400-bde3-11e9-8262-e3c32e9b7617.png"> | Division |
-| `1^2` | <img width="102" src="https://user-images.githubusercontent.com/2157285/62937963-45ee9400-bde3-11e9-88ee-7b640ef14cc0.png"> | Power |
+| `1 + 2` | <img width="124" src="https://user-images.githubusercontent.com/2157285/62937961-45ee9400-bde3-11e9-938b-b9a77b049a54.png"> | **Summation** |
+| `1 - 2` | <img width="122" src="https://user-images.githubusercontent.com/2157285/62938130-a54ca400-bde3-11e9-9cbe-8f0f63590c16.png"> | **Subtraction** |
+| `1 * 2` | <img width="125" src="https://user-images.githubusercontent.com/2157285/62938132-a54ca400-bde3-11e9-8cf3-8437c388dd8a.png"> | **Multiplication** |
+| `1 / 2` | <img width="108" src="https://user-images.githubusercontent.com/2157285/62937962-45ee9400-bde3-11e9-8262-e3c32e9b7617.png"> | **Division** |
+| `1^2` | <img width="102" src="https://user-images.githubusercontent.com/2157285/62937963-45ee9400-bde3-11e9-88ee-7b640ef14cc0.png"> | **Power** |
+| `1 ? 1` | <img width="120" alt="Screen Shot 2019-08-13 at 4 26 04 PM" src="https://user-images.githubusercontent.com/2157285/62939696-1b9ed580-bde7-11e9-8566-d60143b04e3a.png"> | **Equals** <br> Returns 1 if equals and 0 otherwise |
+| `1 ! 1` | <img width="117" alt="Screen Shot 2019-08-13 at 4 26 18 PM" src="https://user-images.githubusercontent.com/2157285/62939697-1b9ed580-bde7-11e9-8dd1-42783e23a6b2.png"> | **Not Equals** <br> Returns ` if not equals and 0 otherwise |
+
 
 ### Notational Functions
 | Input | Representation | Description |
