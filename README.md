@@ -19,7 +19,7 @@ make install
 
 ## Language Grammar
 
-Numbers on
+Nota has a very simple language.
 
 ## Language Reference
 
@@ -35,6 +35,13 @@ Numbers on
 | `1 % 2` | <img width="124" src="https://user-images.githubusercontent.com/2157285/62941253-dbd9ed00-bdea-11e9-8f69-b51afacf56a2.png"> | Modulo |
 | `1 ? 1` | <img width="120" src="https://user-images.githubusercontent.com/2157285/62939696-1b9ed580-bde7-11e9-8566-d60143b04e3a.png"> | Equals <br> _Returns 1 if equals and 0 otherwise_ |
 | `1 ! 1` | <img width="117" src="https://user-images.githubusercontent.com/2157285/62939697-1b9ed580-bde7-11e9-8dd1-42783e23a6b2.png"> | Not Equals <br> _Returns if not equals and 0 otherwise_ |
+
+Keep in mind that the precedence of the operators are as:
+
+1. `^`
+0. `*`, `/`, `%`
+0. `+`,  `-`
+0. `?`, `!`
 
 
 ### Notational Functions
