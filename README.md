@@ -44,3 +44,62 @@ Numbers on
 | `abs[1/2]` | <img width="138" src="https://user-images.githubusercontent.com/2157285/62938360-29069080-bde4-11e9-9972-a99bdfbdc0cb.png"> | Absolute |
 | `ceil[1/2]` | <img width="140" src="https://user-images.githubusercontent.com/2157285/62938361-29069080-bde4-11e9-8bdd-70096f14185c.png"> | Ceiling |
 | `floor[1/2]` | <img width="138" src="https://user-images.githubusercontent.com/2157285/62938362-29069080-bde4-11e9-8069-8d681c0ada8d.png"> | Floor |
+
+### Identifiers with Reserved Notation
+For a more beautiful rendering, Nota reserves some identifiers to be used for rendering famous characters out of a normal keyboard. Expect for the `Pi`, every other identifier is available to be declared:
+
+
+<img width="256" src="https://user-images.githubusercontent.com/2157285/62942324-4855eb80-bded-11e9-8f35-81d234521ca2.png">
+
+
+| Name | Notation |
+| :-------- | :---------- |
+| Alpha' | Α |
+| Alpha | α |
+| Beta' | Β |
+| Beta | β |
+| Chi' | Χ |
+| Chi | χ |
+| Delta' | Δ |
+| Delta | δ |
+| E | e |
+| Epsilon' | Ε |
+| Epsilon | ε |
+| Eta' | Η |
+| Eta | η |
+| Gamma' | Γ |
+| Gamma | γ |
+| Iota' | Ι |
+| Iota | ι |
+| Kappa' | Κ |
+| Kappa | κ |
+| Lambda' | Λ |
+| Lambda | λ |
+| Mu' | Μ |
+| Mu | μ |
+| Nu' | Ν |
+| Nu | ν |
+| Omega' | Ω |
+| Omega | ω |
+| Omicron' | Ο |
+| Omicron | ο |
+| Phi' | Φ |
+| Phi | φ |
+| Pi' | Π |
+| Pi | π |
+| Psi' | Ψ |
+| Psi | ψ |
+| Rho' | Ρ |
+| Rho | ρ |
+| Sigma' | Σ |
+| Sigma | σ |
+| Tau' | Τ |
+| Tau | τ |
+| Theta' | Θ |
+| Theta | θ |
+| Upsilon' | Υ |
+| Upsilon | υ |
+| Xi' | Ξ |
+| Xi | ξ |
+| Zeta' | Ζ |
+| Zeta | ζ |
