@@ -19,11 +19,20 @@ make install
 
 ## Language Grammar
 
-Nota has a very simple language.
+| Grammar Component | Description |
+|:------------------|:------------|
+| Normal Numbers | Numbers in Nota can be in the normal form. Integer form like `0` or `42480`. And in the decimal form like `1.8402` or `0.5` but remember decimal only numbers cannot be without zero: so `0.5` is possible but `.5` is not. |
+| Hex Number | Hexadecimal Numbers are supported and must be started with the `0x` sign. So `0xfff` is a number as well as `0x123`. |
+| Names | Nota approaches identifiers much differently than any other language. In Nota identifiers can have space within them, so no more `camelCase`, `PascalCase`, `--kebab-case`, `what_ever`; You can simply write things like `size of the planet` and it works.<br><br>Also to make it more interesting, Nota even gives you `'` (apostrophe) and therefore you can have things like `radius of earth` or `earth's radius`.<br><br> Numbers are also allowed (but not for the first letter). You can have names like: `X5` or `X 5` and etc. |
+| Binary Operator | Binary operators in Nota are: `+`, `-`, `*`, `/`, `^`, `%`, `?`, and `!`. They are fully explained in the _Binary Operators_ section of the _Language Reference_. |
+| Negation | The only unary operator that Nota defines is the value negation `-` operator. E.g: `-13 + -sin[x]`.
+| Parenthesis | Nota provides the parenthesis notation to reorder precedence like: `(1 + 2) * 3`.
+| Function Calls | Functions in Nota are written not with parenthesis but with brackets (`Sin[x]`, `Log[2, 100]`, ...).<br><br> Just like identifiers they are case insensitive so it doesn't matter how you write them: `log[x]` = `LOG[x]` = `lOG[x]`<br><br>For the sake of beauty, some of the functions are rendered specially (explained in the _Notational Functions_ section). Also in the reference you can find a full explanation of the functions.|
+| Name Assignment | You can assign names to calculations for further use. These names are constants and you have to use the assignment grammar to register them. `Name = Value`. So something like: `Earth's Volume = 3/4 * pi * Earth's Radius^3`.
 
 ## Language Reference
 
-### Arithmetical Operators
+### Binary Operators
 
 | Input      | Representation      | Description    |
 |:-----------|:--------------------|:---------------|
