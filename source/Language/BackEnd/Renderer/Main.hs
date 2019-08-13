@@ -12,6 +12,7 @@ import Language.BackEnd.Renderer.Nodes.Identifier
 import Language.BackEnd.Renderer.Nodes.Number
 import Language.BackEnd.Renderer.Nodes.Parenthesis
 import Language.BackEnd.Renderer.Nodes.Versus
+import Language.BackEnd.Renderer.Nodes.Negation
 
 -- ─── RENDER BASE ────────────────────────────────────────────────────────────────
 
@@ -30,6 +31,8 @@ render node ambiguous =
             renderASTVersus parts render
         ASTAssignment name value ->
             renderASTAssignment name value render
+        ASTNegation x ->
+            renderASTNegation x render
         ASTParenthesis child ->
             renderASTParenthesis child ambiguous render
 

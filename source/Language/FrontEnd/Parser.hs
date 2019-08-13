@@ -7,12 +7,12 @@ import             Control.Monad ((>>))
 import             Data.Char
 import             Data.List
 import             Data.List.Split ( splitOn )
-import             Data.Scientific
 import             Language.FrontEnd.AST
 import  qualified  Text.ParserCombinators.Parsec.Token as Token
 import             Text.ParserCombinators.Parsec
 import             Text.ParserCombinators.Parsec.Expr
 import             Text.ParserCombinators.Parsec.Language
+import             Model
 
 -- ─── LEXER ──────────────────────────────────────────────────────────────────────
 
@@ -37,11 +37,11 @@ intNumber :: GenParser Char st AST
 intNumber = do
     value <- haskellNumber <?> "number"
     spaces
-    return $ ASTNumber ( case value of Right x -> toScientific x
-                                       Left  x -> toScientific x )
+    return $ ASTNumber ( case value of Right x -> toFixedPrec50 x
+                                       Left  x -> toFixedPrec50 x )
     where
-        toScientific x =
-            read ( show x ) :: Scientific
+        toFixedPrec50 x =
+            read ( show x ) :: Double
 
 -- ─── IDENTIFIER ─────────────────────────────────────────────────────────────────
 
@@ -84,54 +84,55 @@ intWordAllCaps word =
 getSpecialNames :: String -> String
 getSpecialNames name =
     case name of
-        "Alpha"     -> "α"
-        "Beta"      -> "β"
-        "Gamma"     -> "γ"
-        "Delta"     -> "δ"
-        "Epsilon"   -> "ε"
-        "Zeta"      -> "ζ"
-        "Eta"       -> "η"
-        "Theta"     -> "θ"
-        "Iota"      -> "ι"
-        "Kappa"     -> "κ"
-        "Lambda"    -> "λ"
-        "Mu"        -> "μ"
-        "Nu"        -> "ν"
-        "Xi"        -> "ξ"
-        "Omicron"   -> "ο"
-        "Pi"        -> "π"
-        "Rho"       -> "ρ"
-        "Sigma"     -> "σ"
-        "Tau"       -> "τ"
-        "Upsilon"   -> "υ"
-        "Phi"       -> "φ"
-        "Chi"       -> "χ"
-        "Psi"       -> "ψ"
-        "Omega"     -> "ω"
         "Alpha'"    -> "Α"
+        "Alpha"     -> "α"
         "Beta'"     -> "Β"
-        "Gamma'"    -> "Γ"
-        "Delta'"    -> "Δ"
-        "Epsilon'"  -> "Ε"
-        "Zeta'"     -> "Ζ"
-        "Eta'"      -> "Η"
-        "Theta'"    -> "Θ"
-        "Iota'"     -> "Ι"
-        "Kappa'"    -> "Κ"
-        "Lambda'"   -> "Λ"
-        "Mu'"       -> "Μ"
-        "Nu'"       -> "Ν"
-        "Xi'"       -> "Ξ"
-        "Omicron'"  -> "Ο"
-        "Pi'"       -> "Π"
-        "Rho'"      -> "Ρ"
-        "Sigma'"    -> "Σ"
-        "Tau'"      -> "Τ"
-        "Upsilon'"  -> "Υ"
-        "Phi'"      -> "Φ"
+        "Beta"      -> "β"
         "Chi'"      -> "Χ"
-        "Psi'"      -> "Ψ"
+        "Chi"       -> "χ"
+        "Delta'"    -> "Δ"
+        "Delta"     -> "δ"
+        "E"         -> "e"
+        "Epsilon'"  -> "Ε"
+        "Epsilon"   -> "ε"
+        "Eta'"      -> "Η"
+        "Eta"       -> "η"
+        "Gamma'"    -> "Γ"
+        "Gamma"     -> "γ"
+        "Iota'"     -> "Ι"
+        "Iota"      -> "ι"
+        "Kappa'"    -> "Κ"
+        "Kappa"     -> "κ"
+        "Lambda'"   -> "Λ"
+        "Lambda"    -> "λ"
+        "Mu'"       -> "Μ"
+        "Mu"        -> "μ"
+        "Nu'"       -> "Ν"
+        "Nu"        -> "ν"
         "Omega'"    -> "Ω"
+        "Omega"     -> "ω"
+        "Omicron'"  -> "Ο"
+        "Omicron"   -> "ο"
+        "Phi'"      -> "Φ"
+        "Phi"       -> "φ"
+        "Pi'"       -> "Π"
+        "Pi"        -> "π"
+        "Psi'"      -> "Ψ"
+        "Psi"       -> "ψ"
+        "Rho'"      -> "Ρ"
+        "Rho"       -> "ρ"
+        "Sigma'"    -> "Σ"
+        "Sigma"     -> "σ"
+        "Tau'"      -> "Τ"
+        "Tau"       -> "τ"
+        "Theta'"    -> "Θ"
+        "Theta"     -> "θ"
+        "Upsilon'"  -> "Υ"
+        "Upsilon"   -> "υ"
+        "Xi'"       -> "Ξ"
+        "Xi"        -> "ξ"
+        "Zeta'"     -> "Ζ"
+        "Zeta"      -> "ζ"
         _           -> name
 
 intIdentifier :: GenParser Char st AST

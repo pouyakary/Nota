@@ -3,14 +3,15 @@ module Language.FrontEnd.AST where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
-import Data.Scientific
+import Data.Number.Fixed
+import Model
 
 -- ─── AST ELEMENTS ───────────────────────────────────────────────────────────────
 
 data BinaryOperators = Sum | Sub | Div | Mul | Mod | Pow | Equ | NEq
     deriving ( Show, Eq )
 
-data AST = ASTNumber            Scientific
+data AST = ASTNumber            Double
          | ASTIdentifier        String
          | ASTBinaryOperator    BinaryOperators AST AST
          | ASTFunctionCall      AST [ AST ]

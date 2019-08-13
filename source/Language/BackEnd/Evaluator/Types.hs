@@ -4,13 +4,19 @@ module Language.BackEnd.Evaluator.Types where
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
 import Language.FrontEnd.AST
-import Data.Scientific
 import Model
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
-type EvalResult = Either String Scientific
+type EvalResult = Either String Double
 
-type EvalSignature = AST -> ScopePrototype -> EvalResult
+type LeafEvalSignature = AST -> ScopePrototype -> EvalResult
+
+type StemEvalSignature = ( LeafEvalSignature ) -> LeafEvalSignature
+
+type MasterEvalResult = Either String MasterEvalResultRight
+
+data MasterEvalResultRight =
+    MasterEvalResultRight [ Double ] Model
 
 -- ────────────────────────────────────────────────────────────────────────────────

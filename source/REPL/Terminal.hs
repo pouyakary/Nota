@@ -12,7 +12,7 @@ import System.IO
 
 prompt :: String -> IO String
 prompt number = do
-    putStr $ " In[" ++ number ++ "]: "
+    putStr $ "  In[" ++ number ++ "]: "
     hFlush stdout
     input <- getLine
     cursorUpLine 1

@@ -9,3 +9,9 @@ install: build
 run: build
 	clear
 	stack exec -- nota
+
+configure:
+	cd source
+	cabal install
+	cd ..
+	make install

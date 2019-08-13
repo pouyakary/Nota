@@ -5,7 +5,6 @@ module REPL.Main where
 
 import Control.Exception
 import Data.List
-import Data.Scientific
 import Data.Set
 import Debug.Trace
 import Infrastructure.Text.Layout
@@ -13,7 +12,9 @@ import Infrastructure.Text.Shapes.Boxes
 import Infrastructure.Text.Shapes.Types
 import Infrastructure.Text.Tools
 import Language.BackEnd.Evaluator.Main
+import Language.BackEnd.Evaluator.Types
 import Language.BackEnd.Renderer.Main
+import Language.BackEnd.Renderer.Nodes.Number
 import Language.FrontEnd.AST
 import Language.FrontEnd.Parser
 import Model
@@ -22,7 +23,6 @@ import REPL.Terminal
 import System.Console.ANSI
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Error
-
 
 -- ─── TYPES ──────────────────────────────────────────────────────────────────────
 
@@ -116,7 +116,7 @@ printParseError :: ParseError -> String -> String
 printParseError error number =
     spacedBoxToString $ horizontalConcat [ promptSign, errorBox ] where
         promptSign =
-            spacedBox $ " In[" ++ number ++ "]:"
+            spacedBox $ "  In[!]:"
         errorBox =
             showError error
 
@@ -127,7 +127,7 @@ renderMath :: AST -> String -> SpacedBox
 renderMath ast number =
     horizontalConcat [ outputSignSpacedbox, render ast False ] where
         outputSignSpacedbox =
-            spacedBox $ " In[" ++ number ++ "]:"
+            spacedBox $ "  In[" ++ number ++ "]:"
 
 
 -- ─── RENDER EVAL ERROR MESSAGE ──────────────────────────────────────────────────
@@ -139,9 +139,9 @@ renderEvalError error =
 
 -- ─── RENDER RESULT ──────────────────────────────────────────────────────────────
 
-renderEvalResult :: [ Scientific ] -> SpacedBox
+renderEvalResult :: [ Double ] -> SpacedBox
 renderEvalResult results =
-    spacedBox $ show $ results !! 0
+    renderASTNumber $ results !! 0
 
 
 -- ─── RUNNER ─────────────────────────────────────────────────────────────────────
@@ -156,7 +156,7 @@ run input model =
             do  notation  <-  pure $ renderMath ast promptNumber
                 putStrLn $ spacedBoxToString notation
                 putStrLn ""
-                newModel  <-  runEval ast model promptNumber
+                newModel  <-  runEval ast model input promptNumber
                 putStrLn ""
                 return newModel
     where
@@ -170,15 +170,15 @@ renderOutput message promptNumber =
         output =
             spacedBoxToString $ horizontalConcat [ outputSign, message ]
         outputSign =
-            spacedBox $ "Out[" ++ promptNumber ++ "]:"
+            spacedBox $ " Out[" ++ promptNumber ++ "]:"
 
-runEval :: AST -> Model -> String -> IO Model
-runEval ast model promptNumber =
-    case masterEval ast model of
+runEval :: AST -> Model -> String -> String -> IO Model
+runEval ast model inputString promptNumber =
+    case masterEval ast model inputString of
         Left err ->
             do  renderOutput ( renderEvalError err ) promptNumber
                 return model
-        Right ( results, newModel ) ->
+        Right ( MasterEvalResultRight results newModel ) ->
             do  renderOutput ( renderEvalResult results ) promptNumber
                 return newModel
 
