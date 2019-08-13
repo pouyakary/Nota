@@ -39,7 +39,13 @@ evalBinaryOperator ( evalFunc ) ( ASTBinaryOperator op left right ) scopePrototy
                                     if evaluatedLeft == evaluatedRight then 1 else 0
                                 NEq ->
                                     if evaluatedLeft /= evaluatedRight then 1 else 0
-                                -- Mod ->
-                                --     toScientific ( toInteger evaluatedLeft ) `mod` ( toInteger evaluatedRight )
+                                Mod ->
+                                    evaluatedLeft `nonIntRem` evaluatedRight
+
+-- ─── NON INTEGER REMAINING ──────────────────────────────────────────────────────
+
+nonIntRem :: Double -> Double -> Double
+nonIntRem x y =
+    x - (y * (fromIntegral $ truncate (x/y)))
 
 -- ────────────────────────────────────────────────────────────────────────────────
