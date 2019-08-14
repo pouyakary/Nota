@@ -18,6 +18,8 @@ import Model
 masterEval :: AST -> Model -> String -> MasterEvalResult
 masterEval ast model inputString =
     case ast of
+        ASTVersus [ ] ->
+            appendHistoryToModel ( MasterEvalResultRight [0] model ) model inputString
         ASTVersus parts ->
             case evalVersus eval parts model of
                 Left error ->
