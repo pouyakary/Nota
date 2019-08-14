@@ -45,6 +45,7 @@ executable nota
         Language.BackEnd.Evaluator.Nodes.FunctionCall
         Language.BackEnd.Evaluator.Nodes.Identifier
         Language.BackEnd.Evaluator.Nodes.Negation
+        Language.BackEnd.Evaluator.Nodes.Versus
         Language.BackEnd.Evaluator.Types
         Language.BackEnd.Renderer.Main
         Language.BackEnd.Renderer.Nodes.Assignment

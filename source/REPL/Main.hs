@@ -3,12 +3,16 @@ module REPL.Main where
 
 -- ─── IMPORTS ────────────────────────────────────────────────────────────────────
 
+import REPL.Terminal
 import Control.Exception
+import Data.List
 import Data.List
 import Data.Set
 import Debug.Trace
 import Infrastructure.Text.Layout
 import Infrastructure.Text.Shapes.Boxes
+import Infrastructure.Text.Shapes.Brackets
+import Infrastructure.Text.Shapes.Presets
 import Infrastructure.Text.Shapes.Types
 import Infrastructure.Text.Tools
 import Language.BackEnd.Evaluator.Main
@@ -18,8 +22,6 @@ import Language.BackEnd.Renderer.Nodes.Number
 import Language.FrontEnd.AST
 import Language.FrontEnd.Parser
 import Model
-import Prelude
-import REPL.Terminal
 import System.Console.ANSI
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Error
@@ -141,8 +143,19 @@ renderEvalError error =
 
 renderEvalResult :: [ Double ] -> SpacedBox
 renderEvalResult results =
-    renderASTNumber $ results !! 0
-
+    case length results of
+        1 ->
+            spacedBox $ show (head results)
+        _ ->
+            createBracketWithStyle Bracket boxedArgs where
+                comma =
+                    spacedBox ","
+                boxedArgs =
+                    horizontalConcat $ argsHead ++ argsTail
+                argsHead =
+                    [ spacedBox $ show $ head results ]
+                argsTail =
+                    concat [ [ comma, spacedBox $ show x ] | x <- tail results ]
 
 -- ─── RUNNER ─────────────────────────────────────────────────────────────────────
 
