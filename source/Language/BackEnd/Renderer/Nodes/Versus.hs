@@ -21,7 +21,7 @@ renderASTVersus :: [ AST ] -> ( AST -> Bool -> SpacedBox ) -> SpacedBox
 renderASTVersus parts render = result where
     result =
         case length parts of
-            0 -> spacedBox "✨"
+            0 -> spacedBox ""
             1 -> render ( parts !! 0 ) False
             _ -> horizontalConcat $ computeSignedParts parts
     computeSignedParts xs =
