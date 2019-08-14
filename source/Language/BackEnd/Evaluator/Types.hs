@@ -10,7 +10,9 @@ import Model
 
 type EvalResult = Either String Double
 
-type LeafEvalSignature = AST -> ScopePrototype -> EvalResult
+type EvalFunction = AST -> ScopePrototype -> EvalResult
+
+type LeafEvalSignature = EvalFunction
 
 type StemEvalSignature = ( LeafEvalSignature ) -> LeafEvalSignature
 

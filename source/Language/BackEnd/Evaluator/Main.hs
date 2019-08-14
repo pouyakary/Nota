@@ -8,6 +8,7 @@ import Language.BackEnd.Evaluator.Nodes.BinaryOperator
 import Language.BackEnd.Evaluator.Nodes.FunctionCall
 import Language.BackEnd.Evaluator.Nodes.Identifier
 import Language.BackEnd.Evaluator.Nodes.Negation
+import Language.BackEnd.Evaluator.Nodes.Versus
 import Language.BackEnd.Evaluator.Types
 import Language.FrontEnd.AST
 import Model
@@ -17,26 +18,31 @@ import Model
 masterEval :: AST -> Model -> String -> MasterEvalResult
 masterEval ast model inputString =
     case ast of
+        ASTVersus parts ->
+            case evalVersus eval parts model of
+                Left error ->
+                    Left error
+                Right result ->
+                    appendHistoryToModel result model inputString
+
         ASTAssignment name value ->
             case evalAssignment eval ast model of
                 Left error ->
                     Left error
-                Right ( MasterEvalResultRight resultValue resultModel ) ->
-                    Right $ MasterEvalResultRight resultValue modelWithHistory where
-                        modelWithHistory =
-                            appendHistoryToModel resultModel inputString
+                Right result ->
+                    appendHistoryToModel result model inputString
         _ ->
             case eval ast ( prototype model ) of
                 Left error ->
                     Left error
                 Right result ->
-                    Right $ MasterEvalResultRight [ result ] newModel
-            where
-                newModel =
-                    appendHistoryToModel model inputString
+                    appendHistoryToModel ( MasterEvalResultRight [result] model ) model inputString
+
     where
-        appendHistoryToModel model inputString =
-            model { history = ( history model ) ++ [ inputString ] }
+        appendHistoryToModel ( MasterEvalResultRight resultValue resultModel ) model inputString =
+            Right $ MasterEvalResultRight resultValue modelWithHistory where
+                modelWithHistory =
+                    model { history = ( history model ) ++ [ inputString ] }
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
