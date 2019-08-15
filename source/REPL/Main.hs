@@ -34,7 +34,6 @@ data RunnerResult =
 data RunnerMiddleData =
     RunnerMiddleData Model SpacedBox
 
-
 -- ─── GETTERS ────────────────────────────────────────────────────────────────────
 
 getRunnerResultModel :: RunnerResult -> Model
@@ -42,7 +41,6 @@ getRunnerResultModel ( RunnerResult x _ ) = x
 
 getRunnerResultPrintable :: RunnerResult -> String
 getRunnerResultPrintable ( RunnerResult _ x ) = x
-
 
 -- ─── RUN REPL ───────────────────────────────────────────────────────────────────
 
@@ -57,7 +55,6 @@ runREPL model =
                     newModel <- run input model
                     putStrLn ""
                     repl newModel
-
 
 -- ─── PRINT TITLE ────────────────────────────────────────────────────────────────
 
@@ -86,7 +83,6 @@ printTitle =
                     rightLine =
                         repeatText '─' rightLineWidth
 
-
 -- ─── SHEW ERROR MESSAGES ────────────────────────────────────────────────────────
 
 showError :: ParseError -> SpacedBox
@@ -111,7 +107,6 @@ showError error =
                 wrapp x prefix =
                     if x /= "" then prefix ++ x else "!"
 
-
 -- ─── PRINT ERROR ────────────────────────────────────────────────────────────────
 
 printParseError :: ParseError -> String -> String
@@ -122,7 +117,6 @@ printParseError error number =
         errorBox =
             showError error
 
-
 -- ─── PRINT RESULT ───────────────────────────────────────────────────────────────
 
 renderMath :: AST -> String -> SpacedBox
@@ -131,13 +125,11 @@ renderMath ast number =
         outputSignSpacedbox =
             spacedBox $ "  In[" ++ number ++ "]:"
 
-
 -- ─── RENDER EVAL ERROR MESSAGE ──────────────────────────────────────────────────
 
 renderEvalError :: String -> SpacedBox
 renderEvalError error =
     shapeBox LightBox $ spacedBox ( "ERROR: " ++ error )
-
 
 -- ─── RENDER RESULT ──────────────────────────────────────────────────────────────
 
@@ -149,7 +141,7 @@ renderEvalResult results =
         _ ->
             createBracketWithStyle Bracket boxedArgs where
                 comma =
-                    spacedBox ","
+                    spacedBox ":"
                 boxedArgs =
                     horizontalConcat $ argsHead ++ argsTail
                 argsHead =
