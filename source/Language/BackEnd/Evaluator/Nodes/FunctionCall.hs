@@ -75,6 +75,9 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
         "Exp" ->
             runSingleArgFunc "Exponent" exp
 
+        "Sgn" ->
+            runSingleArgFunc "Sign" sgnFunc
+
         _ ->
             Left $ "Function \"" ++ name ++ "\" Does not exist."
 
@@ -83,6 +86,12 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
             runSingleArgumentedFunction scopePrototype evalFunc args
         runArrayArgFunc =
             runFunctionOnArray evalFunc args scopePrototype
+
+-- ─── SIGN ───────────────────────────────────────────────────────────────────────
+
+sgnFunc :: Double -> Double
+sgnFunc x =
+    if x == 0 then 0 else ( if x > 0 then 1 else -1 )
 
 -- ─── LOGARITHM ──────────────────────────────────────────────────────────────────
 
