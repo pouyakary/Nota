@@ -37,6 +37,7 @@ executable nota
         Infrastructure.Text.Shapes.Boxes
         Infrastructure.Text.Shapes.Brackets
         Infrastructure.Text.Shapes.Presets
+        Infrastructure.Text.Shapes.Table
         Infrastructure.Text.Shapes.Types
         Infrastructure.Text.Tools
         Language.BackEnd.Evaluator.Main

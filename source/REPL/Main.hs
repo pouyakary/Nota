@@ -14,6 +14,7 @@ import Infrastructure.Text.Shapes.Boxes
 import Infrastructure.Text.Shapes.Brackets
 import Infrastructure.Text.Shapes.Presets
 import Infrastructure.Text.Shapes.Types
+import Infrastructure.Text.Shapes.Table
 import Infrastructure.Text.Tools
 import Language.BackEnd.Evaluator.Main
 import Language.BackEnd.Evaluator.Types
@@ -135,19 +136,7 @@ renderEvalError error =
 
 renderEvalResult :: [ Double ] -> SpacedBox
 renderEvalResult results =
-    case length results of
-        1 ->
-            spacedBox $ show (head results)
-        _ ->
-            createBracketWithStyle Bracket boxedArgs where
-                comma =
-                    spacedBox ":"
-                boxedArgs =
-                    horizontalConcat $ argsHead ++ argsTail
-                argsHead =
-                    [ spacedBox $ show $ head results ]
-                argsTail =
-                    concat [ [ comma, spacedBox $ show x ] | x <- tail results ]
+    numbersRowTable results
 
 -- ─── RUNNER ─────────────────────────────────────────────────────────────────────
 
