@@ -30,6 +30,7 @@ executable nota
         containers >=0.5.7.1,
         terminal-size >=0.3.2.1,
         numbers >=3000.2.0.1,
+        text >=1.2.2.2,
         time >=1.6.0.1
     default-language: Haskell2010
     other-modules:

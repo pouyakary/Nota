@@ -26,6 +26,7 @@ import Model
 import System.Console.ANSI
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Error
+import System.Exit
 
 -- ─── TYPES ──────────────────────────────────────────────────────────────────────
 
@@ -136,25 +137,40 @@ renderEvalError error =
 
 renderEvalResult :: [ Double ] -> SpacedBox
 renderEvalResult results =
-    if length results == 1
-        then spacedBox $ show ( results !! 0 )
-        else numbersRowTable results
+    case length results of
+        0 -> spacedBox "empty."
+        1 -> spacedBox $ show ( results !! 0 )
+        _ -> numbersRowTable results
+
+-- ─── RENDER INPUT TEXT ──────────────────────────────────────────────────────────
+
+printInputText :: String -> IO ( )
+printInputText text =
+    putStrLn $ "  In[*]: " ++ text
 
 -- ─── RUNNER ─────────────────────────────────────────────────────────────────────
 
 run :: String -> Model -> IO Model
 run input model =
-    case parseIntactus input of
-        Left  err ->
-            do  putStrLn $ printParseError err promptNumber
+    case input of
+        "" ->
+            do  printInputText "empty"
                 return model
-        Right ast ->
-            do  notation  <-  pure $ renderMath ast promptNumber
-                putStrLn $ spacedBoxToString notation
-                putStrLn ""
-                newModel  <-  runEval ast model input promptNumber
-                putStrLn ""
-                return newModel
+        "exit" ->
+            do  printExit
+                exitSuccess
+        _ ->
+            case parseIntactus input of
+                Left  err ->
+                    do  putStrLn $ printParseError err promptNumber
+                        return model
+                Right ast ->
+                    do  notation  <-  pure $ renderMath ast promptNumber
+                        putStrLn $ spacedBoxToString notation
+                        putStrLn ""
+                        newModel  <-  runEval ast model input promptNumber
+                        putStrLn ""
+                        return newModel
     where
         promptNumber =
             show $ length ( history model ) + 1
@@ -177,5 +193,14 @@ runEval ast model inputString promptNumber =
         Right ( MasterEvalResultRight results newModel ) ->
             do  renderOutput ( renderEvalResult results ) promptNumber
                 return newModel
+
+-- ─── PRINT EXIT ─────────────────────────────────────────────────────────────────
+
+printExit =
+    do  width   <- terminalWidth
+        line    <- pure $ repeatText '─' width
+        printInputText "Command: Exit"
+        putStrLn ""
+        putStrLn line
 
 -- ────────────────────────────────────────────────────────────────────────────────

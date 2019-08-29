@@ -7,6 +7,7 @@ import Model
 import System.Console.ANSI
 import System.Console.Terminal.Size
 import System.IO
+import Data.Text
 
 -- ─── PROMPT ─────────────────────────────────────────────────────────────────────
 
@@ -15,9 +16,10 @@ prompt number = do
     putStr $ "  In[" ++ number ++ "]: "
     hFlush stdout
     input <- getLine
+    result <- pure $ unpack ( toLower $ strip $ ( pack input ) )
     cursorUpLine 1
     clearLine
-    return input
+    return result
 
 -- ─── TERMINAL WIDTH ─────────────────────────────────────────────────────────────
 
