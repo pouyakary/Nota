@@ -136,7 +136,9 @@ renderEvalError error =
 
 renderEvalResult :: [ Double ] -> SpacedBox
 renderEvalResult results =
-    numbersRowTable results
+    if length results == 1
+        then spacedBox $ show ( results !! 0 )
+        else numbersRowTable results
 
 -- ─── RUNNER ─────────────────────────────────────────────────────────────────────
 
