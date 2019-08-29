@@ -79,7 +79,7 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
             runSingleArgFunc "Sign" sgnFunc
 
         _ ->
-            Left $ "Function \"" ++ name ++ "\" Does not exist."
+            Left $ "Function \"" ++ name ++ "\" does not exist."
 
     where
         runSingleArgFunc =
@@ -155,6 +155,6 @@ runSingleArgumentedFunction scopePrototype (evalFunc) arguments name (computeFun
 -- ─── FUNCTION GETS THIS MUCH ARGUMNETS ──────────────────────────────────────────
 
 functionGetsThisMuchArguments name size =
-    name ++ " Function takes accepts only " ++ size ++ " argument."
+    "Function '" ++ name ++ "' accepts only " ++ size ++ " argument."
 
 -- ────────────────────────────────────────────────────────────────────────────────
