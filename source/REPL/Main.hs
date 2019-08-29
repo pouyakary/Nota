@@ -154,7 +154,7 @@ run :: String -> Model -> IO Model
 run input model =
     case input of
         "" ->
-            do  printInputText "empty"
+            do  printInputText "empty."
                 return model
         "exit" ->
             do  printExit
