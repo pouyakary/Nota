@@ -19,32 +19,34 @@ masterEval :: AST -> Model -> String -> MasterEvalResult
 masterEval ast model inputString =
     case ast of
         ASTVersus [ ] ->
-            appendHistoryToModel ( MasterEvalResultRight [0] model ) model inputString
+            appendHistoryToModel ( MasterEvalResultRight [0] model ) inputString
+
         ASTVersus parts ->
             case evalVersus eval parts model of
                 Left error ->
                     Left error
                 Right result ->
-                    appendHistoryToModel result model inputString
+                    appendHistoryToModel result inputString
 
         ASTAssignment name value ->
             case evalAssignment eval ast model of
                 Left error ->
                     Left error
                 Right result ->
-                    appendHistoryToModel result model inputString
+                    appendHistoryToModel result inputString
+
         _ ->
             case eval ast ( prototype model ) of
                 Left error ->
                     Left error
                 Right result ->
-                    appendHistoryToModel ( MasterEvalResultRight [result] model ) model inputString
+                    appendHistoryToModel ( MasterEvalResultRight [result] model ) inputString
 
     where
-        appendHistoryToModel ( MasterEvalResultRight resultValue resultModel ) model inputString =
+        appendHistoryToModel ( MasterEvalResultRight resultValue resultModel ) inputString =
             Right $ MasterEvalResultRight resultValue modelWithHistory where
                 modelWithHistory =
-                    model { history = ( history model ) ++ [ inputString ] }
+                    resultModel { history = ( history resultModel ) ++ [ inputString ] }
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
