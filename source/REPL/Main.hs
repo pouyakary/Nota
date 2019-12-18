@@ -156,6 +156,13 @@ run input model =
         "" ->
             do  printInputText "empty."
                 return model
+        "clear" ->
+            do  printInputText "Command: Clear Screen"
+                clearScreen
+                return model
+        "help" ->
+            do  printHelp
+                return model
         "exit" ->
             do  printExit
                 exitSuccess
@@ -202,5 +209,19 @@ printExit =
         printInputText "Command: Exit"
         putStrLn ""
         putStrLn line
+
+-- ─── HELP VIEW ──────────────────────────────────────────────────────────────────
+
+printHelp =
+    do  printInputText "Command: Help"
+        putStrLn ""
+        putStrLn $ spacedBoxToString helpBox
+    where
+        helpBox =
+            horizontalConcat [ ( spacedBox " Out[*]:" ), helpTextBox ]
+        helpTextBox =
+            shapeBox LightBox $ spacedBox helpText
+        helpText =
+            "For documentations please visit:\n\n        ── https://kary.us/projects/nota"
 
 -- ────────────────────────────────────────────────────────────────────────────────
