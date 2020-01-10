@@ -13,8 +13,8 @@ import           Model
 -- ─── EVAL NEGATION ──────────────────────────────────────────────────────────────
 
 evalNegation :: StemEvalSignature
-evalNegation ( evalFunc ) ( ASTNegation node ) scopePrototype =
-    case evalFunc node scopePrototype of
+evalNegation ( evalFunc ) ( ASTNegation node ) model =
+    case evalFunc node model of
         Right x -> Right $ -x
         Left  x -> Left x
 

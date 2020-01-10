@@ -14,16 +14,16 @@ import           System.IO.Unsafe
 -- ─── EVAL IDENTIFIER ────────────────────────────────────────────────────────────
 
 evalIdentifier :: LeafEvalSignature
-evalIdentifier ( ASTIdentifier name ) scopePrototype =
+evalIdentifier ( ASTIdentifier name ) model =
     case lookupInConstants name of
         Just x  -> Right x
-        Nothing -> lookupInScopePrototype name scopePrototype
+        Nothing -> lookupInScopePrototype name model
 
 -- ─── SCOPE PROTOTYPE ────────────────────────────────────────────────────────────
 
-lookupInScopePrototype :: String -> ScopePrototype -> EvalResult
-lookupInScopePrototype name scopePrototype =
-    case Map.lookup name scopePrototype of
+lookupInScopePrototype :: String -> Model -> EvalResult
+lookupInScopePrototype name model =
+    case Map.lookup name $ prototype model of
         Just x  -> Right x
         Nothing -> Left $ "Variable \"" ++ name ++ "\" does not exists."
 

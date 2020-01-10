@@ -15,7 +15,7 @@ import           System.IO.Unsafe
 
 evalVersus :: EvalFunction -> [AST] -> Model -> MasterEvalResult
 evalVersus ( evalFunc ) parts model =
-    case evalArrayOfASTExpressions evalFunc parts (prototype model) of
+    case evalArrayOfASTExpressions evalFunc parts model of
         Left error ->
             Left error
         Right result ->
@@ -23,17 +23,17 @@ evalVersus ( evalFunc ) parts model =
 
 -- ─── EVALUATE ARRAY OF AST EXPRESSIONS ──────────────────────────────────────────
 
-evalArrayOfASTExpressions :: EvalFunction -> [AST] -> ScopePrototype -> Either String [Double]
-evalArrayOfASTExpressions ( evalFunc ) nodes scopePrototype =
+evalArrayOfASTExpressions :: EvalFunction -> [AST] -> Model -> Either String [Double]
+evalArrayOfASTExpressions ( evalFunc ) nodes model =
     case length nodes of
         0 ->
             Right [ ]
         _ ->
-            case evalFunc (head nodes) scopePrototype of
+            case evalFunc (head nodes) model of
                 Left error ->
                     Left error
                 Right headResult ->
-                    case evalArrayOfASTExpressions evalFunc (tail nodes) scopePrototype of
+                    case evalArrayOfASTExpressions evalFunc (tail nodes) model of
                         Left error ->
                             Left error
                         Right tailResult ->

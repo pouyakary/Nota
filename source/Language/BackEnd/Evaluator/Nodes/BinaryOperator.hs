@@ -13,12 +13,12 @@ import           Model
 -- ─── EVAL BINARY OPERATORS ──────────────────────────────────────────────────────
 
 evalBinaryOperator :: StemEvalSignature
-evalBinaryOperator ( evalFunc ) ( ASTBinaryOperator op left right ) scopePrototype =
-    case evalFunc left scopePrototype of
+evalBinaryOperator ( evalFunc ) ( ASTBinaryOperator op left right ) model =
+    case evalFunc left model of
         Left  leftErr ->
             Left leftErr
         Right evaluatedLeft ->
-            case evalFunc right scopePrototype of
+            case evalFunc right model of
                 Left rightErr ->
                     Left rightErr
                 Right evaluatedRight ->

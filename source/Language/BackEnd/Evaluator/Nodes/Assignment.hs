@@ -15,16 +15,14 @@ import           System.IO.Unsafe
 
 evalAssignment :: LeafEvalSignature -> AST -> Model -> MasterEvalResult
 evalAssignment ( evalFunc ) ( ASTAssignment ( ASTIdentifier name ) value ) model =
-    case evalFunc value $ previousPrototype of
+    case evalFunc value model of
         Left error ->
             Left error
         Right result ->
             Right $ MasterEvalResultRight [ result ] newModel where
                 newPrototype =
-                    Map.insert name result previousPrototype
+                    Map.insert name result $ prototype model
                 newModel =
                     model { prototype = newPrototype }
-    where
-        previousPrototype = prototype model
 
 -- ────────────────────────────────────────────────────────────────────────────────

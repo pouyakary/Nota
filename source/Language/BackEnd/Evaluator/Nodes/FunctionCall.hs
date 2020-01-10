@@ -14,12 +14,15 @@ import           System.IO.Unsafe
 -- ─── EVAL FUNCTION CALL ─────────────────────────────────────────────────────────
 
 evalFunctionCall :: StemEvalSignature
-evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scopePrototype =
+evalFunctionCall ( evalFunc ) ( ASTFunctionCall ( ASTIdentifier name ) args ) model =
     case name of
+        "Out" ->
+            execOutFunc evalFunc args model
+
         "Sqrt" ->
             runSingleArgFunc "Square Bracket" sqrt
         "Log" ->
-            computeLogarithm evalFunc args scopePrototype
+            computeLogarithm evalFunc args model
 
         "Abs" ->
             runSingleArgFunc "Absolute" abs
@@ -83,9 +86,9 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall (ASTIdentifier name) args ) scop
 
     where
         runSingleArgFunc =
-            runSingleArgumentedFunction scopePrototype evalFunc args
+            runSingleArgumentedFunction model evalFunc args
         runArrayArgFunc =
-            runFunctionOnArray evalFunc args scopePrototype
+            runFunctionOnArray evalFunc args model
 
 -- ─── SIGN ───────────────────────────────────────────────────────────────────────
 
@@ -95,20 +98,20 @@ sgnFunc x =
 
 -- ─── LOGARITHM ──────────────────────────────────────────────────────────────────
 
-computeLogarithm (evalFunc) arguments scopePrototype =
+computeLogarithm (evalFunc) arguments model =
     case length arguments of
         2 ->
-            case evalFunc (arguments !! 0) scopePrototype of
+            case evalFunc (arguments !! 0) model of
                 Left xError ->
                     Left xError
                 Right baseResult ->
-                    case evalFunc (arguments !! 1) scopePrototype of
+                    case evalFunc (arguments !! 1) model of
                         Left baseError ->
                             Left baseError
                         Right xResult ->
                             Right $ logBase baseResult xResult
         1 ->
-            case evalFunc (arguments !! 0) scopePrototype of
+            case evalFunc (arguments !! 0) model of
                 Left error ->
                     Left error
                 Right result ->
@@ -116,24 +119,45 @@ computeLogarithm (evalFunc) arguments scopePrototype =
         _ ->
             Left $ functionGetsThisMuchArguments "Logarithm" "one or two"
 
+-- ─── OUT PUT FUNCTION ───────────────────────────────────────────────────────────
+
+execOutFunc (evalFunc) arguments model =
+    case length arguments of
+        1 ->
+            case evalFunc ( arguments !! 0 ) model of
+                Left error ->
+                    Left error
+                Right historyNumber ->
+                    if index > 0 && index <= ( length historyOfResults )
+                        then Right $ historyOfResults !! ( index - 1 )
+                        else Left $ "Output no. " ++ ( show index ) ++ " does not exists."
+                    where
+                        index =
+                            floor historyNumber
+        _ ->
+            Left $ functionGetsThisMuchArguments "Out" "one"
+    where
+        historyOfResults =
+            computedHistory model
+
 -- ─── RUN FUNCTION ON ARRAY ──────────────────────────────────────────────────────
 
-runFunctionOnArray (evalFunc) arguments scopePrototype name (computeFunc) =
+runFunctionOnArray (evalFunc) arguments model name (computeFunc) =
     case length arguments of
         0 ->
             Left $ functionGetsThisMuchArguments name "at least one"
         1 ->
-            case evalFunc (arguments !! 0) scopePrototype of
+            case evalFunc (arguments !! 0) model of
                 Left error ->
                     Left error
                 Right result ->
                     Right result
         _ ->
-            case evalFunc (arguments !! 0) scopePrototype of
+            case evalFunc (arguments !! 0) model of
                 Left error ->
                     Left error
                 Right result ->
-                    case runFunctionOnArray evalFunc (tail arguments) scopePrototype name computeFunc of
+                    case runFunctionOnArray evalFunc (tail arguments) model name computeFunc of
                         Left restError ->
                             Left restError
                         Right restResult ->
@@ -141,10 +165,10 @@ runFunctionOnArray (evalFunc) arguments scopePrototype name (computeFunc) =
 
 -- ─── RUN SINGLE ARGUMENT FUNCTION ───────────────────────────────────────────────
 
-runSingleArgumentedFunction scopePrototype (evalFunc) arguments name (computeFunc) =
+runSingleArgumentedFunction model (evalFunc) arguments name (computeFunc) =
     case length arguments of
         1 ->
-            case evalFunc (arguments !! 0) scopePrototype of
+            case evalFunc (arguments !! 0) model of
                 Left error ->
                     Left error
                 Right result ->

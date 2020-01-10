@@ -36,7 +36,7 @@ masterEval ast model inputString =
                     appendHistoryToModel result inputString
 
         _ ->
-            case eval ast ( prototype model ) of
+            case eval ast model of
                 Left error ->
                     Left error
                 Right result ->
@@ -46,25 +46,27 @@ masterEval ast model inputString =
         appendHistoryToModel ( MasterEvalResultRight resultValue resultModel ) inputString =
             Right $ MasterEvalResultRight resultValue modelWithHistory where
                 modelWithHistory =
-                    resultModel { history = ( history resultModel ) ++ [ inputString ] }
+                    resultModel { history  = ( history resultModel ) ++ [ inputString ]
+                                , computedHistory = ( computedHistory resultModel ) ++ [ resultValue !! 0 ]
+                                }
 
 -- ─── MAIN ───────────────────────────────────────────────────────────────────────
 
 eval :: LeafEvalSignature
-eval astNode scopePrototype =
+eval astNode model =
     case astNode of
         ASTBinaryOperator op left right ->
-            evalBinaryOperator eval ( ASTBinaryOperator op left right ) scopePrototype
+            evalBinaryOperator eval ( ASTBinaryOperator op left right ) model
         ASTIdentifier _ ->
-            evalIdentifier astNode scopePrototype
+            evalIdentifier astNode model
         ASTParenthesis x ->
-            eval x scopePrototype
+            eval x model
         ASTNegation _ ->
-            evalNegation eval astNode scopePrototype
+            evalNegation eval astNode model
         ASTNumber x ->
             Right x
         ASTFunctionCall name args ->
-            evalFunctionCall eval (ASTFunctionCall name args) scopePrototype
+            evalFunctionCall eval (ASTFunctionCall name args) model
         _ ->
             Left $ "Undefined AST Node " ++ show astNode
 

@@ -42,4 +42,28 @@ lineIsAllSpaceChars ( x : xs ) =
         then lineIsAllSpaceChars xs
         else False
 
+-- ─── FIT INTO COLUMN ────────────────────────────────────────────────────────────
+
+-- fitIntoColumn :: Int -> SpacedBox -> SpacedBox
+-- fitIntoColumn expectedWidth textBox = result where
+--     result =
+--         SpacedBox { boxLines = resultLines
+--                   , width    = resultWidth
+--                   , height   = boxHeight
+--                   , baseLine = boxBaseLine
+--                   }
+--     boxBaseLine =
+--         baseLine textBox
+--     boxHeight =
+--         (ceiling (( width textBox ) / expectedWidth)) * (height textbox)
+
+--     generateLinesWithLinesOf lines withOfInput =
+--         startingLines =
+--             if widthOfInput > expectedWidth
+--                 case ( splitAt expectedWidth lines) of
+--                     ()
+
+--                 else resultLessor where
+
+
 -- ────────────────────────────────────────────────────────────────────────────────
