@@ -30,6 +30,14 @@ make install
 | Function Calls | Functions in Nota are written not with parenthesis but with brackets (`Sin[x]`, `Log[2, 100]`, ...).<br><br> Just like identifiers they are case insensitive so it doesn't matter how you write them: `log[x]` = `LOG[x]` = `lOG[x]`<br><br>For the sake of beauty, some of the functions are rendered specially (explained in the _Notational Functions_ section). Also in the reference you can find a full explanation of the functions.|
 | Name Assignment | You can assign names to calculations for further use. These names are constants and you have to use the assignment grammar to register them. `Name = Value`. So something like: `Earth's Volume = 3/4 * pi * Earth's Radius^3`.
 
+## Control Commands
+The control commands are not parts of the language, but rather the controllers of the application itself:
+
+| Command | Description |
+|:--------|:------------|
+| `help`  | Shows you the link to the documentations |
+| `exit`  | Exists from the application |
+
 ## Language Reference
 
 ### Binary Operators
@@ -63,7 +71,13 @@ Keep in mind that the precedence of the operators are as:
 
 ### Functions
 
-| Function | Description      |
+| Control Function | Description |
+|:-----------------|:------------|
+| `Out[x]` | Returns the computed value of the output no. `x` within the computed history. In case of output being a table, it returns the very first computed result<br><img width="252" src="https://user-images.githubusercontent.com/57100914/72173461-d9f17580-33ec-11ea-9bda-093c4dc9cca4.png"> |
+
+<br>
+
+| Arithmetical Function | Description      |
 |:-------------------|:-----------------|
 | `Log[x]` | Logarithm of `x` of base `e` |
 | `Log[b, x]` | Logarithm of `x` of base `b` |
