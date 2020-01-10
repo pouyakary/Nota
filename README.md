@@ -37,6 +37,7 @@ The control commands are not parts of the language, but rather the controllers o
 |:--------|:------------|
 | `help`  | Shows you the link to the documentations |
 | `exit`  | Exists from the application |
+| `clear` | Clears the calculator screen |
 
 ## Language Reference
 
