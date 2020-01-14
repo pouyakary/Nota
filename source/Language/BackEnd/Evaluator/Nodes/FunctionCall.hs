@@ -21,6 +21,8 @@ evalFunctionCall ( evalFunc ) ( ASTFunctionCall ( ASTIdentifier name ) args ) mo
 
         "Sqrt" ->
             runSingleArgFunc "Square Bracket" sqrt
+        "Root" ->
+            computeNthRoot evalFunc args model
         "Log" ->
             computeLogarithm evalFunc args model
 
@@ -118,6 +120,23 @@ computeLogarithm (evalFunc) arguments model =
                     Right $ log result
         _ ->
             Left $ functionGetsThisMuchArguments "Logarithm" "one or two"
+
+-- ─── ROOT ───────────────────────────────────────────────────────────────────────
+
+computeNthRoot (evalFunc) arguments model =
+    case length arguments of
+        2 ->
+            case evalFunc (arguments !! 0) model of
+                Left xError ->
+                    Left xError
+                Right baseResult ->
+                    case evalFunc (arguments !! 1) model of
+                        Left baseError ->
+                            Left baseError
+                        Right xResult ->
+                            Right $ xResult ** (1 / baseResult)
+        _ ->
+            Left $ functionGetsThisMuchArguments "Nth Root" "two"
 
 -- ─── OUT PUT FUNCTION ───────────────────────────────────────────────────────────
 
