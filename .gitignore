@@ -1,6 +1,0 @@
-.stack-work/**
-source/.stack-work/**
-source/dist/**
-dist/**
-*.hi
-*.o
