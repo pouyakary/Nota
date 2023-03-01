@@ -10,14 +10,11 @@ Nota is a nice terminal calculator with rich notation rendering and a nice langu
 ## Installation
 
 ### Automatic Installation
-To automatically install nota via either of these:
 
-```
-curl -sSL https://kary.us/nota/install.sh | sh
-```
+Clone this repo and run:
 
-```
-wget -qO- https://kary.us/nota/install.sh | sh
+```bash
+bash ./install.sh
 ```
 
 ### Manual Installation
